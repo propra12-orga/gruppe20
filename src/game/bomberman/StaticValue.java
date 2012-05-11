@@ -11,15 +11,18 @@ import javax.imageio.ImageIO;
 
 public class StaticValue {
 
-
+	/*
+	 * Lade alle Bilder als BufferedImage
+	 * */
 	
 	public static BufferedImage play1= null;
 
 	//public static BufferedImage startImage = null;
 	//public static BufferedImage endImage = null;
 	
-	//public static List<BufferedImage> allObstructionImage=new ArrayList<BufferedImage>();
-
+	//	public static List<BufferedImage> allBomberman=new ArrayList<BufferedImage>();
+	
+	
 	public static BufferedImage foemans1= null;
 
 
@@ -34,13 +37,15 @@ public class StaticValue {
 	public static BufferedImage rock = null;
 	
 	public static BufferedImage bgImage = null;	
-
-	public static String imagePath = System.getProperty("user.dir") + "/pics/";//Actually Position
+	
+	//der Pfad von den Bildern
+	public static String imagePath = System.getProperty("user.dir") + "/pics/";
 	
 	/*alle bilder initialisieren*/
 	public static void init() {
 		
 		try {
+			/*alle Bilder einlesen und Speichern*/
 			play1=ImageIO.read(new File(imagePath+"play1.png"));
 			bomb=ImageIO.read(new File(imagePath+"bomb.png"));
 			boom=ImageIO.read(new File(imagePath+"boom.png"));

@@ -4,11 +4,13 @@ import java.awt.image.BufferedImage;
 
 public class Obstruction {
 		
-		//坐标
+		/*Koordinaten und GetMethode*/
 		private int x;
+		
 		public int getX() {
 			return x;
 		}
+	
 		private int y;
 		
 		public int getY() {
@@ -18,19 +20,21 @@ public class Obstruction {
 		
 		//private int startType;	
 		
-		//显示图片
+		//Bild Mauer
 		private BufferedImage blockImage=null;
 		
 		public BufferedImage getBlockImage() {
 			return blockImage;
 		}
 		
+		//Bild Stein
 		private BufferedImage rockImage=null;
 		
 		public BufferedImage getRockImage(){
 			return rockImage;
 		}
 
+		/*Konstruktor mit Koordinaten und Type*/
 		public Obstruction(int x,int y,int type){
 			this.x=x;
 			this.y=y;
@@ -39,7 +43,7 @@ public class Obstruction {
 			setImage();
 		}
 		
-		//构造方法
+		/*Konstruktor mit Koordinaten*/
 		public Obstruction(int x,int y){
 			this.x=x;
 			this.y=y;
@@ -47,19 +51,18 @@ public class Obstruction {
 			setImage();
 			}
 		
-		//重置方法
+		//
 		public void reset(){
-			//修改为原始类型
-			//this.type=startType;
-			//改变显示图片
+			
 			this.setImage();
 			
 		}
-		//根据类型改变现实图片
+		
+		//Setze die gezeigte Bilder
 		public void setImage(){
 			//showImage=StaticValue.allObstructionImage.get(type);
 			blockImage=StaticValue.block;
-			//ArrayList.get 方法
+			
 			rockImage=StaticValue.rock;
 		}
 }

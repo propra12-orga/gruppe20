@@ -9,11 +9,10 @@ import java.util.ArrayList;
 
 public class BackGround {
 	
-		//当前场景的显示图片
-		private BufferedImage bgImage=null;	
-	
+		//Definiere Hintergrundbild
+		private BufferedImage bgImage=null;		
 
-
+		//Getters
 		public BufferedImage getBgImage() {
 			this.bgImage=StaticValue.bgImage;
 			return bgImage;
@@ -22,17 +21,20 @@ public class BackGround {
 
 
 	
-		//通过集合来保存
-		//全部的敌人
+		
+		//ArrayList speichert alle Gegner
 		private ArrayList Foemans=new ArrayList();
 		
-		//泛型
+		//ArrayList mit generischem Datentype speichert alle Gegenstände
 		private ArrayList<Obstruction> allObstruction=new ArrayList<Obstruction>();
 		
+		//ArrayList speichert alle eliminierten Gegner
 		private ArrayList removeFoemans=new ArrayList();
 		
+		//ArrayList speichert alle zerstörte Gegenstände
 		private ArrayList removedObstruction=new ArrayList();
 		
+		//Konstruktor
 		public BackGround(){
 					
 			bgImage=StaticValue.bgImage;
@@ -41,7 +43,7 @@ public class BackGround {
 		}
 		
 		
-		
+		//Neustart
 		public void reset(){
 			
 		}
