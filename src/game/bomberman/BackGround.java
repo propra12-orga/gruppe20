@@ -25,13 +25,13 @@ public class BackGround {
 		//ArrayList speichert alle Gegner
 		private ArrayList Foemans=new ArrayList();
 		
-		//ArrayList mit generischem Datentype speichert alle Gegenstände
+		//ArrayList mit generischem Datentype speichert alle Gegenstaende
 		private ArrayList<Obstruction> allObstruction=new ArrayList<Obstruction>();
 		
 		//ArrayList speichert alle eliminierten Gegner
 		private ArrayList removeFoemans=new ArrayList();
 		
-		//ArrayList speichert alle zerstörte Gegenstände
+		//ArrayList speichert alle zerstoerten Gegenstaende
 		private ArrayList removedObstruction=new ArrayList();
 		
 		//Konstruktor

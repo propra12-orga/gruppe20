@@ -58,7 +58,7 @@ public class Obstruction {
 			
 		}
 		
-		//Setze die gezeigte Bilder
+		//Setze die gezeigten Bilder
 		public void setImage(){
 			//showImage=StaticValue.allObstructionImage.get(type);
 			blockImage=StaticValue.block;

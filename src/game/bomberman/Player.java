@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Player implements Runnable{
 
-	// Koodinaten
+	// Koordinaten
 	private int x;
 	private int y;
 	
