@@ -43,7 +43,8 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		this.nowBackground = new BackGround();
 		// Figurobjekt erzeugen
 		this.bb = new Player(0, 70);
-		this.bombs[0] = new Bomb(0, -20);
+		this.bombs[0] = new Bomb(0, -20); // initialisiere Bomben ausserhalb d
+											// Spielfeldes
 		this.bombs[1] = new Bomb(0, -20);
 		t.start();
 		this.repaint();
@@ -121,10 +122,12 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		if (ke.getKeyCode() == 38) {
 			this.bb.downmove();
 		}
-
+		// Wenn Leertaste gedrückt wird Setzte Bombe
 		if (ke.getKeyCode() == 32) {
-			this.bombs[bombcount].setX(this.bb.getX());
-			this.bombs[bombcount].setY(this.bb.getY());
+			this.bombs[bombcount].setX(this.bb.getX() + 22
+					- (this.bb.getX() + 22) % 48);
+			this.bombs[bombcount].setY(this.bb.getY() - this.bb.getY() % 48
+					+ 20);
 			bombcount = (bombcount + 1) % 2;
 		}
 	}
