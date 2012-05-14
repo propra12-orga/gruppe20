@@ -5,46 +5,67 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JFrame;
 
 public class MyFrame extends JFrame implements KeyListener, Runnable {
 
-	private BackGround nowBackground = null;
+	// Alle Senze in List speicher
+	private List<BackGround> allBG = new ArrayList<BackGround>();
+	// angesicht Senze
+	private BackGround nowBG = null;
+	// zur Zeit nicht benutzete isStart
+	// private boolean isStart = false;
+
 	private Player bb = null;
 	private Thread t = new Thread(this);
+	// Array fuer Bomben
+	private Bomb[] bombs = new Bomb[2];
 
-	private Bomb[] bombs = new Bomb[2]; // Array für Bomben
+	private int bombcount = 0;
 
-	private int bombcount = 0; //
+	/**
+	 * 
+	 * Main Methode ist hier
+	 */
 
 	public static void main(String[] args) {
 		new MyFrame();
 	}
 
-	/*
-	 * Ein Spielfeld erzeugen
+	/**
+	 * Erzeugen Fenster
 	 */
+
 	public MyFrame() {
 
-		this.setTitle("Bombermann");// Titel
-		this.setSize(480, 480);// Die Groesse des Spielfelds
-		// Zentriere Spielfeld
-		int width = Toolkit.getDefaultToolkit().getScreenSize().width;//
+		// Fenster
+		this.setTitle("Bombermann");
+		this.setSize(480, 500);
+		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 		this.setLocation((width - 480) / 2, (height - 480) / 2);
-
-		// Die Groesse des Spielfelds unveraenderbar
 		this.setResizable(false);
-		// initiiert alle bilder
+
+		// Instalisieren alle BufferImage
 		StaticValue.init();
 
-		// Aktuellen Hintergrund erzeugen
-		this.nowBackground = new BackGround();
+		// Bilden allen Senze
+		for (int i = 1; i <= 5; i++) {
+
+			this.allBG.add(new BackGround(i, i == 5 ? true : false));
+		}
+
+		// Setzen Senz(1) als angesichte Senze
+		this.nowBG = this.allBG.get(0);
+
 		// Figurobjekt erzeugen
-		this.bb = new Player(0, 70);
-		this.bombs[0] = new Bomb(0, -20); // initialisiere Bomben ausserhalb d
-											// Spielfeldes
+		this.bb = new Player(0, 20);
+		// initialisiere Bomben
+		this.bombs[0] = new Bomb(0, -20);
 		this.bombs[1] = new Bomb(0, -20);
 		t.start();
 		this.repaint();
@@ -63,34 +84,30 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		// TODO Auto-generated method stub
 		// temporal bufferedImage
 		// BufferedImage zu erzeugen
-		BufferedImage image = new BufferedImage(480, 480,
+		BufferedImage image = new BufferedImage(480, 500,
 				BufferedImage.TYPE_3BYTE_BGR);
 		// g2 uebernimmt image
 		Graphics g2 = image.getGraphics();
-		//
-		g2.drawImage(this.nowBackground.getBgImage(), 0, 0, this);
 
-		// randomInt erzeugt ein Integer Zahl mit Interval[0,9]
-		// Random randomGenerator = new Random();
-		// int randomInt = randomGenerator.nextInt(9);
+		// Malen BackGroundImage
+		g2.drawImage(this.nowBG.getBgImage(), 0, 20, this);
 
-		// zeichne die Mauer in Spielfeld
-		for (int i = 1; i < 10; i++) {
-			Obstruction ob1 = new Obstruction(48 * i, 25);
-			g2.drawImage(ob1.getBlockImage(), ob1.getX(), ob1.getY(), this);
+		// Malen Obstruction
+		Iterator<Obstruction> iter = this.nowBG.getAllObstruction().iterator();
+		while (iter.hasNext()) {
+			Obstruction ob = iter.next();
+			g2.drawImage(ob.getShowImage(), ob.getX(), ob.getY(), this);
 		}
 
-		// zeichne die Steine in Spielfeld
-		for (int i = 1; i <= 5; i++) {
-			Obstruction ob2 = new Obstruction(480 - 48 * i, 480 - 72 * i);
-			g2.drawImage(ob2.getRockImage(), ob2.getX(), ob2.getY(), this);
-		}
+		// Malen BufferImage in Fenster(Frame)
+		g.drawImage(image, 0, 0, this);
+
 		// zeichne die Bomben
 		for (int i = 0; i <= 1; i++) {
 			g2.drawImage(this.bombs[i].getShowImage(), this.bombs[i].getX(),
 					this.bombs[i].getY(), this);
 		}
-		// zeichne die Figur in Spielfeld
+		// zeichne die Player in Spielfeld
 		g2.drawImage(this.bb.getShowImage(), this.bb.getX(), this.bb.getY(),
 				this);
 		// zeichne die Pufferbild in Spiefeld

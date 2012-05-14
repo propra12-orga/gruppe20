@@ -115,8 +115,8 @@ public class Player implements Runnable {
 				x = 432;
 			if (this.y < 24)
 				y = 24;
-			if (this.y > 432)
-				y = 432;
+			if (this.y > 452)
+				y = 452;
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
