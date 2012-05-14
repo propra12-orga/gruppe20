@@ -12,7 +12,7 @@ public class Player implements Runnable {
 	private int xmove = 0;
 	private int ymove = 0;
 
-	// Status
+	// MoveStatus von Player
 	private String status;
 
 	// Icon
