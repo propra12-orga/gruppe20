@@ -8,7 +8,7 @@ public class Obstruction {
 	private int x;
 	private int y;
 
-	// Obstuction haben 3 Type; 1: Stein; 2:Block; 3:Nix
+	// Obstuction haben 3 Type; 1: Stein; 2:Block; 3:Nix; 4:Ausgang(Tuer)
 	private int type;
 	private int startType;
 	// private BackGround bg;

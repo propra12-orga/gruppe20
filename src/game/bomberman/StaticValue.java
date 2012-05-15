@@ -76,7 +76,7 @@ public class StaticValue {
 			}
 		}
 		// 3.Obstruction Image in eine List
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= 4; i++) {
 			try {
 				allObstructionImage.add(ImageIO.read(new File(imagePath + "ob"
 						+ i + ".png")));

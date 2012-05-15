@@ -72,6 +72,9 @@ public class BackGround {
 				}
 			}
 
+			// Ausgang(Exit)
+			this.allObstruction.add(new Obstruction(192, 260, 3));
+
 		}
 
 		// Senze 2
