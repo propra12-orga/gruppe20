@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 	// Alle Senze in List speicher
