@@ -40,9 +40,6 @@ public class StaticValue {
 
 	public static List<BufferedImage> allBomberman = new ArrayList<BufferedImage>();
 
-	public static BufferedImage foemans1 = null;
-	public static BufferedImage block = null;
-	public static BufferedImage rock = null;
 	public static BufferedImage bomb = null;
 	public static BufferedImage boom = null;
 	public static BufferedImage fire = null;
@@ -132,10 +129,7 @@ public class StaticValue {
 			bomb = ImageIO.read(new File(imagePath + "bomb.png"));
 			boom = ImageIO.read(new File(imagePath + "boom.png"));
 			fire = ImageIO.read(new File(imagePath + "fire.png"));
-			foemans1 = ImageIO.read(new File(imagePath + "foemans1.png"));
-			rock = ImageIO.read(new File(imagePath + "rock.png"));
 			bgImage = ImageIO.read(new File(imagePath + "bgImage.png"));
-			block = ImageIO.read(new File(imagePath + "block.png"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
