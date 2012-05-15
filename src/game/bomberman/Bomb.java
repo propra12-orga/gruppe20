@@ -40,7 +40,7 @@ public class Bomb implements Runnable {
 		this.x = x;
 		this.y = y;
 
-		this.showImage = StaticValue.bomb;
+		this.showImage = StaticValue.allBoomImage.get(0);
 
 		// Thread t = new Thread(this);
 		// t.start();

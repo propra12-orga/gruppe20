@@ -23,7 +23,7 @@ public class Player implements Runnable {
 		this.x = x;
 		this.y = y;
 
-		this.showImage = StaticValue.play1;
+		this.showImage = StaticValue.allPlayerImage.get(0);
 
 		Thread t = new Thread(this);
 		t.start();
@@ -107,7 +107,7 @@ public class Player implements Runnable {
 			x += xmove;
 
 			y += ymove;
-
+			// Status Image siehen Sie bitte in StaticValue.java
 			// nach links
 			if (this.status.indexOf("left") == 0) {
 				this.showImage = StaticValue.allPlayerImage.get(1);

@@ -44,13 +44,16 @@ public class BackGround {
 
 		if (flag) {
 
-			bgImage = StaticValue.endImage;
+			bgImage = StaticValue.allWindowsImage.get(2);
 		} else {
 
-			bgImage = StaticValue.bgImage;
+			bgImage = StaticValue.allBackGroundImage.get(0);
 		}
 
-		// Senze 1
+		/**
+		 * Senze 1
+		 * 
+		 */
 		if (sort == 1) {
 			// Stein
 			for (int i = 0; i < 6; i++) {
@@ -76,12 +79,25 @@ public class BackGround {
 			this.allObstruction.add(new Obstruction(192, 260, 3));
 
 		}
+		/**
+		 * Senze 2
+		 * 
+		 */
 
-		// Senze 2
+		/**
+		 * Senze 3
+		 * 
+		 */
 
-		// Senze 3
-		// Senze 4
-		// Senze 5
+		/**
+		 * Senze 4
+		 * 
+		 */
+
+		/**
+		 * Senze 5
+		 * 
+		 */
 
 	}
 
