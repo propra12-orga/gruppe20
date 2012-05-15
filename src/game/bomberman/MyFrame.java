@@ -63,7 +63,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		this.nowBG = this.allBG.get(0);
 
 		// Figurobjekt erzeugen
-		this.bb = new Player(0, 20);
+		this.bb = new Player(0, 68);
 		// initialisiere Bomben
 		this.bombs[0] = new Bomb(0, -20);
 		this.bombs[1] = new Bomb(0, -20);

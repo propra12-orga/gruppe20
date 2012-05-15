@@ -61,11 +61,11 @@ public class BackGround {
 			}
 
 			// Stein
-			this.allObstruction.add(new Obstruction(0, 116, 0));
-			this.allObstruction.add(new Obstruction(0, 212, 0));
-			this.allObstruction.add(new Obstruction(0, 260, 0));
-			this.allObstruction.add(new Obstruction(0, 308, 0));
-			for (int i = 1; i < 6; i++) {
+			// this.allObstruction.add(new Obstruction(0, 116, 0));
+			// this.allObstruction.add(new Obstruction(0, 212, 0));
+			// this.allObstruction.add(new Obstruction(0, 260, 0));
+			// this.allObstruction.add(new Obstruction(0, 308, 0));
+			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 6; j++) {
 					this.allObstruction.add(new Obstruction(48 * ((i * 2)),
 							48 * ((j * 2)) + 20, 0));
