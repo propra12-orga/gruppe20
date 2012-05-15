@@ -28,7 +28,7 @@ public class Player implements Runnable {
 		Thread t = new Thread(this);
 		t.start();
 
-		this.status = "Standing";
+		// this.status="rightStanding";
 	}
 
 	public int getX() {
@@ -107,23 +107,6 @@ public class Player implements Runnable {
 			x += xmove;
 
 			y += ymove;
-
-			// nach links
-			if (this.status.indexOf("left") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(1);
-			}
-			// nach rechts
-			if (this.status.indexOf("right") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(3);
-			}
-			// nach oben
-			if (this.status.indexOf("up") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(0);
-			}
-			// nach unten
-			if (this.status.indexOf("down") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(4);
-			}
 
 			// Figur soll nicht den Spielberreich verlassen
 			if (this.x < 0)
