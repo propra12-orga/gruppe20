@@ -66,8 +66,8 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		// Figurobjekt erzeugen
 		this.bb = new Player(0, 68);
 		// initialisiere Bomben
-		this.bombs[0] = new Bomb(0, -20);
-		this.bombs[1] = new Bomb(0, -20);
+		this.bombs[0] = new Bomb(0, -20, 0);
+		this.bombs[1] = new Bomb(0, -20, 0);
 		t.start();
 		this.repaint();
 		this.addKeyListener(this);
@@ -142,11 +142,16 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		}
 		// Wenn Leertaste gedrückt wird Setzte Bombe
 		if (ke.getKeyCode() == 32) {
-			this.bombs[bombcount].setX(this.bb.getX() + 22
-					- (this.bb.getX() + 22) % 48);
-			this.bombs[bombcount].setY(this.bb.getY() - this.bb.getY() % 48
-					+ 20);
-			bombcount = (bombcount + 1) % 2;
+			if (this.bombs[bombcount].getCountdown() == 0) {
+				this.bombs[bombcount].setX(this.bb.getX() + 22
+						- (this.bb.getX() + 22) % 48);
+				this.bombs[bombcount].setY(this.bb.getY() - this.bb.getY() % 48
+						+ 20);
+				this.bombs[bombcount].setCountdown(70);
+				this.bombs[bombcount].setShowImage(StaticValue.allBoomImage
+						.get(0));
+				bombcount = (bombcount + 1) % 2;
+			}
 		}
 	}
 
@@ -183,6 +188,20 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		// TODO Auto-generated method stub
 		while (true) {
 			this.repaint();
+			for (int i = 0; i < 2; i++) {
+				if (this.bombs[i].getCountdown() > 0) {
+					this.bombs[i].Decreasecountdown();
+					if (this.bombs[i].getCountdown() == 20) {
+						this.bombs[i].Explode();
+					}
+					if (this.bombs[i].getCountdown() == 0) {
+						this.bombs[i].Disappear();
+					}
+
+				}
+
+			}
+
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {

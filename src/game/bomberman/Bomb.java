@@ -7,8 +7,20 @@ public class Bomb implements Runnable {
 	// Koordinaten
 	private int x;
 	private int y;
+	// Icon
+	private BufferedImage showImage;
+	// Countdown bis zur Explosion
+	private int countdown;
 
 	// Getters Setters
+	public int getCountdown() {
+		return countdown;
+	}
+
+	public void setCountdown(int countdown) {
+		this.countdown = countdown;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -33,12 +45,25 @@ public class Bomb implements Runnable {
 		this.showImage = showImage;
 	}
 
-	// Icon
-	private BufferedImage showImage;
+	public void Decreasecountdown() {
+		this.countdown = countdown - 1;
+	}
 
-	public Bomb(int x, int y) {
+	public void Explode() {
+
+		this.showImage = StaticValue.allBoomImage.get(1);
+
+	}
+
+	public void Disappear() {
+		this.showImage = null;
+
+	}
+
+	public Bomb(int x, int y, int countdown) {
 		this.x = x;
 		this.y = y;
+		this.countdown = countdown;
 
 		this.showImage = StaticValue.allBoomImage.get(0);
 
