@@ -101,12 +101,32 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		}
 
 		// Malen BufferImage in Fenster(Frame)
-		g.drawImage(image, 0, 0, this);
+		// g.drawImage(image, 0, 0, this);
 
 		// zeichne die Bomben
 		for (int i = 0; i <= 1; i++) {
 			g2.drawImage(this.bombs[i].getShowImage(), this.bombs[i].getX(),
 					this.bombs[i].getY(), this);
+			// Zeichne Explosion
+			if (0 < this.bombs[i].getCountdown()
+					& this.bombs[i].getCountdown() < 21) {
+				for (int j = 1; j <= 2; j++) {
+					g2.drawImage(StaticValue.allBoomImage.get(2),
+							this.bombs[i].getX(),
+							this.bombs[i].getY() + j * 48, this);
+					g2.drawImage(StaticValue.allBoomImage.get(2),
+							this.bombs[i].getX(),
+							this.bombs[i].getY() - j * 48, this);
+					g2.drawImage(StaticValue.allBoomImage.get(2),
+							this.bombs[i].getX() + j * 48,
+							this.bombs[i].getY(), this);
+					g2.drawImage(StaticValue.allBoomImage.get(2),
+							this.bombs[i].getX() - j * 48,
+							this.bombs[i].getY(), this);
+				}
+
+			}
+
 		}
 		// zeichne die Player in Spielfeld
 		g2.drawImage(this.bb.getShowImage(), this.bb.getX(), this.bb.getY(),
@@ -144,7 +164,11 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		if (ke.getKeyCode() == 32) {
 			if (this.bombs[bombcount].getCountdown() == 0) {
 				this.bombs[bombcount].setX(this.bb.getX() + 22
-						- (this.bb.getX() + 22) % 48);
+						- (this.bb.getX() + 22) % 48); // durch modulo 48 wird
+														// Position d bomben
+														// automatisch ans
+														// Spielfeld Raster
+														// angepasst
 				this.bombs[bombcount].setY(this.bb.getY() - this.bb.getY() % 48
 						+ 20);
 				this.bombs[bombcount].setCountdown(70);
