@@ -24,9 +24,11 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	private Player bb = null;
 	private Thread t = new Thread(this);
 	// Array fuer Bomben
-	private Bomb[] bombs = new Bomb[2];
+	private Bomb[] bombs = new Bomb[10];
 
 	private int bombcount = 0;
+	private int bombcapacity = 7;
+	private int bombradius = 5;
 
 	/**
 	 * 
@@ -66,8 +68,9 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		// Figurobjekt erzeugen
 		this.bb = new Player(0, 68);
 		// initialisiere Bomben
-		this.bombs[0] = new Bomb(0, -20, 0);
-		this.bombs[1] = new Bomb(0, -20, 0);
+		for (int i = 0; i < 10; i++) {
+			this.bombs[i] = new Bomb(0, -20, 0);
+		}
 		t.start();
 		this.repaint();
 		this.addKeyListener(this);
@@ -104,13 +107,13 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		// g.drawImage(image, 0, 0, this);
 
 		// zeichne die Bomben
-		for (int i = 0; i <= 1; i++) {
+		for (int i = 0; i < bombcapacity; i++) {
 			g2.drawImage(this.bombs[i].getShowImage(), this.bombs[i].getX(),
 					this.bombs[i].getY(), this);
-			// Zeichne Explosion
+			// Zeichne Explosion in 4 Richtungenen
 			if (0 < this.bombs[i].getCountdown()
 					& this.bombs[i].getCountdown() < 21) {
-				for (int j = 1; j <= 2; j++) {
+				for (int j = 1; j <= bombradius; j++) {
 					g2.drawImage(StaticValue.allBoomImage.get(2),
 							this.bombs[i].getX(),
 							this.bombs[i].getY() + j * 48, this);
@@ -174,7 +177,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				this.bombs[bombcount].setCountdown(70);
 				this.bombs[bombcount].setShowImage(StaticValue.allBoomImage
 						.get(0));
-				bombcount = (bombcount + 1) % 2;
+				bombcount = (bombcount + 1) % bombcapacity;
 			}
 		}
 	}
@@ -212,7 +215,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		// TODO Auto-generated method stub
 		while (true) {
 			this.repaint();
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < bombcapacity; i++) {
 				if (this.bombs[i].getCountdown() > 0) {
 					this.bombs[i].Decreasecountdown();
 					if (this.bombs[i].getCountdown() == 20) {
