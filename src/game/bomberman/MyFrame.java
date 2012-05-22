@@ -25,9 +25,11 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	private Thread t = new Thread(this);
 	// Array fuer Bomben
 	private Bomb[] bombs = new Bomb[10];
-
+	// Zähler für Bomben
 	private int bombcount = 0;
+	// Anzahl der Bomben, die man legen kann
 	private int bombcapacity = 7;
+	// Explosionsradius der Bomben
 	private int bombradius = 5;
 
 	/**

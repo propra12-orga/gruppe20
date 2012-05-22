@@ -1,12 +1,17 @@
 package game.bomberman;
 
+
 import java.awt.image.BufferedImage;
 
 public class Player implements Runnable {
 
+	private Thread t;
 	// Koordinaten
 	private int x;
 	private int y;
+
+	// Gewonnen
+	private boolean flag = false;
 
 	// Geschwindigkeit
 	private int xmove = 0;
@@ -25,10 +30,15 @@ public class Player implements Runnable {
 
 		this.showImage = StaticValue.allPlayerImage.get(0);
 
-		Thread t = new Thread(this);
+		t = new Thread(this);
 		t.start();
 
 		this.status = "Standing";
+
+	}
+
+	public boolean getFlag() {
+		return flag;
 	}
 
 	public int getX() {
@@ -99,10 +109,21 @@ public class Player implements Runnable {
 		this.status = "down--standing";
 	}
 
+	public void reset() {
+		this.x = 550;
+		this.y = 658;
+	}
+
+	public void remove() {
+		this.showImage = null;
+	}
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true) {
+
+			flag = false;
 
 			x += xmove;
 
@@ -134,6 +155,14 @@ public class Player implements Runnable {
 				y = 24;
 			if (this.y > 452)
 				y = 452;
+
+			if (this.x <= 240 && this.y <= 308 && this.x >= 192
+					&& this.y >= 260) {
+				flag = true;
+				this.reset();
+				new EndMenu();
+			}
+
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
@@ -142,4 +171,5 @@ public class Player implements Runnable {
 			}
 		}
 	}
+
 }
