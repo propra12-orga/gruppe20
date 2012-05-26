@@ -8,7 +8,18 @@ public class Obstruction {
 	private int x;
 	private int y;
 
-	// Obstuction haben 3 Type; 1: Stein; 2:Block; 3:Nix; 4:Ausgang(Tuer)
+	// flag: remove
+	private boolean remove = false;
+
+	public boolean isRemove() {
+		return remove;
+	}
+
+	public void setRemove(boolean remove) {
+		this.remove = remove;
+	}
+
+	// Obstuction haben 3 Type; 0: Stein; 1:Block;2:Nix; 3:Ausgang(Toer)
 	private int type;
 	private int startType;
 	// private BackGround bg;
@@ -61,10 +72,6 @@ public class Obstruction {
 	public void setShowImage(BufferedImage showImage) {
 		this.showImage = showImage;
 	}
-
-	/**
-	 * Class Obstruction haben zwei Methode reset()
-	 */
 
 	// reset() alle
 	public void reset() {

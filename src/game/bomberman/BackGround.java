@@ -7,14 +7,12 @@ import java.util.List;
 public class BackGround {
 
 	private BufferedImage bgImage = null;
-	// sort: welche Senze
+	// sort: Senze Nummer
 	private int sort;
-	// flag: ob diese Senze das Finall
+	// flag: ob diese Senze das Finall ist
 	private boolean flag;
 
-	/**
-	 * List um die Enemy und Obstrucktion zu speichern
-	 */
+	// List um die Enemy und Obstrucktion zu speichern
 
 	// speicher Alle Enemy
 	private List<Enemy> allEnemy = new ArrayList<Enemy>();
@@ -43,19 +41,21 @@ public class BackGround {
 		this.flag = flag;
 
 		if (flag) {
-
+			System.out.println(StaticValue.allWindowsImage.size());
 			bgImage = StaticValue.allWindowsImage.get(2);
+
 		} else {
 
 			bgImage = StaticValue.allBackGroundImage.get(0);
 		}
 
-		/**
-		 * Senze 1
-		 * 
-		 */
+		// Senze 1
 		if (sort == 1) {
-			// Stein
+
+			// Ausgang(Exit), hinter Stein
+			this.allObstruction.add(new Obstruction(192, 260, 3));
+
+			// Block:type 2
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 6; j++) {
 					this.allObstruction.add(new Obstruction(48 * ((i * 2) - 1),
@@ -63,20 +63,18 @@ public class BackGround {
 				}
 			}
 
-			// Stein
-			// this.allObstruction.add(new Obstruction(0, 116, 0));
-			// this.allObstruction.add(new Obstruction(0, 212, 0));
-			// this.allObstruction.add(new Obstruction(0, 260, 0));
-			// this.allObstruction.add(new Obstruction(0, 308, 0));
+			// Stein:type 1
+			this.allObstruction.add(new Obstruction(192, 260, 0));
+			this.allObstruction.add(new Obstruction(0, 116, 0));
+			this.allObstruction.add(new Obstruction(0, 212, 0));
+			this.allObstruction.add(new Obstruction(0, 260, 0));
+			this.allObstruction.add(new Obstruction(0, 308, 0));
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 6; j++) {
-					this.allObstruction.add(new Obstruction(48 * ((i * 2)),
-							48 * ((j * 2)) + 20, 0));
+					this.allObstruction.add(new Obstruction(
+							48 * (((i * 2) + 1) + 1), 48 * ((j * 2)) + 20, 0));
 				}
 			}
-
-			// Ausgang(Exit)
-			this.allObstruction.add(new Obstruction(192, 260, 3));
 
 		}
 		/**
