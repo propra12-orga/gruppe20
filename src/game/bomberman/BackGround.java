@@ -3,6 +3,7 @@ package game.bomberman;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BackGround {
 
@@ -68,8 +69,21 @@ public class BackGround {
 				this.allObstruction.add(new Obstruction(480, 68 + (48 * i), 2));
 			}
 
-			// Ausgang(Exit), hinter Stein
-			this.allObstruction.add(new Obstruction(240, 260, 3));
+			// Ausgang(Exit)
+			/*
+			 * MyFrame.setAusgangX(392); MyFrame.setAusgangY(360);
+			 */
+			int t[] = this.getRandom();
+			while (t[0] < 2 || t[1] < 2) {
+				t = this.getRandom();
+			}
+
+			MyFrame.setAusgangX(48 * ((t[0] * 2) - 1));
+			MyFrame.setAusgangY(48 * ((t[1] * 2) - 1) + 20);
+			int temp1 = 48 * ((t[0] * 2) - 1);
+			int temp2 = 48 * ((t[1] * 2) - 1) + 20;
+			System.out.println(temp1 + "men" + temp2);
+			this.allObstruction.add(new Obstruction(temp1, temp2, 3));
 
 			// type 1: Block
 			for (int i = 0; i <= 4; i++) {
@@ -81,6 +95,9 @@ public class BackGround {
 			// type 0: Stein
 			this.allObstruction.add(new Obstruction(96, 68, 0));
 			this.allObstruction.add(new Obstruction(240, 260, 0));
+			this.allObstruction.add(new Obstruction(96, 308, 0));
+			this.allObstruction.add(new Obstruction(384, 356, 0));
+			this.allObstruction.add(new Obstruction(288, 164, 0));
 
 		}
 		/**
@@ -102,6 +119,21 @@ public class BackGround {
 		 * Senze 5
 		 * 
 		 */
+
+	}
+
+	/**
+	 * get two random digit,it determine the location of the Ausgang ,so the
+	 * Ausgang's location is random
+	 * 
+	 */
+	public int[] getRandom() {
+		Random random = new Random();
+		int a = 0, b = 0;
+		a = random.nextInt(6);
+		b = random.nextInt(6);
+		int t[] = { a, b };
+		return t;
 
 	}
 
