@@ -19,7 +19,8 @@ public class Obstruction {
 		this.remove = remove;
 	}
 
-	// Obstuction haben 3 Type; 0: Stein; 1:Block;2:Nix; 3:Ausgang(Toer)
+	// Obstuction haben 3 Type; 0: Stein; 1:Block; 2:Wall over around;
+	// 3:Ausgang(Toer)
 	private int type;
 	private int startType;
 	// private BackGround bg;

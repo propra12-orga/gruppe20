@@ -57,7 +57,7 @@ public class StaticValue {
 	public static void init() {
 
 		// 0.Windows Image in eine List
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= 4; i++) {
 			try {
 				// allPlayerImage.add(ImageIO.read(new
 				// File(System.getProperty("user.dir")+"/pic"+i+".png")));
@@ -122,7 +122,7 @@ public class StaticValue {
 			}
 		}
 		// 6.Backgrund Image in eine List
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 1; i <= 6; i++) {
 			try {
 				allBackGroundImage.add(ImageIO.read(new File(imagePath + "bg"
 						+ i + ".png")));
