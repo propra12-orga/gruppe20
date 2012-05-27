@@ -468,7 +468,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 									&& obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
 									&& bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45 && bombX + 35 > obX)))) {
 
-						if (ob.getType() == 1)
+						if (ob.getType() == 0)
 							ob.setRemove(true);
 						this.repaint();
 					}
@@ -512,7 +512,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 							|| (bombY - 48 * 3 < obY
 									&& obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
 									&& bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45 && bombX + 35 > obX)))) {
-						if (ob.getType() == 1)
+						if (ob.getType() == 0)
 							ob.setRemove(true);
 						this.repaint();
 					}

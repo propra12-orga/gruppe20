@@ -64,7 +64,7 @@ public class Player implements Runnable {
 	public void leftmove() {
 		// change the speed
 
-		this.xmove = -5;
+		this.xmove = -10;
 		// change the status
 		x += xmove;
 		this.status = "left--moving";
@@ -78,7 +78,7 @@ public class Player implements Runnable {
 
 	public void rightmove() {
 		// change the speed
-		this.xmove = 5;
+		this.xmove = 10;
 		// change the status
 		x += xmove;
 		this.status = "right--moving";
@@ -93,7 +93,7 @@ public class Player implements Runnable {
 
 	public void upmove() {
 		// change the speed
-		this.ymove = 5;
+		this.ymove = 10;
 		// change the status
 		y += ymove;
 		this.status = "up--standing";
@@ -108,7 +108,7 @@ public class Player implements Runnable {
 
 	public void downmove() {
 		// change the speed
-		this.ymove = -5;
+		this.ymove = -10;
 		// change the status
 		y += ymove;
 		this.status = "down--standing";
@@ -160,12 +160,12 @@ public class Player implements Runnable {
 			}
 
 			// Figur soll nicht den Spielberreich verlassen
-			if (this.x < 0)
-				x = 0;
-			if (this.x > 432)
-				x = 432;
-			if (this.y < 24)
-				y = 24;
+			if (this.x < 48)
+				x = 48;
+			if (this.x > 480)
+				x = 480;
+			if (this.y < 68)
+				y = 68;
 			if (this.y > 452)
 				y = 452;
 
