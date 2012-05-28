@@ -11,12 +11,13 @@ public class Bomb implements Runnable {
 	private BufferedImage showImage;
 	// Countdown bis zur Explosion
 	private int countdown;
+
 	// effektiver Explosionsradius oben, unten, rechts, links
 
-	private int effectiveu;
-	private int effectived;
-	private int effectiver;
-	private int effectivel;
+	// private int effectiveu;
+	// private int effectived;
+	// private int effectiver;
+	// private int effectivel;
 
 	// Getters Setters
 	public int getCountdown() {
@@ -58,26 +59,28 @@ public class Bomb implements Runnable {
 	public void Explode() {
 
 		this.showImage = StaticValue.allBoomImage.get(1);
-		this.effectiveu = MyFrame.getBb().getBombradius();
-		this.effectived = MyFrame.getBb().getBombradius();
-		this.effectiver = MyFrame.getBb().getBombradius();
-		this.effectivel = MyFrame.getBb().getBombradius();
-
-		// Kettenexplosion
-		for (int i = 1; i <= this.effectiveu; i++) {
-			for (int j = 0; j < MyFrame.getBb().getBombcapacity(); j++) {
-
-				if (java.lang.Math.abs(this.x + 48 * i
-						- MyFrame.getBb().getBombs()[j].getX()) < 30) {
-					if (java.lang.Math.abs(this.y + 48 * i
-							- MyFrame.getBb().getBombs()[j].getY()) < 30) {
-						MyFrame.getBb().getBombs()[j].setCountdown(20);
-					}
-				}
-			}
-		}
-
 	}
+
+	// this.effectiveu = MyFrame.getBb().getBombradius();
+	// this.effectived = MyFrame.getBb().getBombradius();
+	// this.effectiver = MyFrame.getBb().getBombradius();
+	// this.effectivel = MyFrame.getBb().getBombradius();
+
+	// Kettenexplosion
+	// for (int i = 1; i <= this.effectiveu; i++) {
+	// for (int j = 0; j < MyFrame.getBb().getBombcapacity(); j++) {
+
+	// if (java.lang.Math.abs(this.x + 48 * i
+	// - MyFrame.getBb().getBombs()[j].getX()) < 30) {
+	// if (java.lang.Math.abs(this.y + 48 * i
+	// - MyFrame.getBb().getBombs()[j].getY()) < 30) {
+	// MyFrame.getBb().getBombs()[j].setCountdown(20);
+	// }
+	// }
+	// }
+	// }
+
+	// }
 
 	public void Disappear() {
 		this.showImage = null;
