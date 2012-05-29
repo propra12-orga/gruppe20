@@ -8,29 +8,33 @@ import java.util.Random;
 public class BackGround {
 
 	private BufferedImage bgImage = null;
-	// sort: Senze Nummer
-	@SuppressWarnings("unused")
+	// sort: welche Senze
 	private int sort;
-	// flag: ob diese Senze das Finall ist
-	@SuppressWarnings("unused")
+	// flag: ob diese Senze das Finall
 	private boolean flag;
 
+	/**
+	 * List um die Enemy und Obstrucktion zu speichern
+	 */
+
 	// speicher Alle Enemy
-	// private List<Enemy> allEnemy = new ArrayList<Enemy>();
+	private List<Enemy> allEnemy = new ArrayList<Enemy>();
 
 	// speicher Alle Obstuction
 	private List<Obstruction> allObstruction = new ArrayList<Obstruction>();
 
-	// getAllObstruction()
+	/**
+	 * 
+	 * return list contains the all obstruction
+	 */
 	public List<Obstruction> getAllObstruction() {
 		return allObstruction;
 	}
 
 	// speicher Alle vernichteten Enemy
-	// private List<Enemy> removedEnemy = new ArrayList<Enemy>();
+	private List<Enemy> removedEnemy = new ArrayList<Enemy>();
 
 	// speicher Alle vernichteten Obstruction
-	@SuppressWarnings("unused")
 	private List<Obstruction> removedObstruction = new ArrayList<Obstruction>();
 
 	/**
@@ -52,24 +56,42 @@ public class BackGround {
 			bgImage = StaticValue.allBackGroundImage.get(0);
 		}
 
-		// Senze 1
+		/**
+		 * Senze 1
+		 * 
+		 */
 		if (sort == 1) {
-			// type2: Wall over Around oben und under
-			for (int i = 0; i <= 11; i++) {
-				// top
-				this.allObstruction.add(new Obstruction(48 * (i - 1), 20, 2));
-				// bottom
-				this.allObstruction.add(new Obstruction(48 * (i - 1), 500, 2));
+			// Stein
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 6; j++) {
+
+					Obstruction ob = new Obstruction(48 * ((i * 2) - 1),
+							48 * ((j * 2) - 1) + 20, 1);
+					ob.setType(1);
+					this.allObstruction.add(ob);
+				}
 			}
-			// type2: Wall over Around link und richt
-			for (int i = 0; i <= 9; i++) {
-				// linkSeite
-				this.allObstruction.add(new Obstruction(0, 68 + (48 * i), 2));
-				// rechtSeite
-				this.allObstruction.add(new Obstruction(480, 68 + (48 * i), 2));
+
+			// Stein
+			// this.allObstruction.add(new Obstruction(0, 116, 0));
+			// this.allObstruction.add(new Obstruction(0, 212, 0));
+			// this.allObstruction.add(new Obstruction(0, 260, 0));
+			// this.allObstruction.add(new Obstruction(0, 308, 0));
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 6; j++) {
+					if (i == 0 && j == 1) {
+
+					} else {
+						Obstruction ob = new Obstruction(48 * ((i * 2)),
+								48 * ((j * 2)) + 20, 0);
+						ob.setType(2);
+						this.allObstruction.add(ob);
+					}
+				}
 			}
 
 			// Ausgang(Exit)
+
 			/*
 			 * MyFrame.setAusgangX(392); MyFrame.setAusgangY(360);
 			 */
@@ -85,21 +107,8 @@ public class BackGround {
 			System.out.println(temp1 + "men" + temp2);
 			this.allObstruction.add(new Obstruction(temp1, temp2, 3));
 
-			// type 1: Block
-			for (int i = 0; i <= 4; i++) {
-				for (int j = 0; j <= 4; j++) {
-					this.allObstruction.add(new Obstruction(48 * (i * 2),
-							48 * (j * 2) + 20, 1));
-				}
-			}
-			// type 0: Stein
-			this.allObstruction.add(new Obstruction(96, 68, 0));
-			this.allObstruction.add(new Obstruction(240, 260, 0));
-			this.allObstruction.add(new Obstruction(96, 308, 0));
-			this.allObstruction.add(new Obstruction(384, 356, 0));
-			this.allObstruction.add(new Obstruction(288, 164, 0));
-
 		}
+
 		/**
 		 * Senze 2
 		 * 
@@ -137,10 +146,18 @@ public class BackGround {
 
 	}
 
+	/**
+	 * Return BufferedImage
+	 * 
+	 */
 	public BufferedImage getBgImage() {
 		return bgImage;
 	}
 
+	/**
+	 * the method to set the value of Image
+	 * 
+	 */
 	public void setBgImage(BufferedImage bgImage) {
 		this.bgImage = bgImage;
 	}
@@ -175,6 +192,9 @@ public class BackGround {
 
 	// Neustart
 	public void reset() {
+		//
+		this.allObstruction.addAll(this.removedObstruction);
+		//
 
 	}
 

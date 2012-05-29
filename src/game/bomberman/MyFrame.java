@@ -18,9 +18,7 @@ import javax.swing.JFrame;
 public class MyFrame extends JFrame implements KeyListener, Runnable {
 	private Boolean doublePlayer = false;
 	private Boolean startGame = false;
-	@SuppressWarnings("unused")
 	private Boolean gameover = true;
-
 	// the Ausgang object
 	private Obstruction Ausgang = null;
 	// the Ausgang is hidden in a box , if the box is burst , show the Ausgang
@@ -29,6 +27,13 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	private String logoString = "";
 	// the Ausgang location
 	private static int AusgangX = -100, AusgangY = -100;
+	// Alle Senze in List speicher
+	private List<BackGround> allBG = new ArrayList<BackGround>();
+	// angesicht Senze
+	private BackGround nowBG = null;
+
+	// zur Zeit nicht benutzete isStart
+	// private boolean isStart = false;
 
 	public static int getAusgangX() {
 		return AusgangX;
@@ -45,14 +50,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	public static void setAusgangY(int ausgangY) {
 		AusgangY = ausgangY;
 	}
-
-	// Alle Senze in List speicher
-	private List<BackGround> allBG = new ArrayList<BackGround>();
-	// angesicht Senze
-	private BackGround nowBG = null;
-
-	// zur Zeit nicht benutzete isStart
-	// private boolean isStart = false;
 
 	private Player bb = null;
 	private Player bb2 = null;
@@ -82,17 +79,17 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 		// Fenster
 		this.setTitle("Bombermann");
-		this.setSize(528, 600);
+		this.setSize(480, 550);
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
-		this.setLocation((width - 528) / 2, (height - 600) / 2);
+		this.setLocation((width - 480) / 2, (height - 480) / 2);
 		this.setResizable(false);
 
 		// Instalisieren alle BufferImage
 		StaticValue.init();
 
 		// Bilden allen Senze
-		for (int i = 1; i <= 6; i++) {
+		for (int i = 1; i <= 5; i++) {
 
 			this.allBG.add(new BackGround(i, i == 5 ? true : false));
 		}
@@ -126,14 +123,13 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		// String als Hinweise
-		g.drawString("press F1 start game ,F2 double player, F4 game over",
-				100, 578);
 
+		g.drawString("press F1 start game ,F2 double player, F4 game over",
+				100, 520);
 		// TODO Auto-generated method stub
 		// temporal bufferedImage
 		// BufferedImage zu erzeugen
-		BufferedImage image = new BufferedImage(528, 548,
+		BufferedImage image = new BufferedImage(480, 500,
 				BufferedImage.TYPE_3BYTE_BGR);
 		// g2 uebernimmt image
 		Graphics g2 = image.getGraphics();
@@ -143,7 +139,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 		// Malen Obstruction
 		Iterator<Obstruction> iter = this.nowBG.getAllObstruction().iterator();
-
 		/*
 		 * if (Ausgang == null) { for (Obstruction ob :
 		 * this.nowBG.getAllObstruction()) {
@@ -152,8 +147,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		 * 
 		 * } }
 		 */
-
-		// Ausgang type:3
 		while (iter.hasNext()) {
 			Obstruction ob = iter.next();
 			if (ob.getType() == 3 && !AusgangShow) {
@@ -174,15 +167,13 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		// zeichne die Bomben
 		this.drawBombs(g2, this.bombs);
 		this.drawBombs(g2, this.bombs2);
-
-		// zeichne die Players in Spielfeld
+		// zeichne die Player in Spielfeld
 		if (bb != null)
 			g2.drawImage(this.bb.getShowImage(), this.bb.getX(),
 					this.bb.getY(), this);
 		if (bb2 != null)
 			g2.drawImage(this.bb2.getShowImage(), this.bb2.getX(),
 					this.bb2.getY(), this);
-
 		// zeichne die Pufferbild in Spiefeld
 		g.drawImage(image, 0, 0, this);
 
@@ -191,7 +182,11 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				this);
 	}
 
-	// Flag: ob Player sterbt
+	/**
+	 * 
+	 * if kill player,if kill player game over ,or another win
+	 * 
+	 */
 	public boolean ifKillplayer(Player bb, Bomb bomb) {
 		boolean flag = false;
 		int bombX = bomb.getX();
@@ -207,8 +202,11 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		return flag;
 	}
 
-	// zeichen Bombs, wenn Obstruction in the Gebiet von Bombs.
-	@SuppressWarnings("static-access")
+	/**
+	 * draw the bombs,if the obstruction is in the area of a bomb ,remove the
+	 * obstruction
+	 * 
+	 */
 	public void drawBombs(Graphics g2, Bomb[] bombs) {
 		for (int i = 0; i <= 1; i++) {
 			g2.drawImage(bombs[i].getShowImage(), bombs[i].getX(),
@@ -241,9 +239,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 							logoString = "Game over !";
 					}
 				}
-
-				// remove Obstruction,wenn bomm explodiert
-				// obstruction.remove(ob)
 				List<Obstruction> obstructions = this.nowBG.getAllObstruction();
 				for (int a = 0; a < obstructions.size(); a++) {
 					Obstruction ob = this.nowBG.getAllObstruction().get(a);
@@ -264,7 +259,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					}
 
 				}
-				// BoomImage
 				for (int j = 1; j <= 2; j++) {
 					g2.drawImage(StaticValue.allBoomImage.get(2),
 							bombs[i].getX(), bombs[i].getY() + j * 48, this);
@@ -282,31 +276,28 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 	}
 
-	// KeyListen Event
+	/**
+	 * override the keyPressed method implenments KeyListener
+	 * 
+	 */
 	@Override
 	public void keyPressed(KeyEvent ke) {
-		// press F1
 		if (ke.getKeyCode() == 112) {
-			// F1= gamestart
 			startGame = true;
 			this.gameover = false;
 			this.AusgangShow = false;
 			// reloead
 			this.allBG.clear();
 			this.logoString = "";
-			// reload
 			for (int i = 1; i <= 5; i++) {
 
 				this.allBG.add(new BackGround(i, i == 5 ? true : false));
 				this.nowBG = this.allBG.get(0);
 				this.repaint();
 			}
-			// zeichen Player 1
-			this.bb = new Player(48, 68, this.nowBG);
-			// zeichen Player 2
+			this.bb = new Player(0, 68, this.nowBG);
 			if (doublePlayer == true)
-				this.bb2 = new Player(432, 452, this.nowBG);
-			// Let's Go
+				this.bb2 = new Player(0, 68, this.nowBG);
 			int times = 15;
 			while (times > 0) {
 
@@ -324,7 +315,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			}
 
 		}
-		// Flag: doubleplayer Press F2
 		if (ke.getKeyCode() == 113) {
 			if (doublePlayer == false) {
 				this.bb2 = new Player(0, 68, this.nowBG);
@@ -333,7 +323,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			}
 
 		}
-		// Presse F4, gameover
 		if (ke.getKeyCode() == 115) {
 			int times = 20;
 			while (times > 0) {
@@ -351,17 +340,15 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			}
 			System.exit(0);
 		}
-		// Flag: if Spiele nicht beginnt
 		if (!startGame)
 			return;
 		// TODO Auto-generated method stub
 		// System.out.println(ke.getKeyChar());
 
-		// wenn man 39 druecken -->
+		// wenn man 39 drücken -->
 		if (ke.getKeyCode() == 39) {
 			List<Obstruction> obstructions = nowBG.getAllObstruction();
 			boolean flag = true;
-			// get X.Y
 			for (Obstruction ob : obstructions) {
 				int mX = this.bb.getX();
 				int mY = this.bb.getY();
@@ -376,12 +363,10 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				}
 
 			}
-			// rightmove()
 			if (flag)
 				this.bb.rightmove();
 		}
 
-		// Presse key=37, rightmove()
 		if (ke.getKeyCode() == 37) {
 			List<Obstruction> obstructions = nowBG.getAllObstruction();
 			boolean flag = true;
@@ -403,7 +388,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				this.bb.leftmove();
 		}
 
-		// presse key=40 upmove
 		if (ke.getKeyCode() == 40) {
 
 			List<Obstruction> obstructions = nowBG.getAllObstruction();
@@ -426,7 +410,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				this.bb.upmove();
 		}
 
-		// presse key=38 Downmove
 		if (ke.getKeyCode() == 38) {
 
 			List<Obstruction> obstructions = nowBG.getAllObstruction();
@@ -450,8 +433,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 		}
 
-		// Wenn Leertaste gedrueckt wird Setzte Bombe
-		// KeyPressed Space(32)
+		// Wenn Leertaste gedr點kt wird Setzte Bombe
 		if (ke.getKeyCode() == 32) {
 			if (this.bombs[bombcount].getCountdown() == 0) {
 				Bomb bomb = this.bombs[bombcount];
@@ -469,14 +451,13 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					 * bomb.getY()); System.out.println("s:" + ob.getX() + " " +
 					 * ob.getY());
 					 */
-
 					if ((bombX - 48 * 2 < obX && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
 							&& bombY + 2 <= obY + 45 || (bombY + 45 < obY + 45 && bombY + 35 > obY)))
 							|| (bombY - 48 * 3 < obY
 									&& obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
 									&& bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45 && bombX + 35 > obX)))) {
 
-						if (ob.getType() == 0)
+						if (ob.getType() == 1)
 							ob.setRemove(true);
 						this.repaint();
 					}
@@ -496,8 +477,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				bombcount = (bombcount + 1) % 2;
 			}
 		}
-
-		// Player2 kommt
 		if (ke.getKeyCode() == 74 && bb2 != null) {
 			if (this.bombs2[bombcount2].getCountdown() == 0) {
 				Bomb bomb = this.bombs2[bombcount2];
@@ -520,7 +499,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 							|| (bombY - 48 * 3 < obY
 									&& obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
 									&& bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45 && bombX + 35 > obX)))) {
-						if (ob.getType() == 0)
+						if (ob.getType() == 1)
 							ob.setRemove(true);
 						this.repaint();
 					}
@@ -611,7 +590,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	 * 
 	 * bombs if disappear or explode
 	 */
-	//
 	public void bombStatus(Bomb[] bombs) {
 		for (int i = 0; i < 2; i++) {
 			if (bombs[i].getCountdown() > 0) {
@@ -633,13 +611,10 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true) {
-			// wenn gewonnen
+			// if win
 			this.repaint();
-			// player1蔳ewonnen
 			boolean flag1 = false;
-			// player2蔳ewonnen
 			boolean flag2 = false;
-			// zeichen String
 			if (this.bb != null) {
 				flag1 = this.ifFindAusgang(this.bb);
 				if (flag1 && this.AusgangShow == true)
@@ -650,7 +625,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				if (flag2 && this.AusgangShow == true)
 					logoString = "player2 win !";
 			}
-			//
+
 			if (((this.AusgangShow == true && (flag1 || flag2)) || (!logoString
 					.equals("let's go!") && !logoString.equals("")))) {
 				System.out.println(logoString);
@@ -671,6 +646,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					// 好像可以和 bombStatus 方法重合
 					for (int i = 0; i < 2; i++) {
 						if (this.bombs[i].getCountdown() > 0) {
 							this.bombs[i].Decreasecountdown();
@@ -700,7 +676,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		}
 	}
 
-	// KeyPresse Event fuer Player2
 	class player2KeyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent ke) {

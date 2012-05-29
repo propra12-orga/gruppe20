@@ -3,17 +3,17 @@ package game.bomberman;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CopyOfBackGround {
 
 	private BufferedImage bgImage = null;
 	// sort: Senze Nummer
+	@SuppressWarnings("unused")
 	private int sort;
 	// flag: ob diese Senze das Finall ist
+	@SuppressWarnings("unused")
 	private boolean flag;
-
-	// speicher Alle Enemy
-	// private List<Enemy> allEnemy = new ArrayList<Enemy>();
 
 	// speicher Alle Obstuction
 	private List<Obstruction> allObstruction = new ArrayList<Obstruction>();
@@ -27,6 +27,7 @@ public class CopyOfBackGround {
 	// private List<Enemy> removedEnemy = new ArrayList<Enemy>();
 
 	// speicher Alle vernichteten Obstruction
+	@SuppressWarnings("unused")
 	private List<Obstruction> removedObstruction = new ArrayList<Obstruction>();
 
 	/**
@@ -51,33 +52,54 @@ public class CopyOfBackGround {
 		// Senze 1
 		if (sort == 1) {
 
-			// Ausgang(Exit), hinter Stein
-			this.allObstruction.add(new Obstruction(192, 260, 3));
+			// ------------type2: Wall over Around -----------------------------
+			for (int i = 0; i <= 11; i++) {
+				// top
+				this.allObstruction.add(new Obstruction(48 * (i - 1), 20, 2));
+				// bottom
+				this.allObstruction.add(new Obstruction(48 * (i - 1), 500, 2));
+			}
+			for (int i = 0; i <= 9; i++) {
+				// linkSeite
+				this.allObstruction.add(new Obstruction(0, 68 + (48 * i), 2));
+				// rechtSeite
+				this.allObstruction.add(new Obstruction(480, 68 + (48 * i), 2));
+			}
+			// -------------------------------------------------------------------
 
-			// type 1: Block
-			for (int i = 0; i < 6; i++) {
-				for (int j = 0; j < 6; j++) {
-					this.allObstruction.add(new Obstruction(48 * ((i * 2) - 1),
-							48 * ((j * 2) - 1) + 20, 1));
+			// type 1: Block festgelegt
+			for (int i = 0; i <= 4; i++) {
+				for (int j = 0; j <= 4; j++) {
+					this.allObstruction.add(new Obstruction(48 * (i * 2),
+							48 * (j * 2) + 20, 1));
 				}
 			}
-
 			// type 0: Stein
-			this.allObstruction.add(new Obstruction(192, 260, 0));
-			this.allObstruction.add(new Obstruction(0, 116, 0));
-			this.allObstruction.add(new Obstruction(0, 212, 0));
-			this.allObstruction.add(new Obstruction(0, 260, 0));
-			this.allObstruction.add(new Obstruction(0, 308, 0));
-			this.allObstruction.add(new Obstruction(96, 406, 0));
-			this.allObstruction.add(new Obstruction(192, 406, 0));
-			this.allObstruction.add(new Obstruction(288, 406, 0));
+			this.allObstruction.add(new Obstruction(96, 68, 0));
+			this.allObstruction.add(new Obstruction(240, 260, 0));
+			this.allObstruction.add(new Obstruction(144, 308, 0));
+			this.allObstruction.add(new Obstruction(384, 356, 0));
+			this.allObstruction.add(new Obstruction(288, 164, 0));
 
-			for (int i = 0; i < 6; i++) {
-				for (int j = 0; j < 4; j++) {
-					this.allObstruction.add(new Obstruction(
-							48 * (((i * 2) + 1) + 1), 48 * ((j * 2)) + 20, 0));
-				}
+			// Ausgang(Exit)
+			/*
+			 * Alte Code: Ausgang ist festgelegt MyFrame.setAusgangX(392);
+			 * MyFrame.setAusgangY(360);
+			 */
+
+			// neues Ausgang: Ausgang ist random
+			int t[] = this.getRandom();
+			while (t[0] < 2 || t[1] < 2) {
+				t = this.getRandom();
 			}
+			MyFrame.setAusgangX(48 * ((t[0] * 2) - 1));
+			MyFrame.setAusgangY(48 * ((t[1] * 2) - 1) + 20);
+			int temp1 = 48 * ((t[0] * 2) - 1);
+			int temp2 = 48 * ((t[1] * 2) - 1) + 20;
+			// print out Location vom Ausgang
+			System.out.println("Ausgang: " + "x:" + temp1 + "y:" + temp2);
+			// zeichen Ausgang
+			this.allObstruction.add(new Obstruction(temp1, temp2, 3));
 
 		}
 		/**
@@ -99,6 +121,21 @@ public class CopyOfBackGround {
 		 * Senze 5
 		 * 
 		 */
+
+	}
+
+	/**
+	 * get two random digit,it determine the location of the Ausgang ,so the
+	 * Ausgang's location is random
+	 * 
+	 */
+	public int[] getRandom() {
+		Random random = new Random();
+		int a = 0, b = 0;
+		a = random.nextInt(6);
+		b = random.nextInt(6);
+		int t[] = { a, b };
+		return t;
 
 	}
 

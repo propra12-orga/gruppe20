@@ -160,12 +160,12 @@ public class Player implements Runnable {
 			}
 
 			// Figur soll nicht den Spielberreich verlassen
-			if (this.x < 48)
-				x = 48;
-			if (this.x > 480)
-				x = 480;
-			if (this.y < 68)
-				y = 68;
+			if (this.x < 0)
+				x = 0;
+			if (this.x > 432)
+				x = 432;
+			if (this.y < 24)
+				y = 24;
 			if (this.y > 452)
 				y = 452;
 

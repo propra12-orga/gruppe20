@@ -7,9 +7,11 @@ public class Obstruction {
 	// Koordinaten
 	private int x;
 	private int y;
-
-	// flag: remove
+	// if it is in the area of a bomb and it is a box ,mark it is going to
+	// remove
 	private boolean remove = false;
+
+	// 1.box 2.stone 3.ausgang
 
 	public boolean isRemove() {
 		return remove;
@@ -19,8 +21,7 @@ public class Obstruction {
 		this.remove = remove;
 	}
 
-	// Obstuction haben 3 Type; 0: Stein; 1:Block; 2:Wall over around;
-	// 3:Ausgang(Toer)
+	// Obstuction haben 3 Type; 1: Stein; 2:Block; 3:Nix; 4:Ausgang(Tuer)
 	private int type;
 	private int startType;
 	// private BackGround bg;
@@ -73,6 +74,10 @@ public class Obstruction {
 	public void setShowImage(BufferedImage showImage) {
 		this.showImage = showImage;
 	}
+
+	/**
+	 * Class Obstruction haben zwei Methode reset()
+	 */
 
 	// reset() alle
 	public void reset() {
