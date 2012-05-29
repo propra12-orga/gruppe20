@@ -9,7 +9,23 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 public class StaticValue {
+	// bgList speichert die URL der allen backgroundBilde
+	private static List<String> bgList;
+	// obList speichert die URL der allen Obstructions
+	private static List<String> obList;
+	// ppList speichert die URL der allen Figuren
+	private static List<String> ppList;
 
+	// Initialisierung
+	static {
+
+		ReadXML r = new ReadXML();
+
+		bgList = r.getBgList();
+		obList = r.getObList();
+		ppList = r.getPpList();
+
+	}
 	/**
 	 * // BufferedImage Information Lade alle Bilder als BufferedImage; *[0]
 	 * allWindowImag: 0:Start Img; 1:Dead Img; 2:End Img ;
@@ -57,12 +73,12 @@ public class StaticValue {
 	public static void init() {
 
 		// 0.Windows Image in eine List
-		for (int i = 1; i <= 3; i++) {
+		// 遍历背景list，读取后生成图片
+		for (int i = 0; i < bgList.size(); i++) {
 			try {
 				// allPlayerImage.add(ImageIO.read(new
 				// File(System.getProperty("user.dir")+"/pic"+i+".png")));
-				allWindowsImage.add(ImageIO.read(new File(imagePath + "img" + i
-						+ ".png")));
+				allWindowsImage.add(ImageIO.read(new File(bgList.get(i))));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -70,12 +86,11 @@ public class StaticValue {
 		}
 
 		// 1.Player Image in eine List
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 0; i < ppList.size(); i++) {
 			try {
 				// allPlayerImage.add(ImageIO.read(new
 				// File(System.getProperty("user.dir")+"/pic"+i+".png")));
-				allPlayerImage.add(ImageIO.read(new File(imagePath + "p" + i
-						+ ".png")));
+				allPlayerImage.add(ImageIO.read(new File(ppList.get(i))));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -92,10 +107,9 @@ public class StaticValue {
 			}
 		}
 		// 3.Obstruction Image in eine List
-		for (int i = 1; i <= 4; i++) {
+		for (int i = 0; i < obList.size(); i++) {
 			try {
-				allObstructionImage.add(ImageIO.read(new File(imagePath + "ob"
-						+ i + ".png")));
+				allObstructionImage.add(ImageIO.read(new File(obList.get(i))));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -8,7 +8,22 @@ public class Obstruction {
 	private int x;
 	private int y;
 
-	// Obstuction haben 3 Type; 1: Stein; 2:Block; 3:Nix; 4:Ausgang(Tuer)
+	// wenn hier is die Radius von Bomb und ein Kästen ist,makieren
+
+	// remove
+	private boolean remove = false;
+
+	// 1.box 2.stone 3.ausgang
+
+	public boolean isRemove() {
+		return remove;
+	}
+
+	public void setRemove(boolean remove) {
+		this.remove = remove;
+	}
+
+	// Obstuction haben 3 Type; 1: Stein; 2:Block; 3:Ausgang(Tuer)
 	private int type;
 	private int startType;
 	// private BackGround bg;

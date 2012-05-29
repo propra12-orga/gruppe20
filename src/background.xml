@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+<background id="bg" url="/pics/bg1.png"/>
+<background id="bg" url="/pics/bg2.png"/>
+<background id="bg" url="/pics/bg3.png"/>
+<background id="ob" url="/pics/ob1.png"/>
+<background id="ob" url="/pics/ob2.png"/>
+<background id="ob" url="/pics/ob3.png"/>
+<background id="ob" url="/pics/ob4.png"/>
+<background id="pp" url="/pics/p1.png"/>
+<background id="pp" url="/pics/p2.png"/>
+<background id="pp" url="/pics/p3.png"/>
+<background id="pp" url="/pics/p4.png"/>
+<background id="pp" url="/pics/p5.png"/>
+</config>

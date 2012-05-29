@@ -1,6 +1,5 @@
 package game.bomberman;
 
-
 import java.awt.image.BufferedImage;
 
 public class Player implements Runnable {
@@ -9,25 +8,34 @@ public class Player implements Runnable {
 	// Koordinaten
 	private int x;
 	private int y;
-
+	private BackGround nowBG;
 	// Gewonnen
 	private boolean flag = false;
 
 	// Geschwindigkeit
 	private int xmove = 0;
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	private int ymove = 0;
 
 	// MoveStatus von Player
 	private String status;
 
 	// Icon
-	private BufferedImage showImage;
+	protected BufferedImage showImage;
 
 	// Konstruktor
-	public Player(int x, int y) {
+	public Player(int x, int y, BackGround nowBG) {
 		this.x = x;
 		this.y = y;
-
+		this.nowBG = nowBG;
 		this.showImage = StaticValue.allPlayerImage.get(0);
 
 		t = new Thread(this);
@@ -58,6 +66,7 @@ public class Player implements Runnable {
 
 		this.xmove = -5;
 		// change the status
+		x += xmove;
 		this.status = "left--moving";
 	}
 
@@ -71,6 +80,7 @@ public class Player implements Runnable {
 		// change the speed
 		this.xmove = 5;
 		// change the status
+		x += xmove;
 		this.status = "right--moving";
 	}
 
@@ -85,6 +95,7 @@ public class Player implements Runnable {
 		// change the speed
 		this.ymove = 5;
 		// change the status
+		y += ymove;
 		this.status = "up--standing";
 	}
 
@@ -99,6 +110,7 @@ public class Player implements Runnable {
 		// change the speed
 		this.ymove = -5;
 		// change the status
+		y += ymove;
 		this.status = "down--standing";
 	}
 
@@ -122,12 +134,13 @@ public class Player implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true) {
-
 			flag = false;
 
-			x += xmove;
-
-			y += ymove;
+			/*
+			 * x += xmove;
+			 * 
+			 * y += ymove;
+			 */
 			// Status Image siehen Sie bitte in StaticValue.java
 			// nach links
 			if (this.status.indexOf("left") == 0) {
@@ -156,12 +169,10 @@ public class Player implements Runnable {
 			if (this.y > 452)
 				y = 452;
 
-			if (this.x <= 240 && this.y <= 308 && this.x >= 192
-					&& this.y >= 260) {
-				flag = true;
-				this.reset();
-				new EndMenu();
-			}
+			/*
+			 * if (this.x <= 240 && this.y <= 308 && this.x >= 192 && this.y >=
+			 * 260) { flag = true; this.reset(); new EndMenu(); }
+			 */
 
 			try {
 				Thread.sleep(50);
