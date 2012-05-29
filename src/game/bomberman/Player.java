@@ -64,7 +64,7 @@ public class Player implements Runnable {
 	public void leftmove() {
 		// change the speed
 
-		this.xmove = -10;
+		this.xmove = -15;
 		// change the status
 		x += xmove;
 		this.status = "left--moving";
@@ -78,7 +78,7 @@ public class Player implements Runnable {
 
 	public void rightmove() {
 		// change the speed
-		this.xmove = 10;
+		this.xmove = 15;
 		// change the status
 		x += xmove;
 		this.status = "right--moving";
@@ -93,7 +93,7 @@ public class Player implements Runnable {
 
 	public void upmove() {
 		// change the speed
-		this.ymove = 10;
+		this.ymove = 15;
 		// change the status
 		y += ymove;
 		this.status = "up--standing";
@@ -108,7 +108,7 @@ public class Player implements Runnable {
 
 	public void downmove() {
 		// change the speed
-		this.ymove = -10;
+		this.ymove = -15;
 		// change the status
 		y += ymove;
 		this.status = "down--standing";
