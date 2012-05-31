@@ -3,6 +3,8 @@ package game.bomberman;
 import java.awt.image.BufferedImage;
 
 public class Player implements Runnable {
+	// Speed von PlayerMove
+	private int speed = 48;
 
 	private Thread t;
 	// Koordinaten
@@ -64,7 +66,7 @@ public class Player implements Runnable {
 	public void leftmove() {
 		// change the speed
 
-		this.xmove = -11;
+		this.xmove = -speed;
 		// change the status
 		x += xmove;
 		this.status = "left--moving";
@@ -78,7 +80,7 @@ public class Player implements Runnable {
 
 	public void rightmove() {
 		// change the speed
-		this.xmove = 11;
+		this.xmove = speed;
 		// change the status
 		x += xmove;
 		this.status = "right--moving";
@@ -93,7 +95,7 @@ public class Player implements Runnable {
 
 	public void upmove() {
 		// change the speed
-		this.ymove = 11;
+		this.ymove = speed;
 		// change the status
 		y += ymove;
 		this.status = "up--standing";
@@ -108,7 +110,7 @@ public class Player implements Runnable {
 
 	public void downmove() {
 		// change the speed
-		this.ymove = -11;
+		this.ymove = -speed;
 		// change the status
 		y += ymove;
 		this.status = "down--standing";
