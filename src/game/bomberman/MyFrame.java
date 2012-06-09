@@ -54,6 +54,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	private Player bb = null;
 	private Player bb2 = null;
 	private Thread t = new Thread(this);
+
 	// Array fuer Bomben
 	private Bomb[] bombs = new Bomb[2];
 	private Bomb[] bombs2 = new Bomb[2];
@@ -99,7 +100,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 		// Figurobjekt erzeugen
 
-		// initialisiere Bomben
+		// initialisieren
 		this.bombs[0] = new Bomb(0, -20, 0);
 		this.bombs[1] = new Bomb(0, -20, 0);
 		this.bombs2[0] = new Bomb(0, -20, 0);
@@ -202,6 +203,41 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		return flag;
 	}
 
+	// Kettenreaktion zu realisieren
+	public void ifbombOverlay(Bomb bomb2, Bomb bomb) {
+		int bombX = bomb.getX();
+		int bombY = bomb.getY();
+		int b2X = bomb2.getX();
+		int b2Y = bomb2.getY();
+
+		/*
+		 * pr¨¹fen ob der zweite Bomb in der Radius vom erste Bomb
+		 */
+		if ((bombX - 48 * 2 < b2X && b2X < bombX + 48 * 3 - 5 && (b2Y < bombY + 2
+				&& bombY + 2 <= b2Y + 45 || (bombY + 45 < b2Y + 45 && bombY + 35 > b2Y)))
+				|| (bombY - 48 * 3 < b2Y && b2Y < bombY + 48 * 3 - 5 && (b2X < bombX + 2
+						&& bombX + 2 <= b2X + 45 || (bombX + 45 < b2X + 45 && bombX + 35 > b2X)))) {
+
+			if (bomb2.getCountdown() != 0 && bomb2.getCountdown() > 20) {
+				bomb2.setCountdown(20);
+				bomb2.Explode();
+			}
+
+		}
+
+	}
+
+	// die Koordinaten pr¨¹fen vom Bomb
+	public void bombChain(Bomb toExplode) {
+		Bomb[] allbombs = { bombs[0], bombs[1], bombs2[0], bombs2[1] };
+		for (Bomb b : allbombs) {
+			if (b != toExplode)
+				this.ifbombOverlay(b, toExplode);
+
+		}
+
+	}
+
 	/**
 	 * draw the bombs,if the obstruction is in the area of a bomb ,remove the
 	 * obstruction
@@ -214,6 +250,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			// Zeichne Explosion
 			if (0 < bombs[i].getCountdown() & bombs[i].getCountdown() < 21) {
 				// invoke the mothod if kill player
+				this.bombChain(bombs[i]);
 				if (startGame) {
 					boolean f1 = false;
 					if (bb != null)

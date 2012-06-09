@@ -39,7 +39,7 @@ public class StaticValue {
 	 * Ausgang(Exit) ;
 	 * 
 	 * **[4] allItemImage: 0:BoomIterm(Boom Staerken); 1:Stern(mehr Punkt
-	 * sammeln);2:Soprtchuhe(beschleunigen);
+	 * sammeln);2:Sportchuhe(beschleunigen);
 	 * 
 	 * **[5] allBoomImage: 0:Boom; 1:Boom Explodieren;2: Fire
 	 * 
@@ -73,7 +73,7 @@ public class StaticValue {
 	public static void init() {
 
 		// 0.Windows Image in eine List
-		// 遍历背景list，读取后生成图片
+
 		for (int i = 0; i < bgList.size(); i++) {
 			try {
 				// allPlayerImage.add(ImageIO.read(new

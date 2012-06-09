@@ -61,33 +61,64 @@ public class BackGround {
 		 * 
 		 */
 		if (sort == 1) {
-			// Stein
-			for (int i = 0; i < 6; i++) {
-				for (int j = 0; j < 6; j++) {
+			/*
+			 * // Stein for (int i = 0; i < 6; i++) { for (int j = 0; j < 6;
+			 * j++) {
+			 * 
+			 * Obstruction ob = new Obstruction(48 * ((i * 2) - 1), 48 * ((j *
+			 * 2) - 1) + 20, 1); ob.setType(1); this.allObstruction.add(ob); } }
+			 */
 
-					Obstruction ob = new Obstruction(48 * ((i * 2) - 1),
-							48 * ((j * 2) - 1) + 20, 1);
+			/*
+			 * die Steine Koordinaten von XML einlesen
+			 */
+			ReadXML r = new ReadXML();
+			// System.out.println("initialisierung...");
+			r.initObLocation();
+			List<Integer> stoneX = r.getStoneX();
+			List<Integer> stoneY = r.getStoneY();
+			List<Integer> boxX = r.getBoxX();
+			List<Integer> boxY = r.getBoxY();
+			for (int i = 0; i < stoneX.size(); i++) {
+				for (int j = 0; j < stoneY.size(); j++) {
+					int x1 = stoneX.get(i).intValue();
+					int y1 = stoneY.get(j).intValue();
+					Obstruction ob = new Obstruction(x1, y1, 1);
 					ob.setType(1);
 					this.allObstruction.add(ob);
 				}
-			}
 
+			}
 			// Stein
 			// this.allObstruction.add(new Obstruction(0, 116, 0));
 			// this.allObstruction.add(new Obstruction(0, 212, 0));
 			// this.allObstruction.add(new Obstruction(0, 260, 0));
 			// this.allObstruction.add(new Obstruction(0, 308, 0));
-			for (int i = 0; i < 6; i++) {
-				for (int j = 0; j < 6; j++) {
-					if (i == 0 && j == 1) {
+			/*
+			 * for (int i = 0; i < 6; i++) { for (int j = 0; j < 6; j++) { if (i
+			 * == 0 && j == 1) {
+			 * 
+			 * } else { Obstruction ob = new Obstruction(48 * ((i * 2)), 48 *
+			 * ((j * 2)) + 20, 0); ob.setType(2); this.allObstruction.add(ob); }
+			 * } }
+			 */
+			/*
+			 * Kästen
+			 */
+			for (int i = 0; i < boxX.size(); i++) {
+				for (int j = 0; j < boxY.size(); j++) {
+					int x1 = boxX.get(i).intValue();
+					int y1 = boxY.get(j).intValue();
+					if (x1 == 0 && y1 == 116) {
 
 					} else {
-						Obstruction ob = new Obstruction(48 * ((i * 2)),
-								48 * ((j * 2)) + 20, 0);
+						Obstruction ob = new Obstruction(x1, y1, 0);
 						ob.setType(2);
 						this.allObstruction.add(ob);
+
 					}
 				}
+
 			}
 
 			// Ausgang(Exit)
@@ -104,7 +135,7 @@ public class BackGround {
 			MyFrame.setAusgangY(48 * ((t[1] * 2) - 1) + 20);
 			int temp1 = 48 * ((t[0] * 2) - 1);
 			int temp2 = 48 * ((t[1] * 2) - 1) + 20;
-			// System.out.println(temp1 + "men" + temp2);
+			System.out.println(temp1 + "door" + temp2);
 			this.allObstruction.add(new Obstruction(temp1, temp2, 3));
 
 		}

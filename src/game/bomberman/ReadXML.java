@@ -17,12 +17,53 @@ public class ReadXML {
 	private List<String> obList = new ArrayList<String>();
 	// ppList speichert die Pfad der player,die von XML gelesen hat
 	private List<String> ppList = new ArrayList<String>();
+	// stoneX speichert die X-Koordinaten der Steine
+	private List<Integer> stoneX = new ArrayList<Integer>();
+	// stoneY speichert die Y-Koordinaten der Steine
+	private List<Integer> stoneY = new ArrayList<Integer>();
+	// boxX speichert die X-Koordinaten der Kästen
+	private List<Integer> boxX = new ArrayList<Integer>();
+	// boxY speichert die Y-Koordinaten der Kästen
+	private List<Integer> boxY = new ArrayList<Integer>();
+
+	public List<Integer> getStoneX() {
+		return stoneX;
+	}
+
+	public void setStoneX(List<Integer> stoneX) {
+		this.stoneX = stoneX;
+	}
+
+	public List<Integer> getStoneY() {
+		return stoneY;
+	}
+
+	public void setStoneY(List<Integer> stoneY) {
+		this.stoneY = stoneY;
+	}
+
+	public List<Integer> getBoxX() {
+		return boxX;
+	}
+
+	public void setBoxX(List<Integer> boxX) {
+		this.boxX = boxX;
+	}
+
+	public List<Integer> getBoxY() {
+		return boxY;
+	}
+
+	public void setBoxY(List<Integer> boxY) {
+		this.boxY = boxY;
+	}
 
 	/**
 	 * the constructor to initial the member variables,the member variables put
 	 * the url of the backgound,obstructions
 	 * 
 	 */
+
 	public ReadXML() {
 		SAXBuilder sb = new SAXBuilder();
 		Document doc = null;
@@ -46,13 +87,58 @@ public class ReadXML {
 			String url = element.getAttributeValue("url");
 			String path = System.getProperty("user.dir") + url;
 
-			// wenn background bg ist,dann tun wir hreinin BackgroundList
+			// wenn background bg ist,dann legen wir in BackgroundList
 			if (id.equals("bg"))
 				this.bgList.add(path);
 			else if (id.equals("ob"))
 				this.obList.add(path);
 			else if (id.equals("pp"))
 				this.ppList.add(path);
+
+		}
+
+	}
+
+	/*
+	 * initialisiren die Koordinaten der Obstruction
+	 */
+	public void initObLocation() {
+		// System.out.println("Obstruction Koordinaten einlesen");
+		SAXBuilder sb = new SAXBuilder();
+		Document doc = null;
+		try {
+			doc = sb.build(ReadXML.class.getClassLoader().getResourceAsStream(
+					"obstruction.xml"));
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// root config
+		Element root = doc.getRootElement();
+		// children config
+		List list = root.getChildren("ob");
+		for (int i = 0; i < list.size(); i++) {
+
+			Element element = (Element) list.get(i);
+			String id = element.getAttributeValue("id");
+			String x = element.getAttributeValue("x");
+			String y = element.getAttributeValue("y");
+			Integer x1 = new Integer(x);
+			Integer y1 = new Integer(y);
+
+			if (id.equals("stone")) {
+
+				this.stoneX.add(x1);
+				this.stoneY.add(y1);
+
+			}
+
+			else if (id.equals("box")) {
+				this.boxX.add(x1);
+				this.boxY.add(y1);
+
+			}
 
 		}
 
