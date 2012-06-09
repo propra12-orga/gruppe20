@@ -8,7 +8,7 @@ public class Obstruction {
 	private int x;
 	private int y;
 
-	// wenn hier is die Radius von Bomb und ein Kästen ist,makieren
+	// wenn hier im Radius von Bomb ein Kasten ist,makieren
 
 	// remove
 	private boolean remove = false;
@@ -23,12 +23,24 @@ public class Obstruction {
 		this.remove = remove;
 	}
 
-	// Obstuction haben 3 Type; 1: Stein; 2:Block; 3:Ausgang(Tuer)
+	/**
+	 * Obstruction haben 3 Typen; 1: Stein; 2:Block; 3:Ausgang(Tuer)
+	 * 
+	 */
 	private int type;
 	private int startType;
 	// private BackGround bg;
 	private BufferedImage showImage = null;
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param type
+	 *            1: Stein; 2:Block; 3:Ausgang(Tuer)
+	 * 
+	 * 
+	 */
 	Obstruction(int x, int y, int type) {
 		this.x = x;
 		this.y = y;
@@ -78,17 +90,19 @@ public class Obstruction {
 	}
 
 	/**
-	 * Class Obstruction haben zwei Methode reset()
+	 * Stellt urspruenglichen Zustand vom Objekt her
+	 * 
 	 */
-
-	// reset() alle
 	public void reset() {
 		this.type = startType;
 		this.setImage();
 
 	}
 
-	// Verschiedene Type Obstruction haben verschiedenen Image
+	/**
+	 * Verschiedene Typen von Obstruction haben verschiedene Images
+	 * 
+	 */
 	public void setImage() {
 		showImage = StaticValue.allObstructionImage.get(type);
 	}

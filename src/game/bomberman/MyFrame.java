@@ -227,7 +227,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 	}
 
-	// die Koordinaten pr¨¹fen vom Bomb
+	// die Koordinaten pruefen von Bomb
 	public void bombChain(Bomb toExplode) {
 		Bomb[] allbombs = { bombs[0], bombs[1], bombs2[0], bombs2[1] };
 		for (Bomb b : allbombs) {
@@ -314,7 +314,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	}
 
 	/**
-	 * override the keyPressed method implenments KeyListener
+	 * override the keyPressed method implements KeyListener
 	 * 
 	 */
 	@Override
@@ -360,10 +360,10 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			}
 
 		}
-		// F2 modul
+		// F2 2-Player mode
 		if (ke.getKeyCode() == 113) {
 			if (doublePlayer == false) {
-				this.bb2 = new Player(0, 68, this.nowBG);
+				this.bb2 = new Player(384, 452, this.nowBG);
 				this.repaint();
 				doublePlayer = true;
 			}

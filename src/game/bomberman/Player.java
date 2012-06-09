@@ -165,7 +165,7 @@ public class Player implements Runnable {
 			if (this.x > 432)
 				x = 432;
 			if (this.y < 24)
-				y = 24;
+				y = 20;
 			if (this.y > 452)
 				y = 452;
 
