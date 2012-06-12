@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Background enth鋖t Informationen ueber das Spielfeld wie Koordinaten der
+ * Steine und Boxen, Computergegner
+ * 
+ * @author timozjx
+ * 
+ */
 public class BackGround {
 
 	private BufferedImage bgImage = null;
@@ -14,34 +21,39 @@ public class BackGround {
 	private boolean flag;
 
 	/**
-	 * List um die Enemy und Obstrucktion zu speichern
+	 * Speichert alle Gegner
 	 */
-
-	// speicher Alle Enemy
 	private List<Enemy> allEnemy = new ArrayList<Enemy>();
 
-	// speicher Alle Obstuction
+	/**
+	 * Speichert alle Gegenstaende
+	 */
 	private List<Obstruction> allObstruction = new ArrayList<Obstruction>();
 
 	/**
 	 * 
-	 * return list contains the all obstruction
+	 * Get all obstruction
 	 */
 	public List<Obstruction> getAllObstruction() {
 		return allObstruction;
 	}
 
-	// speicher Alle vernichteten Enemy
+	/**
+	 * Speichert alle vernichteten Gegner
+	 */
 	private List<Enemy> removedEnemy = new ArrayList<Enemy>();
 
-	// speicher Alle vernichteten Obstruction
+	/**
+	 * Speichert alle zerstoerten Gegenstaende
+	 */
 	private List<Obstruction> removedObstruction = new ArrayList<Obstruction>();
 
 	/**
-	 * Design Senze
 	 * 
+	 * 
+	 * @param sort
+	 * @param flag
 	 */
-
 	public BackGround(int sort, boolean flag) {
 
 		this.sort = sort;
@@ -80,13 +92,12 @@ public class BackGround {
 			List<Integer> boxX = r.getBoxX();
 			List<Integer> boxY = r.getBoxY();
 			for (int i = 0; i < stoneX.size(); i++) {
-				for (int j = 0; j < stoneY.size(); j++) {
-					int x1 = stoneX.get(i).intValue();
-					int y1 = stoneY.get(j).intValue();
-					Obstruction ob = new Obstruction(x1, y1, 1);
-					ob.setType(1);
-					this.allObstruction.add(ob);
-				}
+				int x1 = stoneX.get(i).intValue();
+
+				int y1 = stoneY.get(i).intValue();
+				Obstruction ob = new Obstruction(x1, y1, 1);
+				ob.setType(1);
+				this.allObstruction.add(ob);
 
 			}
 			// Stein
@@ -103,20 +114,19 @@ public class BackGround {
 			 * } }
 			 */
 			/*
-			 * Kästen
+			 * Kaesten
 			 */
 			for (int i = 0; i < boxX.size(); i++) {
-				for (int j = 0; j < boxY.size(); j++) {
-					int x1 = boxX.get(i).intValue();
-					int y1 = boxY.get(j).intValue();
-					if (x1 == 0 && y1 == 116) {
 
-					} else {
-						Obstruction ob = new Obstruction(x1, y1, 0);
-						ob.setType(2);
-						this.allObstruction.add(ob);
+				int x1 = boxX.get(i).intValue();
+				int y1 = boxY.get(i).intValue();
+				if (x1 == 0 && y1 == 116) {
 
-					}
+				} else {
+					Obstruction ob = new Obstruction(x1, y1, 0);
+					ob.setType(2);
+					this.allObstruction.add(ob);
+
 				}
 
 			}
@@ -178,7 +188,7 @@ public class BackGround {
 	}
 
 	/**
-	 * Return BufferedImage
+	 * Get BufferedImage
 	 * 
 	 */
 	public BufferedImage getBgImage() {
@@ -186,7 +196,7 @@ public class BackGround {
 	}
 
 	/**
-	 * the method to set the value of Image
+	 * Set the value of Image
 	 * 
 	 */
 	public void setBgImage(BufferedImage bgImage) {
