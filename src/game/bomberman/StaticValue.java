@@ -8,6 +8,13 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Initialisiert alle Buffered Images. Liest Bilder von Pfaeden in 6
+ * verschiedene Listen ein.
+ * 
+ * @author YuanKun
+ * 
+ */
 public class StaticValue {
 	// bgList speichert die URL der allen backgroundBilde
 	private static List<String> bgList;
@@ -29,37 +36,40 @@ public class StaticValue {
 	/**
 	 * // BufferedImage Information Lade alle Bilder als BufferedImage; *[0]
 	 * allWindowImag: 0:Start Img; 1:Dead Img; 2:End Img ;
-	 * 
-	 * *[1] allPlayerImage: 0:stehen ; 1:nach link; 2:sterben(PlayerDead);
-	 * 3:nach richt; 4: nach oben;
-	 * 
-	 * **[2] allEnemyImage: ;
-	 * 
-	 * **[3] allObstructionImage: 0:Stein;1:Block;2:Transparenzt; 3:
-	 * Ausgang(Exit) ;
-	 * 
-	 * **[4] allItemImage: 0:BoomIterm(Boom Staerken); 1:Stern(mehr Punkt
-	 * sammeln);2:Sportchuhe(beschleunigen);
-	 * 
-	 * **[5] allBoomImage: 0:Boom; 1:Boom Explodieren;2: Fire
-	 * 
-	 * **[6] allBackGroundImag:0:Senze 1; 1:Senze2...usw
 	 */
 
-	// 0.speicher alle Fenster Image in eine List wie Start Img, End Img, Dead
-	// Img
 	public static List<BufferedImage> allWindowsImage = new ArrayList<BufferedImage>();
-	// 1.speicher alle PlayerImage in eine List
+	/**
+	 * 1.speicher alle PlayerImage in eine List 0:stehen ; 1:nach link;
+	 * 2:sterben(PlayerDead); 3:nach richt; 4: nach oben;
+	 */
 	public static List<BufferedImage> allPlayerImage = new ArrayList<BufferedImage>();
-	// 2.speicher alle Enemy Image in eine List
+	/**
+	 * 2.speicher alle Enemy Image in eine List
+	 * 
+	 */
 	public static List<BufferedImage> allEnemyImage = new ArrayList<BufferedImage>();
-	// 3.Speicher alle Obstrucktion Image in eine List
+	/**
+	 * 3.Speicher alle Obstrucktion Image in eine List
+	 * 
+	 */
 	public static List<BufferedImage> allObstructionImage = new ArrayList<BufferedImage>();
-	// 4.speicher alle Item Image in eine List
+	/**
+	 * 4.speicher alle Item Image in eine List 0:BoomIterm(Boom Staerken);
+	 * 1:Stern(mehr Punkt sammeln);2:Sportchuhe(beschleunigen);
+	 * 
+	 */
 	public static List<BufferedImage> allItemImage = new ArrayList<BufferedImage>();
-	// 5.speicher alle Boom Image in eine List
+	/**
+	 * 5.speicher alle Boom Image in eine List 0:Bomb; 1:Bomb Explodieren;2:
+	 * Fire
+	 * 
+	 */
 	public static List<BufferedImage> allBoomImage = new ArrayList<BufferedImage>();
-	// 6.speicher alle Backgrund Image in eine List
+	/**
+	 * 6.speicher alle Backgrund Image in eine List 0:Senze 1; 1:Senze2...usw
+	 * 
+	 */
 	public static List<BufferedImage> allBackGroundImage = new ArrayList<BufferedImage>();
 
 	// public static BufferedImage play1 = null;

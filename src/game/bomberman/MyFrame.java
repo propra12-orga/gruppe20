@@ -15,21 +15,34 @@ import java.util.List;
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
+/**
+ * Enthaelt Main Methode
+ * Erzeugt Fenster mit bestimmter Groesse
+ * 
+ * @author timozjx, Yuankun, KingManuel
+ *
+ */
 public class MyFrame extends JFrame implements KeyListener, Runnable {
 	private Boolean doublePlayer = false;
 	private Boolean startGame = false;
 	private Boolean gameover = true;
 	// the Ausgang object
 	private Obstruction Ausgang = null;
-	// the Ausgang is hidden in a box , if the box is burst , show the Ausgang
+	/**
+	 * Der Ausgang wird sichtbar wenn true
+	 */
 	private boolean AusgangShow = false;
 	// if has winner or game over ,draw this string
 	private String logoString = "";
 	// the Ausgang location
 	private static int AusgangX = -100, AusgangY = -100;
-	// Alle Senze in List speicher
+	/**
+	 * Liste die die versciedenen Level enthält
+	 */
 	private List<BackGround> allBG = new ArrayList<BackGround>();
-	// angesicht Senze
+	/**
+	 * aktuelles Level
+	 */
 	private BackGround nowBG = null;
 
 	// zur Zeit nicht benutzete isStart
@@ -58,8 +71,15 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	// Array fuer Bomben
 	private Bomb[] bombs = new Bomb[2];
 	private Bomb[] bombs2 = new Bomb[2];
-
+	/**
+	 * Zaehler fuer das Bombenarray Jedesmal wenn eine Bombe gelegt wird erhoet
+	 * er sich
+	 */
 	private int bombcount = 0;
+	/**
+	 * Zaehler fuer das Bombenarray Jedesmal wenn eine Bombe gelegt wird erhoet
+	 * er sich
+	 */
 	private int bombcount2 = 0;
 
 	/**
@@ -73,7 +93,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	}
 
 	/**
-	 * Erzeugen Fenster
+	 * Erzeugt Fenster mit bestimmter Groesse
 	 */
 
 	public MyFrame() {
@@ -119,7 +139,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	}
 
 	/**
-	 * override the paint method extends JFrame
+	 * override paint Methode extends JFrame
 	 * 
 	 */
 	@Override
@@ -185,8 +205,9 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 	/**
 	 * 
-	 * if kill player,if kill player game over ,or another win
-	 * 
+	 * @param bb
+	 * @param bomb
+	 * @return true wenn Spieler bb im Explosionsradius einer Bombe steht
 	 */
 	public boolean ifKillplayer(Player bb, Bomb bomb) {
 		boolean flag = false;
@@ -203,7 +224,13 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		return flag;
 	}
 
-	// Kettenreaktion zu realisieren
+	/**
+	 * Kettenreaktion Ist eine Bombe im Explosionsradius einer anderen,
+	 * explodiert sie
+	 * 
+	 * @param bomb2
+	 * @param bomb
+	 */
 	public void ifbombOverlay(Bomb bomb2, Bomb bomb) {
 		int bombX = bomb.getX();
 		int bombY = bomb.getY();
@@ -227,7 +254,11 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 	}
 
-	// die Koordinaten pruefen von Bomb
+	/**
+	 * die Koordinaten pruefen von Bomb#
+	 * 
+	 * @param toExplode
+	 */
 	public void bombChain(Bomb toExplode) {
 		Bomb[] allbombs = { bombs[0], bombs[1], bombs2[0], bombs2[1] };
 		for (Bomb b : allbombs) {
@@ -239,8 +270,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	}
 
 	/**
-	 * draw the bombs,if the obstruction is in the area of a bomb ,remove the
-	 * obstruction
+	 * Zeichne Bomben und entferne Objekte im Exlposionsradius
 	 * 
 	 */
 	public void drawBombs(Graphics g2, Bomb[] bombs) {
@@ -341,7 +371,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			this.bb = new Player(0, 68, this.nowBG);
 
 			if (doublePlayer == true)
-				this.bb2 = new Player(0, 68, this.nowBG);
+				this.bb2 = new Player(384, 452, this.nowBG);
 
 			int times = 15;
 			while (times > 0) {
@@ -483,7 +513,10 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 		}
 
-		// Wenn Leertaste gedrückt wird Setzte Bombe
+		/**
+		 * Wenn Leertaste gedrückt wird Setzte Bombe
+		 * 
+		 */
 		if (ke.getKeyCode() == 32) {
 			if (this.bombs[bombcount].getCountdown() == 0) {
 				Bomb bomb = this.bombs[bombcount];
@@ -579,7 +612,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		if (!startGame)
 			return;
 		// TODO Auto-generated method stub
-		// wenn man auslassen stopmove
+		// wenn man loslaesst: stopmove
 		if (ke.getKeyCode() == 39) {
 			this.bb.rightstop();
 		}
@@ -639,8 +672,8 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	}
 
 	/**
-	 * 
-	 * bombs if disappear or explode
+	 * Verringert Countdown der Bomben. Wenn der Countdown 20 erreicht
+	 * explodiert Bombe. Wenn der Countdown 0 erreicht verschwindet Bombe
 	 */
 
 	public void bombStatus(Bomb[] bombs) {

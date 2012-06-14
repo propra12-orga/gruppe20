@@ -2,6 +2,11 @@ package game.bomberman;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 
+ * @author timozjx, Yuankun, KingManuel
+ * 
+ */
 public class Player implements Runnable {
 
 	private Thread t;

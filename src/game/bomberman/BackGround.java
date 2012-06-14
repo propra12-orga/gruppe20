@@ -49,10 +49,13 @@ public class BackGround {
 	private List<Obstruction> removedObstruction = new ArrayList<Obstruction>();
 
 	/**
-	 * 
+	 * Background enthält Informationen ueber das Spielfeld wie Koordinaten der
+	 * Steine und Boxen, Computergegner
 	 * 
 	 * @param sort
+	 *            Nummer des Levels
 	 * @param flag
+	 *            Level wird sichtbar wenn true
 	 */
 	public BackGround(int sort, boolean flag) {
 
@@ -113,7 +116,7 @@ public class BackGround {
 			 * ((j * 2)) + 20, 0); ob.setType(2); this.allObstruction.add(ob); }
 			 * } }
 			 */
-			/*
+			/**
 			 * Kaesten
 			 */
 			for (int i = 0; i < boxX.size(); i++) {
@@ -160,21 +163,11 @@ public class BackGround {
 		 * 
 		 */
 
-		/**
-		 * Senze 4
-		 * 
-		 */
-
-		/**
-		 * Senze 5
-		 * 
-		 */
-
 	}
 
 	/**
-	 * get two random digit,it determine the location of the Ausgang ,so the
-	 * Ausgang's location is random
+	 * Erzeugt zwei zufaellige Ganzwerte, die als Koordinaten fuer zB den
+	 * Ausgang benutzt werden
 	 * 
 	 */
 	public int[] getRandom() {
@@ -232,6 +225,9 @@ public class BackGround {
 	 */
 
 	// Neustart
+	/**
+	 * Alle zerstoerten Steine werden wiederhergestellt
+	 */
 	public void reset() {
 		//
 		this.allObstruction.addAll(this.removedObstruction);

@@ -2,6 +2,13 @@ package game.bomberman;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Jede Bombe besitzt Koordinaten einen Countdown der immer herunterzaehlt wenn
+ * er ueber 0 ist
+ * 
+ * @author HC
+ * 
+ */
 public class Bomb implements Runnable {
 
 	// Koordinaten
@@ -9,7 +16,11 @@ public class Bomb implements Runnable {
 	private int y;
 	// Icon
 	private BufferedImage showImage;
-	// Countdown bis zur Explosion
+	/**
+	 * Countdown bis zur Explosion wird in jedem Zyklus um 1 verringert solange
+	 * er ueber 0 liegt Zeit bis zur Explosion=(Countdown-20)*50ms in den
+	 * letzten 20*50ms findet die Explosion statt
+	 */
 	private int countdown;
 
 	// effektiver Explosionsradius oben, unten, rechts, links
@@ -72,11 +83,14 @@ public class Bomb implements Runnable {
 	}
 
 	/**
+	 * Jede Bombe besitzt Koordinaten einen Countdown der immer herunterzaehlt
+	 * wenn er ueber 0 ist
+	 * 
 	 * @param x
 	 *            Koordinaten
 	 * @param y
 	 * @param countdown
-	 *            :Zeit bis zur Explosion
+	 *            :Zeit bis zur Explosion= (countdown-20)*50ms
 	 */
 	public Bomb(int x, int y, int countdown) {
 		this.x = x;

@@ -2,18 +2,24 @@ package game.bomberman;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * 
+ * Obstruction haben 3 Typen; 1: Stein-unzerstoerbar; 2:Box-zerstoerbar;
+ * 3:Ausgang(Tuer)
+ * 
+ * @author tomozjx, yuankun
+ * 
+ */
 public class Obstruction {
 
 	// Koordinaten
 	private int x;
 	private int y;
 
-	// wenn hier im Radius von Bomb ein Kasten ist,makieren
-
-	// remove
+	/**
+	 * Gegenstand is zerstoert wenn true
+	 */
 	private boolean remove = false;
-
-	// 1.box 2.stone 3.ausgang
 
 	public boolean isRemove() {
 		return remove;
@@ -24,12 +30,15 @@ public class Obstruction {
 	}
 
 	/**
-	 * Obstruction haben 3 Typen; 1: Stein; 2:Block; 3:Ausgang(Tuer)
+	 * Obstruction haben 3 Typen; 1: Stein-unzerstoerbar; 2:Box-zerstoerbar;
+	 * 3:Ausgang(Tuer)
 	 * 
 	 */
 	private int type;
 	private int startType;
-	// private BackGround bg;
+	/**
+	 * Das momentane Aussehen des Objektes
+	 */
 	private BufferedImage showImage = null;
 
 	/**
@@ -37,7 +46,7 @@ public class Obstruction {
 	 * @param x
 	 * @param y
 	 * @param type
-	 *            1: Stein; 2:Block; 3:Ausgang(Tuer)
+	 *            1: Stein-unzerstoerbar; 2:Box-zerstoerbar; 3:Ausgang(Tuer)
 	 * 
 	 * 
 	 */

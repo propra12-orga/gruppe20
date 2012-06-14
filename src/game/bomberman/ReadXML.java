@@ -9,6 +9,12 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
+/**
+ * liest ein Level aus einer XML Datei ein
+ * 
+ * @author timozjx, KingManuel
+ * 
+ */
 public class ReadXML {
 
 	// bgList speichert die Pfad der background,die von XML gelesen hat
@@ -21,9 +27,9 @@ public class ReadXML {
 	private List<Integer> stoneX = new ArrayList<Integer>();
 	// stoneY speichert die Y-Koordinaten der Steine
 	private List<Integer> stoneY = new ArrayList<Integer>();
-	// boxX speichert die X-Koordinaten der Kästen
+	// boxX speichert die X-Koordinaten der Boxen
 	private List<Integer> boxX = new ArrayList<Integer>();
-	// boxY speichert die Y-Koordinaten der Kästen
+	// boxY speichert die Y-Koordinaten derBoxen
 	private List<Integer> boxY = new ArrayList<Integer>();
 
 	public List<Integer> getStoneX() {
@@ -99,8 +105,8 @@ public class ReadXML {
 
 	}
 
-	/*
-	 * initialisiren die Koordinaten der Obstruction
+	/**
+	 * initialisire die Koordinaten der Obstruction
 	 */
 	public void initObLocation() {
 		// System.out.println("Obstruction Koordinaten einlesen");
