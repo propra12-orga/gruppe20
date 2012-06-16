@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+
 <ob id="stone" x="-48"  y="-28"/>
 <ob id="stone" x="-48"  y="68"/>
 <ob id="stone" x="-48"  y="164"/>
@@ -66,7 +67,7 @@
 <ob id="box" x="384" y="308"/>
 <ob id="box" x="384" y="404"/>
 <ob id="box" x="384" y="500"/>
-<ob id="box" x="480" y="20"/>
+<!--<ob id="box" x="480" y="20"/>-->
 <ob id="box" x="480" y="116"/>
 <ob id="box" x="480" y="212"/>
 <ob id="box" x="480" y="308"/>

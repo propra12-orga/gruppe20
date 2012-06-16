@@ -139,15 +139,22 @@ public class BackGround {
 			/*
 			 * MyFrame.setAusgangX(392); MyFrame.setAusgangY(360);
 			 */
-			int t[] = this.getRandom();
-			while (t[0] < 2 || t[1] < 2) {
-				t = this.getRandom();
-			}
+			/*
+			 * int t[] = this.getRandom(); while (t[0] < 2 || t[1] < 2) { t =
+			 * this.getRandom(); }
+			 * 
+			 * MyFrame.setAusgangX(48 * ((t[0] * 2) - 1));
+			 * MyFrame.setAusgangY(48 * ((t[1] * 2) - 1) + 20); int temp1 = 48 *
+			 * ((t[0] * 2) - 1); int temp2 = 48 * ((t[1] * 2) - 1) + 20;
+			 */
 
-			MyFrame.setAusgangX(48 * ((t[0] * 2) - 1));
-			MyFrame.setAusgangY(48 * ((t[1] * 2) - 1) + 20);
-			int temp1 = 48 * ((t[0] * 2) - 1);
-			int temp2 = 48 * ((t[1] * 2) - 1) + 20;
+			int t = boxX.size();
+
+			int random = new Random().nextInt(t);
+
+			int temp1 = boxX.get(random).intValue();
+			int temp2 = boxY.get(random).intValue();
+
 			System.out.println(temp1 + "door" + temp2);
 			this.allObstruction.add(new Obstruction(temp1, temp2, 3));
 

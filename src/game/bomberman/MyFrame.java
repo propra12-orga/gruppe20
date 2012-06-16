@@ -215,7 +215,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		int bombY = bomb.getY();
 		int obX = bb.getX();
 		int obY = bb.getY();
-		if ((bombX - 48 * 2 < obX && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
+		if ((bombX - 48 * 2 < obX + 2 && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
 				&& bombY + 2 <= obY + 45 || (bombY + 45 < obY + 45 && bombY + 35 > obY)))
 				|| (bombY - 48 * 3 < obY && obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
 						&& bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45 && bombX + 35 > obX)))) {
@@ -240,7 +240,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		/*
 		 * pr¨¹fen ob der zweite Bomb in der Radius vom erste Bomb
 		 */
-		if ((bombX - 48 * 2 < b2X && b2X < bombX + 48 * 3 - 5 && (b2Y < bombY + 2
+		if ((bombX - 48 * 2 < b2X + 2 && b2X < bombX + 48 * 3 - 5 && (b2Y < bombY + 2
 				&& bombY + 2 <= b2Y + 45 || (bombY + 45 < b2Y + 45 && bombY + 35 > b2Y)))
 				|| (bombY - 48 * 3 < b2Y && b2Y < bombY + 48 * 3 - 5 && (b2X < bombX + 2
 						&& bombX + 2 <= b2X + 45 || (bombX + 45 < b2X + 45 && bombX + 35 > b2X)))) {
@@ -382,7 +382,9 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				g.drawString("let's go!", 200, 150);
 				this.repaint();
 				try {
+
 					Thread.sleep(100);
+
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -535,7 +537,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					 * ob.getY());
 					 */
 
-					if ((bombX - 48 * 2 < obX && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
+					if ((bombX - 48 * 2 < obX + 2 && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
 							&& bombY + 2 <= obY + 45 || (bombY + 45 < obY + 45 && bombY + 35 > obY)))
 							|| (bombY - 48 * 3 < obY
 									&& obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
@@ -579,7 +581,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					 * bomb.getY()); System.out.println("s:" + ob.getX() + " " +
 					 * ob.getY());
 					 */
-					if ((bombX - 48 * 2 < obX && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
+					if ((bombX - 48 * 2 < obX + 2 && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
 							&& bombY + 2 <= obY + 45 || (bombY + 45 < obY + 45 && bombY + 35 > obY)))
 							|| (bombY - 48 * 3 < obY
 									&& obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
@@ -734,6 +736,13 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					g.drawString(logoString, 200, 150);
 					try {
 						Thread.sleep(100);
+						this.AusgangShow = false;
+						for (int i = 0; i < 2; i++) {
+							this.bombs[i].setCountdown(0);
+							this.bombs2[i].setCountdown(0);
+							this.bombs[i].Disappear();
+							this.bombs2[i].Disappear();
+						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
