@@ -98,8 +98,8 @@ public class BackGround {
 				int x1 = stoneX.get(i).intValue();
 
 				int y1 = stoneY.get(i).intValue();
-				Obstruction ob = new Obstruction(x1, y1, 1);
-				ob.setType(1);
+				Obstruction ob = new Obstruction(x1, y1, 0);
+				ob.setType(0);
 				this.allObstruction.add(ob);
 
 			}
@@ -126,8 +126,8 @@ public class BackGround {
 				if (x1 == 0 && y1 == 116) {
 
 				} else {
-					Obstruction ob = new Obstruction(x1, y1, 0);
-					ob.setType(2);
+					Obstruction ob = new Obstruction(x1, y1, 1);
+					ob.setType(1);
 					this.allObstruction.add(ob);
 
 				}
@@ -154,7 +154,8 @@ public class BackGround {
 
 			int temp1 = boxX.get(random).intValue();
 			int temp2 = boxY.get(random).intValue();
-
+			MyFrame.setAusgangX(temp1);
+			MyFrame.setAusgangY(temp2);
 			System.out.println(temp1 + "door" + temp2);
 			this.allObstruction.add(new Obstruction(temp1, temp2, 3));
 

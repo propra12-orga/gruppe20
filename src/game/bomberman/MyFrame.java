@@ -171,9 +171,11 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		while (iter.hasNext()) {
 			Obstruction ob = iter.next();
 			if (ob.getType() == 3 && !AusgangShow) {
+
 				this.Ausgang = ob;
 				this.Ausgang.setX(-100);
 				this.Ausgang.setY(-100);
+
 				/*
 				 * Ausgang.setX(-100); Ausgang.setY(-100);
 				 */
@@ -309,10 +311,12 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				List<Obstruction> obstructions = this.nowBG.getAllObstruction();
 				for (int a = 0; a < obstructions.size(); a++) {
 					Obstruction ob = this.nowBG.getAllObstruction().get(a);
+
 					if (ob != null && ob.isRemove()) {
 
 						if (ob.getX() == this.AusgangX
 								&& ob.getY() == this.AusgangY) {
+							// System.out.println("wir haben tuer");
 							Ausgang.setX(ob.getX());
 							Ausgang.setY(ob.getY());
 							this.AusgangShow = true;
