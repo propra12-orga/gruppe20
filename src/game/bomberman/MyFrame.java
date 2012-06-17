@@ -520,7 +520,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		}
 
 		/**
-		 * Wenn Leertaste gedrückt wird Setzte Bombe
+		 * Wenn Leertaste gedrueckt wird Setzte Bombe
 		 * 
 		 */
 		if (ke.getKeyCode() == 32) {

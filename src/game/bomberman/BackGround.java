@@ -178,16 +178,13 @@ public class BackGround {
 	 * Ausgang benutzt werden
 	 * 
 	 */
-	public int[] getRandom() {
-		Random random = new Random();
-		int a = 0, b = 0;
-		a = random.nextInt(6);
-		b = random.nextInt(6);
-		int t[] = { a, b };
-		return t;
-
-	}
-
+	/*
+	 * public int[] getRandom() { Random random = new Random(); int a = 0, b =
+	 * 0; a = random.nextInt(6); b = random.nextInt(6); int t[] = { a, b };
+	 * return t;
+	 * 
+	 * }
+	 */
 	/**
 	 * Get BufferedImage
 	 * 
