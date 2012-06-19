@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
  * 
  */
 public class StaticValue {
-	// bgList speichert die URL der allen backgroundBilde
+	// bgList speichert die URL der allen Hintergrundbilder
 	private static List<String> bgList;
 	// obList speichert die URL der allen Obstructions
 	private static List<String> obList;
@@ -128,7 +128,7 @@ public class StaticValue {
 		// 4.Item Image in eine List
 		for (int i = 1; i <= 3; i++) {
 			try {
-				allPlayerImage.add(ImageIO.read(new File(imagePath + "it" + i
+				allItemImage.add(ImageIO.read(new File(imagePath + "it" + i
 						+ ".png")));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

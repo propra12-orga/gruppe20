@@ -69,7 +69,7 @@ public class Player implements Runnable {
 		this.nowBG = nowBG;
 		this.showImage = StaticValue.allPlayerImage.get(0);
 		this.bombradius = 2;
-		this.bombcapacity = 4;
+		this.bombcapacity = 2;
 		t = new Thread(this);
 		t.start();
 

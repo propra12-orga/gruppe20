@@ -29,6 +29,18 @@ public class BackGround {
 	 * Speichert alle Gegenstaende
 	 */
 	private List<Obstruction> allObstruction = new ArrayList<Obstruction>();
+	/**
+	 * Speichert alle Items die auf dem Spielfeld liegen
+	 */
+	private List<Item> allItem = new ArrayList<Item>();
+
+	public List<Item> getAllItem() {
+		return allItem;
+	}
+
+	public void setAllItem(List<Item> allItem) {
+		this.allItem = allItem;
+	}
 
 	/**
 	 * 

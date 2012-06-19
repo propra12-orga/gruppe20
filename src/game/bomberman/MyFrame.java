@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -155,6 +156,13 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 		// Malen BackGroundImage
 		g2.drawImage(this.nowBG.getBgImage(), 0, 20, this);
+
+		// Zeichne Items
+		Iterator<Item> iteritem = this.nowBG.getAllItem().iterator();
+		while (iteritem.hasNext()) {
+			Item item = iteritem.next();
+			g2.drawImage(item.getShowImage(), item.getX(), item.getY(), this);
+		}
 
 		// Malen Obstruction
 		Iterator<Obstruction> iter = this.nowBG.getAllObstruction().iterator();
@@ -315,7 +323,6 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 						if (ob.getX() == this.AusgangX
 								&& ob.getY() == this.AusgangY) {
-							// System.out.println("wir haben tuer");
 							Ausgang.setX(ob.getX());
 							Ausgang.setY(ob.getY());
 							this.AusgangShow = true;
@@ -326,6 +333,17 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 							 */
 						}
 						obstructions.remove(ob);
+						// Erzeuge Items wo Boxen verschwinden
+						int random = new Random().nextInt(100);
+						if (random < 30) {
+							List<Item> items = this.nowBG.getAllItem();
+							if (random < 15) {
+								items.add(new Item(ob.getX(), ob.getY(), 0));
+							} else {
+								items.add(new Item(ob.getX(), ob.getY(), 1));
+							}
+							this.nowBG.setAllItem(items);
+						}
 					}
 
 				}
