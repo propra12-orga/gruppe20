@@ -19,9 +19,35 @@ public class Player implements Runnable {
 
 	// Geschwindigkeit
 	private int xmove = 0;
+	/**
+	 * Anzahl der maximalen Felder in jede Richtung in der die Bombe explodiert
+	 */
+	private int bombradius;
+	/**
+	 * Anzahl der Bomben die der Spieler auf einmal legen kann
+	 */
+	private int bombcapacity;
+
+	// Getters Setters
 
 	public void setX(int x) {
 		this.x = x;
+	}
+
+	public int getBombcapacity() {
+		return bombcapacity;
+	}
+
+	public void setBombcapacity(int bombcapacity) {
+		this.bombcapacity = bombcapacity;
+	}
+
+	public int getBombradius() {
+		return bombradius;
+	}
+
+	public void setBombradius(int bombradius) {
+		this.bombradius = bombradius;
 	}
 
 	public void setY(int y) {
@@ -42,7 +68,8 @@ public class Player implements Runnable {
 		this.y = y;
 		this.nowBG = nowBG;
 		this.showImage = StaticValue.allPlayerImage.get(0);
-
+		this.bombradius = 2;
+		this.bombcapacity = 4;
 		t = new Thread(this);
 		t.start();
 

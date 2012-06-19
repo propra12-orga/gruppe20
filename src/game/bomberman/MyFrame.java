@@ -69,8 +69,8 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	private Thread t = new Thread(this);
 
 	// Array fuer Bomben
-	private Bomb[] bombs = new Bomb[2];
-	private Bomb[] bombs2 = new Bomb[2];
+	private Bomb[] bombs = new Bomb[4];
+	private Bomb[] bombs2 = new Bomb[4];
 	/**
 	 * Zaehler fuer das Bombenarray Jedesmal wenn eine Bombe gelegt wird erhoet
 	 * er sich
@@ -118,13 +118,11 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		// Setzen Senz(1) als angesichte Senze
 		this.nowBG = this.allBG.get(0);
 
-		// Figurobjekt erzeugen
-
-		// initialisieren
-		this.bombs[0] = new Bomb(0, -20, 0);
-		this.bombs[1] = new Bomb(0, -20, 0);
-		this.bombs2[0] = new Bomb(0, -20, 0);
-		this.bombs2[1] = new Bomb(0, -20, 0);
+		// initialisiere BombenArrays
+		for (int i = 0; i < 4; i++) {
+			this.bombs[i] = new Bomb(0, -20, 0);
+			this.bombs2[i] = new Bomb(0, -20, 0);
+		}
 
 		t.start();
 
@@ -188,8 +186,8 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		// g.drawImage(image, 0, 0, this);
 
 		// zeichne die Bomben
-		this.drawBombs(g2, this.bombs);
-		this.drawBombs(g2, this.bombs2);
+		this.drawBombs(g2, this.bombs, bb);
+		this.drawBombs(g2, this.bombs2, bb2);
 		// zeichne die Player in Spielfeld
 		if (bb != null)
 			g2.drawImage(this.bb.getShowImage(), this.bb.getX(),
@@ -240,7 +238,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		int b2Y = bomb2.getY();
 
 		/*
-		 * pr¨¹fen ob der zweite Bomb in der Radius vom erste Bomb
+		 * pruefen ob der zweite Bomb in der Radius vom erste Bomb
 		 */
 		if ((bombX - 48 * 2 < b2X + 2 && b2X < bombX + 48 * 3 - 5 && (b2Y < bombY + 2
 				&& bombY + 2 <= b2Y + 45 || (bombY + 45 < b2Y + 45 && bombY + 35 > b2Y)))
@@ -262,7 +260,8 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	 * @param toExplode
 	 */
 	public void bombChain(Bomb toExplode) {
-		Bomb[] allbombs = { bombs[0], bombs[1], bombs2[0], bombs2[1] };
+		Bomb[] allbombs = { bombs[0], bombs[1], bombs[2], bombs[3], bombs2[0],
+				bombs2[1], bombs2[2], bombs2[3] };
 		for (Bomb b : allbombs) {
 			if (b != toExplode)
 				this.ifbombOverlay(b, toExplode);
@@ -275,8 +274,8 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	 * Zeichne Bomben und entferne Objekte im Exlposionsradius
 	 * 
 	 */
-	public void drawBombs(Graphics g2, Bomb[] bombs) {
-		for (int i = 0; i <= 1; i++) {
+	public void drawBombs(Graphics g2, Bomb[] bombs, Player player) {
+		for (int i = 0; i < 4; i++) {
 			g2.drawImage(bombs[i].getShowImage(), bombs[i].getX(),
 					bombs[i].getY(), this);
 			// Zeichne Explosion
@@ -330,7 +329,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					}
 
 				}
-				for (int j = 1; j <= 2; j++) {
+				for (int j = 1; j <= player.getBombradius(); j++) {
 					g2.drawImage(StaticValue.allBoomImage.get(2),
 							bombs[i].getX(), bombs[i].getY() + j * 48, this);
 					g2.drawImage(StaticValue.allBoomImage.get(2),
@@ -564,7 +563,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				this.bombs[bombcount].setCountdown(70);
 				this.bombs[bombcount].setShowImage(StaticValue.allBoomImage
 						.get(0));
-				bombcount = (bombcount + 1) % 2;
+				bombcount = (bombcount + 1) % bb.getBombcapacity();
 			}
 		}
 
@@ -607,7 +606,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				this.bombs2[bombcount2].setCountdown(70);
 				this.bombs2[bombcount2].setShowImage(StaticValue.allBoomImage
 						.get(0));
-				bombcount2 = (bombcount2 + 1) % 2;
+				bombcount2 = (bombcount2 + 1) % bb2.getBombcapacity();
 			}
 		}
 
@@ -683,7 +682,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	 */
 
 	public void bombStatus(Bomb[] bombs) {
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 4; i++) {
 			if (bombs[i].getCountdown() > 0) {
 				bombs[i].Decreasecountdown();
 				if (bombs[i].getCountdown() == 20) {
@@ -741,7 +740,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					try {
 						Thread.sleep(100);
 						this.AusgangShow = false;
-						for (int i = 0; i < 2; i++) {
+						for (int i = 0; i < 4; i++) {
 							this.bombs[i].setCountdown(0);
 							this.bombs2[i].setCountdown(0);
 							this.bombs[i].Disappear();
