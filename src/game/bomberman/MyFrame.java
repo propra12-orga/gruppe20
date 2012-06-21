@@ -294,8 +294,9 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					boolean f1 = false;
 					if (bb != null)
 						f1 = this.ifKillplayer(bb, bombs[i]);
+					// Wenn Spieler stirbt beende Spiel
 					if (f1) {
-						// System.out.println("----------------true1");
+
 						startGame = false;
 						// change the image , the player die-------------------
 						if (bb2 != null)
@@ -362,6 +363,20 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 		}
 
+	}
+
+	public void PickUpItem(Player player) {
+		int x = player.getX();
+		int y = player.getY();
+		for (int i = 0; i < this.nowBG.getAllItem().size(); i++) {
+			if (x == this.nowBG.getAllItem().get(i).getX()) {
+				if (y == this.nowBG.getAllItem().get(i).getY()) {
+					player.UseItem(this.nowBG.getAllItem().get(i).getType());
+					this.nowBG.getAllItem().remove(i);
+				}
+			}
+
+		}
 	}
 
 	/**
@@ -468,6 +483,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 			if (flag)
 				this.bb.rightmove();
+			PickUpItem(bb);
 		}
 
 		if (ke.getKeyCode() == 37) {
@@ -489,6 +505,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			}
 			if (flag)
 				this.bb.leftmove();
+			PickUpItem(bb);
 		}
 
 		if (ke.getKeyCode() == 40) {
@@ -511,6 +528,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			}
 			if (flag)
 				this.bb.upmove();
+			PickUpItem(bb);
 		}
 
 		if (ke.getKeyCode() == 38) {
@@ -533,7 +551,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			}
 			if (flag)
 				this.bb.downmove();
-
+			PickUpItem(bb);
 		}
 
 		/**
@@ -584,7 +602,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				bombcount = (bombcount + 1) % bb.getBombcapacity();
 			}
 		}
-
+		// 2 Player legt Bombe wenn er "j" drueckt
 		if (ke.getKeyCode() == 74 && bb2 != null) {
 			if (this.bombs2[bombcount2].getCountdown() == 0) {
 				Bomb bomb = this.bombs2[bombcount2];
@@ -814,6 +832,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 			if (bb2 == null)
 				return;
 			super.keyPressed(ke);
+			// Move Right
 			if (ke.getKeyCode() == 68) {
 				List<Obstruction> obstructions = nowBG.getAllObstruction();
 				boolean flag = true;
@@ -833,6 +852,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				}
 				if (flag)
 					bb2.rightmove();
+				PickUpItem(bb2);
 			}
 
 			if (ke.getKeyCode() == 65) {
@@ -854,6 +874,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				}
 				if (flag)
 					bb2.leftmove();
+				PickUpItem(bb2);
 			}
 
 			if (ke.getKeyCode() == 83) {
@@ -876,6 +897,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				}
 				if (flag)
 					bb2.upmove();
+				PickUpItem(bb2);
 			}
 
 			if (ke.getKeyCode() == 87) {
@@ -898,6 +920,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 				}
 				if (flag)
 					bb2.downmove();
+				PickUpItem(bb2);
 
 			}
 		}

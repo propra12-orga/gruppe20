@@ -19,7 +19,7 @@ public class Item {
 	private BufferedImage showImage;
 
 	/**
-	 * Um welche Art von Item handelt es sich? 1:=BombCapacity Up 2:=BombRadius
+	 * Um welche Art von Item handelt es sich? 0:=BombCapacity Up 1:=BombRadius
 	 * Up
 	 * 
 	 */

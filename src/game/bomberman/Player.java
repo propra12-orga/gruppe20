@@ -3,6 +3,9 @@ package game.bomberman;
 import java.awt.image.BufferedImage;
 
 /**
+ * Plaer enthaelt Koordinaten x,y , ShowImage ist das momentan anzuzeigene Bild
+ * des Spielers, die Bewegungsmethoden des Spielers sowie das Bewegungstempo,
+ * und die Variablen Bombcapacity und Bombradius
  * 
  * @author timozjx, Yuankun, KingManuel
  * 
@@ -153,13 +156,39 @@ public class Player implements Runnable {
 		this.status = "down--standing";
 	}
 
+	/**
+	 * setzte Koordinaten auf Anfangsposition (Momentan (550,658))
+	 */
 	public void reset() {
 		this.x = 550;
 		this.y = 658;
 	}
 
+	/**
+	 * Setze showImage=null
+	 */
 	public void remove() {
 		this.showImage = null;
+	}
+
+	/**
+	 * Wenn type==0 wird Bombenkapazitaet um 1 erhoet Wenn type==1 wird
+	 * Bombenradius um 1 erhoet
+	 * 
+	 * @param type
+	 */
+	public void UseItem(int type) {
+		if (type == 0) {
+			if (this.bombcapacity < 4) {
+				this.bombcapacity++;
+			}
+		}
+
+		if (type == 1) {
+			if (this.bombradius < 10) {
+				this.bombradius++;
+			}
+		}
 	}
 
 	@Override
