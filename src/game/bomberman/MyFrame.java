@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -128,7 +127,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		t.start();
 
 		this.addKeyListener(this);
-		this.addKeyListener(new player2KeyListener());
+		// this.addKeyListener(new player2KeyListener());
 
 		// Beende das Pragramm bei Schliessen des Spielfelds
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -212,16 +211,24 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	 */
 	public boolean ifKillplayer(Player bb, Bomb bomb) {
 		boolean flag = false;
-		int bombX = bomb.getX();
-		int bombY = bomb.getY();
-		int obX = bb.getX();
-		int obY = bb.getY();
-		if ((bombX - 48 * 2 < obX + 2 && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
-				&& bombY + 2 <= obY + 45 || (bombY + 45 < obY + 45 && bombY + 35 > obY)))
-				|| (bombY - 48 * 3 < obY && obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
-						&& bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45 && bombX + 35 > obX)))) {
-			flag = true;
+		/*
+		 * int bombX = bomb.getX(); int bombY = bomb.getY(); int obX =
+		 * bb.getX(); int obY = bb.getY();
+		 */
+		int bbX = bb.getX();
+		int bbY = bb.getY();
+		List<int[]> area = this.ExplodeArea(bomb);
+		for (int[] a : area) {
+			if (bbX == a[0] && bbY == a[1])
+				flag = true;
 		}
+		/*
+		 * if ((bombX - 48 * 2 < obX + 2 && obX < bombX + 48 * 3 - 5 && (obY <
+		 * bombY + 2 && bombY + 2 <= obY + 45 || (bombY + 45 < obY + 45 && bombY
+		 * + 35 > obY))) || (bombY - 48 * 3 < obY && obY < bombY + 48 * 3 - 5 &&
+		 * (obX < bombX + 2 && bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45
+		 * && bombX + 35 > obX)))) { flag = true; }
+		 */
 		return flag;
 	}
 
@@ -523,6 +530,68 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	 * 
 	 * } }
 	 */
+
+	/*
+	 * Beim Bewegen wird diese Methoden aufgerufen
+	 */
+	public void moveProcess(Player bb, int direction) {
+		List<Obstruction> obstructions = nowBG.getAllObstruction();
+
+		boolean flag = true;
+		/*
+		 * temporaere varieable wenn der Player bewegen wird, die Koordinaten
+		 * der Players und die Koordinaten der Obstructions nicht ueberlappend
+		 * dann wir der Player echt bewegt flag default true
+		 */
+		int mX = bb.getX();
+		int mY = bb.getY();
+
+		switch (direction) {
+		case 0:
+			mY -= 48;
+			break;
+		case 1:
+			mX += 48;
+			break;
+		case 2:
+			mY += 48;
+			break;
+		case 3:
+			mX -= 48;
+			break;
+		}
+
+		// wenn Ooobstruction tuer ist,dann darf hrein
+		for (Obstruction ob : obstructions) {
+			if (ob.getType() != 3) {
+				int obX = ob.getX();
+				int obY = ob.getY();
+				if (mX == obX && mY == obY) {
+					flag = false;
+					break;
+				}
+			}
+		}
+
+		if (flag) {
+			switch (direction) {
+			case 0:
+				bb.upmove();
+				break;
+			case 1:
+				bb.rightmove();
+				break;
+			case 2:
+				bb.downmove();
+				break;
+			case 3:
+				bb.leftmove();
+				break;
+			}
+
+		}
+	}
+
 	/**
 	 * override the keyPressed method implements KeyListener
 	 * 
@@ -573,10 +642,11 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 		}
 		// F2 2-Player mode
+
 		if (ke.getKeyCode() == 113) {
 			if (doublePlayer == false) {
-				this.bb2 = new Player(384, 452, this.nowBG);
-				this.repaint();
+				// this.bb2 = new Player(384, 452, this.nowBG);
+				// this.repaint();
 				doublePlayer = true;
 			}
 
@@ -602,147 +672,127 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		//
 		if (!startGame)
 			return;
-		// TODO Auto-generated method stub
-		// System.out.println(ke.getKeyChar());
 
 		// wenn man 39 dr¨¹cken -->
 		if (ke.getKeyCode() == 39) {
-			List<Obstruction> obstructions = nowBG.getAllObstruction();
-			boolean flag = true;
-
-			for (Obstruction ob : obstructions) {
-				int mX = this.bb.getX();
-				int mY = this.bb.getY();
-				int obX = ob.getX();
-				int obY = ob.getY();
-				if (obX <= mX + 48
-						&& mX + 48 <= obX + 48
-						&& (obY < mY + 2 && mY + 2 <= obY + 45 || (mY + 45 < obY + 45 && mY + 45 > obY))) {
-					flag = false;
-					// this.bb.setY(ob.getY() + 46);
-					break;
-				}
-
-			}
-
-			if (flag)
-				this.bb.rightmove();
-			// PickUpItem(bb);
+			/*
+			 * List<Obstruction> obstructions = nowBG.getAllObstruction();
+			 * boolean flag = true;
+			 * 
+			 * for (Obstruction ob : obstructions) { int mX = this.bb.getX();
+			 * int mY = this.bb.getY(); int obX = ob.getX(); int obY =
+			 * ob.getY(); if (obX <= mX + 48 && mX + 48 <= obX + 48 && (obY < mY
+			 * + 2 && mY + 2 <= obY + 45 || (mY + 45 < obY + 45 && mY + 45 >
+			 * obY))) { flag = false; // this.bb.setY(ob.getY() + 46); break; }
+			 * 
+			 * }
+			 * 
+			 * if (flag) this.bb.rightmove(); // PickUpItem(bb);
+			 */
+			this.moveProcess(bb, 1);
 		}
 
 		if (ke.getKeyCode() == 37) {
-			List<Obstruction> obstructions = nowBG.getAllObstruction();
-			boolean flag = true;
-			for (Obstruction ob : obstructions) {
-				int mX = this.bb.getX();
-				int mY = this.bb.getY();
-				int obX = ob.getX();
-				int obY = ob.getY();
-				if (obX < mX
-						&& mX <= obX + 48
-						&& (obY < mY + 2 && mY + 2 <= obY + 45 || (mY + 45 < obY + 45 && mY + 45 > obY))) {
-					flag = false;
-					// this.bb.setY(ob.getY() + 46);
-					break;
-				}
-
-			}
-			if (flag)
-				this.bb.leftmove();
-			// PickUpItem(bb);
+			/*
+			 * List<Obstruction> obstructions = nowBG.getAllObstruction();
+			 * boolean flag = true; for (Obstruction ob : obstructions) { int mX
+			 * = this.bb.getX(); int mY = this.bb.getY(); int obX = ob.getX();
+			 * int obY = ob.getY(); if (obX < mX && mX <= obX + 48 && (obY < mY
+			 * + 2 && mY + 2 <= obY + 45 || (mY + 45 < obY + 45 && mY + 45 >
+			 * obY))) { flag = false; // this.bb.setY(ob.getY() + 46); break; }
+			 * 
+			 * } if (flag) this.bb.leftmove(); // PickUpItem(bb);
+			 */
+			this.moveProcess(bb, 3);
 		}
 
 		if (ke.getKeyCode() == 40) {
-
-			List<Obstruction> obstructions = nowBG.getAllObstruction();
-			boolean flag = true;
-			for (Obstruction ob : obstructions) {
-				int mX = this.bb.getX();
-				int mY = this.bb.getY();
-				int obX = ob.getX();
-				int obY = ob.getY();
-				if (obY <= mY + 48
-						&& mY + 48 <= obY + 48
-						&& (obX < mX + 2 && mX + 2 <= obX + 45 || (mX + 45 < obX + 45 && mX + 45 > obX))) {
-					flag = false;
-					// this.bb.setY(ob.getY() + 46);
-					break;
-				}
-
-			}
-			if (flag)
-				this.bb.upmove();
-			// PickUpItem(bb);
+			/*
+			 * List<Obstruction> obstructions = nowBG.getAllObstruction();
+			 * boolean flag = true; for (Obstruction ob : obstructions) { int mX
+			 * = this.bb.getX(); int mY = this.bb.getY(); int obX = ob.getX();
+			 * int obY = ob.getY(); if (obY <= mY + 48 && mY + 48 <= obY + 48 &&
+			 * (obX < mX + 2 && mX + 2 <= obX + 45 || (mX + 45 < obX + 45 && mX
+			 * + 45 > obX))) { flag = false; // this.bb.setY(ob.getY() + 46);
+			 * break; }
+			 * 
+			 * } if (flag) this.bb.upmove(); // PickUpItem(bb);
+			 */
+			this.moveProcess(bb, 2);
 		}
 
 		if (ke.getKeyCode() == 38) {
 
-			List<Obstruction> obstructions = nowBG.getAllObstruction();
-			boolean flag = true;
-			for (Obstruction ob : obstructions) {
-				int mX = this.bb.getX();
-				int mY = this.bb.getY();
-				int obX = ob.getX();
-				int obY = ob.getY();
-				if (obY < mY
-						&& mY <= obY + 48
-						&& (obX < mX + 2 && mX + 2 <= obX + 45 || (mX + 45 < obX + 45 && mX + 45 > obX))) {
-					flag = false;
-					// this.bb.setY(ob.getY() + 46);
-					break;
-				}
-
-			}
-			if (flag)
-				this.bb.downmove();
-			// PickUpItem(bb);
+			/*
+			 * List<Obstruction> obstructions = nowBG.getAllObstruction();
+			 * boolean flag = true; for (Obstruction ob : obstructions) { int mX
+			 * = this.bb.getX(); int mY = this.bb.getY(); int obX = ob.getX();
+			 * int obY = ob.getY(); if (obY < mY && mY <= obY + 48 && (obX < mX
+			 * + 2 && mX + 2 <= obX + 45 || (mX + 45 < obX + 45 && mX + 45 >
+			 * obX))) { flag = false; // this.bb.setY(ob.getY() + 46); break; }
+			 * 
+			 * } if (flag) this.bb.downmove(); // PickUpItem(bb);
+			 */
+			this.moveProcess(bb, 0);
 		}
 
+		// keyListener player2
+		if (ke.getKeyCode() == 68) {
+			if (bb2 != null) {
+				this.moveProcess(bb2, 1);
+			}
+		}
+		if (ke.getKeyCode() == 65) {
+			if (bb2 != null) {
+				this.moveProcess(bb2, 3);
+			}
+		}
+		if (ke.getKeyCode() == 83) {
+			if (bb2 != null) {
+				this.moveProcess(bb2, 2);
+			}
+		}
+		if (ke.getKeyCode() == 87) {
+			if (bb2 != null) {
+				this.moveProcess(bb2, 0);
+			}
+		}
 		/**
 		 * Wenn Leertaste gedrueckt wird Setzte Bombe
 		 * 
 		 */
 		if (ke.getKeyCode() == 32) {
 			if (this.bombs[bombcount].getCountdown() == 0) {
+
 				Bomb bomb = this.bombs[bombcount];
 				this.bombs[bombcount].setX(this.bb.getX());
 				this.bombs[bombcount].setY(this.bb.getY());
-				List<Obstruction> obstructions = this.nowBG.getAllObstruction();
-				for (int i = 0; i < obstructions.size(); i++) {
-					Obstruction ob = obstructions.get(i);
-					int obX = ob.getX();
-					int obY = ob.getY();
-					int bombX = bomb.getX();
-					int bombY = bomb.getY();
-					/*
-					 * System.out.println("bomb:" + bomb.getX() + " " +
-					 * bomb.getY()); System.out.println("s:" + ob.getX() + " " +
-					 * ob.getY());
-					 */
-
-					if ((bombX - 48 * 2 < obX + 2 && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
-							&& bombY + 2 <= obY + 45 || (bombY + 45 < obY + 45 && bombY + 35 > obY)))
-							|| (bombY - 48 * 3 < obY
-									&& obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
-									&& bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45 && bombX + 35 > obX)))) {
-
-						if (ob.getType() == 1)
-							ob.setRemove(true);
-						this.repaint();
-					}
-
-				}
 				/*
-				 * this.bombs[bombcount].setX(this.bb.getX() + 22 -
-				 * (this.bb.getX() + 22) % 48); // durch modulo 48 wird //
-				 * Position d bomben // automatisch ans // Spielfeld Raster //
-				 * angepasst this.bombs[bombcount].setY(this.bb.getY() -
-				 * this.bb.getY() % 48 + 20);
+				 * List<Obstruction> obstructions =
+				 * this.nowBG.getAllObstruction(); for (int i = 0; i <
+				 * obstructions.size(); i++) { Obstruction ob =
+				 * obstructions.get(i); int obX = ob.getX(); int obY =
+				 * ob.getY(); int bombX = bomb.getX(); int bombY = bomb.getY();
+				 * /* System.out.println("bomb:" + bomb.getX() + " " +
+				 * bomb.getY()); System.out.println("s:" + ob.getX() + " " +
+				 * ob.getY());
+				 */
+				/*
+				 * if ((bombX - 48 * 2 < obX + 2 && obX < bombX + 48 * 3 - 5 &&
+				 * (obY < bombY + 2 && bombY + 2 <= obY + 45 || (bombY + 45 <
+				 * obY + 45 && bombY + 35 > obY))) || (bombY - 48 * 3 < obY &&
+				 * obY < bombY + 48 * 3 - 5 && (obX < bombX + 2 && bombX + 2 <=
+				 * obX + 45 || (bombX + 45 < obX + 45 && bombX + 35 > obX)))) {
+				 * /* if (ob.getType() == 1) ob.setRemove(true); this.repaint();
+				 * }
+				 * 
+				 * }
 				 */
 
 				this.bombs[bombcount].setCountdown(70);
 				this.bombs[bombcount].setShowImage(StaticValue.allBoomImage
 						.get(0));
+
 				bombcount = (bombcount + 1) % bb.getBombcapacity();
 			}
 		}
@@ -759,44 +809,39 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 					int obY = ob.getY();
 					int bombX = bomb.getX();
 					int bombY = bomb.getY();
+
+					this.destoryObCheck(bomb, obstructions);
+					this.repaint();
 					/*
 					 * System.out.println("bomb:" + bomb.getX() + " " +
 					 * bomb.getY()); System.out.println("s:" + ob.getX() + " " +
 					 * ob.getY());
 					 */
-					if ((bombX - 48 * 2 < obX + 2 && obX < bombX + 48 * 3 - 5 && (obY < bombY + 2
-							&& bombY + 2 <= obY + 45 || (bombY + 45 < obY + 45 && bombY + 35 > obY)))
-							|| (bombY - 48 * 3 < obY
-									&& obY < bombY + 48 * 3 - 5 && (obX < bombX + 2
-									&& bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45 && bombX + 35 > obX)))) {
-						if (ob.getType() == 1)
-							ob.setRemove(true);
-						this.repaint();
-					}
-
+					/*
+					 * if ((bombX - 48 * 2 < obX + 2 && obX < bombX + 48 * 3 - 5
+					 * && (obY < bombY + 2 && bombY + 2 <= obY + 45 || (bombY +
+					 * 45 < obY + 45 && bombY + 35 > obY))) || (bombY - 48 * 3 <
+					 * obY && obY < bombY + 48 * 3 - 5 && (obX < bombX + 2 &&
+					 * bombX + 2 <= obX + 45 || (bombX + 45 < obX + 45 && bombX
+					 * + 35 > obX)))) { if (ob.getType() == 1)
+					 * ob.setRemove(true); this.repaint();
+					 */
 				}
-				/*
-				 * this.bombs[bombcount].setX(this.bb.getX() + 22 -
-				 * (this.bb.getX() + 22) % 48); // durch modulo 48 wird //
-				 * Position d bomben // automatisch ans // Spielfeld Raster //
-				 * angepasst this.bombs[bombcount].setY(this.bb.getY() -
-				 * this.bb.getY() % 48 + 20);
-				 */
 
-				this.bombs2[bombcount2].setCountdown(70);
-				this.bombs2[bombcount2].setShowImage(StaticValue.allBoomImage
-						.get(0));
-				bombcount2 = (bombcount2 + 1) % bb2.getBombcapacity();
 			}
-		}
 
+			this.bombs2[bombcount2].setCountdown(70);
+			this.bombs2[bombcount2].setShowImage(StaticValue.allBoomImage
+					.get(0));
+			bombcount2 = (bombcount2 + 1) % bb2.getBombcapacity();
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent ke) {
 		if (!startGame)
 			return;
-		// TODO Auto-generated method stub
+
 		// wenn man loslaesst: stopmove
 		if (ke.getKeyCode() == 39) {
 			this.bb.rightstop();
@@ -829,32 +874,35 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 	public boolean ifFindAusgang(Player pp) {
 		boolean flag = false;
 
-		/*
-		 * if ((obX <= mX + 48 && mX + 48 <= obX + 48 && (obY < mY + 2 && mY + 2
-		 * <= obY + 45 || (mY + 45 < obY + 45 && mY + 45 > obY))) || (obX < mX
-		 * && mX <= obX + 48 && (obY < mY + 2 && mY + 2 <= obY + 45 || (mY + 45
-		 * < obY + 45 && mY + 45 > obY))) || (obY <= mY + 48 && mY + 48 <= obY +
-		 * 48 && (obX < mX + 2 && mX + 2 <= obX + 45 || (mX + 45 < obX + 45 &&
-		 * mX + 45 > obX))) || (obY < mY && mY <= obY + 48 && (obX < mX + 2 &&
-		 * mX + 2 <= obX + 45 || (mX + 45 < obX + 45 && mX + 45 > obX))))
-		 */
-		if ((AusgangX <= pp.getX() + 48 && pp.getX() + 48 <= AusgangX + 48 && (AusgangY < pp
-				.getY() + 2 && pp.getY() + 2 <= AusgangY + 45 || (pp.getY() + 45 < AusgangY + 45 && pp
-				.getY() + 45 > AusgangY)))
-				|| (AusgangX < pp.getX() && pp.getX() <= AusgangX + 48 && (AusgangY < pp
-						.getY() + 2 && pp.getY() + 2 <= AusgangY + 45 || (pp
-						.getY() + 45 < AusgangY + 45 && pp.getY() + 45 > AusgangY)))
-				|| (AusgangY <= pp.getY() + 48
-						&& pp.getY() + 48 <= AusgangY + 48 && (AusgangX < pp
-						.getX() + 2 && pp.getX() + 2 <= AusgangX + 45 || (pp
-						.getX() + 45 < AusgangX + 45 && pp.getX() + 45 > AusgangX)))
-				|| (AusgangY < pp.getY() && pp.getY() <= AusgangY + 48 && (AusgangX < pp
-						.getX() + 2 && pp.getX() + 2 <= AusgangX + 45 || (pp
-						.getX() + 45 < AusgangX + 45 && pp.getX() + 45 > AusgangX))))
+		if (pp.getX() == AusgangX && pp.getY() == AusgangY && AusgangShow) {
 			flag = true;
+		}
 		return flag;
-
 	}
+
+	/*
+	 * if ((obX <= mX + 48 && mX + 48 <= obX + 48 && (obY < mY + 2 && mY + 2 <=
+	 * obY + 45 || (mY + 45 < obY + 45 && mY + 45 > obY))) || (obX < mX && mX <=
+	 * obX + 48 && (obY < mY + 2 && mY + 2 <= obY + 45 || (mY + 45 < obY + 45 &&
+	 * mY + 45 > obY))) || (obY <= mY + 48 && mY + 48 <= obY + 48 && (obX < mX +
+	 * 2 && mX + 2 <= obX + 45 || (mX + 45 < obX + 45 && mX + 45 > obX))) ||
+	 * (obY < mY && mY <= obY + 48 && (obX < mX + 2 && mX + 2 <= obX + 45 || (mX
+	 * + 45 < obX + 45 && mX + 45 > obX))))
+	 */
+	/*
+	 * if ((AusgangX <= pp.getX() + 48 && pp.getX() + 48 <= AusgangX + 48 &&
+	 * (AusgangY < pp .getY() + 2 && pp.getY() + 2 <= AusgangY + 45 ||
+	 * (pp.getY() + 45 < AusgangY + 45 && pp .getY() + 45 > AusgangY))) ||
+	 * (AusgangX < pp.getX() && pp.getX() <= AusgangX + 48 && (AusgangY < pp
+	 * .getY() + 2 && pp.getY() + 2 <= AusgangY + 45 || (pp .getY() + 45 <
+	 * AusgangY + 45 && pp.getY() + 45 > AusgangY))) || (AusgangY <= pp.getY() +
+	 * 48 && pp.getY() + 48 <= AusgangY + 48 && (AusgangX < pp .getX() + 2 &&
+	 * pp.getX() + 2 <= AusgangX + 45 || (pp .getX() + 45 < AusgangX + 45 &&
+	 * pp.getX() + 45 > AusgangX))) || (AusgangY < pp.getY() && pp.getY() <=
+	 * AusgangY + 48 && (AusgangX < pp .getX() + 2 && pp.getX() + 2 <= AusgangX
+	 * + 45 || (pp .getX() + 45 < AusgangX + 45 && pp.getX() + 45 > AusgangX))))
+	 * flag = true; return flag;
+	 */
 
 	/**
 	 * Verringert Countdown der Bomben. Wenn der Countdown 20 erreicht
@@ -970,105 +1018,53 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 		}
 	}
 
-	class player2KeyListener extends KeyAdapter {
-		@Override
-		public void keyPressed(KeyEvent ke) {
-			if (bb2 == null)
-				return;
-			super.keyPressed(ke);
-			// Move Right
-			if (ke.getKeyCode() == 68) {
-				List<Obstruction> obstructions = nowBG.getAllObstruction();
-				boolean flag = true;
-				for (Obstruction ob : obstructions) {
-					int mX = bb2.getX();
-					int mY = bb2.getY();
-					int obX = ob.getX();
-					int obY = ob.getY();
-					if (obX <= mX + 48
-							&& mX + 48 <= obX + 48
-							&& (obY < mY + 2 && mY + 2 <= obY + 45 || (mY + 45 < obY + 45 && mY + 45 > obY))) {
-						flag = false;
-						// bb2.setY(ob.getY() + 46);
-						break;
-					}
-
-				}
-				if (flag)
-					bb2.rightmove();
-				// PickUpItem(bb2);
-			}
-
-			if (ke.getKeyCode() == 65) {
-				List<Obstruction> obstructions = nowBG.getAllObstruction();
-				boolean flag = true;
-				for (Obstruction ob : obstructions) {
-					int mX = bb2.getX();
-					int mY = bb2.getY();
-					int obX = ob.getX();
-					int obY = ob.getY();
-					if (obX < mX
-							&& mX <= obX + 48
-							&& (obY < mY + 2 && mY + 2 <= obY + 45 || (mY + 45 < obY + 45 && mY + 45 > obY))) {
-						flag = false;
-						// bb2.setY(ob.getY() + 46);
-						break;
-					}
-
-				}
-				if (flag)
-					bb2.leftmove();
-				// PickUpItem(bb2);
-			}
-
-			if (ke.getKeyCode() == 83) {
-
-				List<Obstruction> obstructions = nowBG.getAllObstruction();
-				boolean flag = true;
-				for (Obstruction ob : obstructions) {
-					int mX = bb2.getX();
-					int mY = bb2.getY();
-					int obX = ob.getX();
-					int obY = ob.getY();
-					if (obY <= mY + 48
-							&& mY + 48 <= obY + 48
-							&& (obX < mX + 2 && mX + 2 <= obX + 45 || (mX + 45 < obX + 45 && mX + 45 > obX))) {
-						flag = false;
-						// bb2.setY(ob.getY() + 46);
-						break;
-					}
-
-				}
-				if (flag)
-					bb2.upmove();
-				// PickUpItem(bb2);
-			}
-
-			if (ke.getKeyCode() == 87) {
-
-				List<Obstruction> obstructions = nowBG.getAllObstruction();
-				boolean flag = true;
-				for (Obstruction ob : obstructions) {
-					int mX = bb2.getX();
-					int mY = bb2.getY();
-					int obX = ob.getX();
-					int obY = ob.getY();
-					if (obY < mY
-							&& mY <= obY + 48
-							&& (obX < mX + 2 && mX + 2 <= obX + 45 || (mX + 45 < obX + 45 && mX + 45 > obX))) {
-						flag = false;
-						// bb2.setY(ob.getY() + 46);
-						break;
-					}
-
-				}
-				if (flag)
-					bb2.downmove();
-				// PickUpItem(bb2);
-
-			}
-		}
-
-	}
-
+	/*
+	 * class player2KeyListener extends KeyAdapter {
+	 * 
+	 * @Override public void keyPressed(KeyEvent ke) { if (bb2 == null) return;
+	 * super.keyPressed(ke); // Move Right if (ke.getKeyCode() == 68) {
+	 * List<Obstruction> obstructions = nowBG.getAllObstruction(); boolean flag
+	 * = true; for (Obstruction ob : obstructions) { int mX = bb2.getX(); int mY
+	 * = bb2.getY(); int obX = ob.getX(); int obY = ob.getY(); if (obX <= mX +
+	 * 48 && mX + 48 <= obX + 48 && (obY < mY + 2 && mY + 2 <= obY + 45 || (mY +
+	 * 45 < obY + 45 && mY + 45 > obY))) { flag = false; // bb2.setY(ob.getY() +
+	 * 46); break; }
+	 * 
+	 * } if (flag) bb2.rightmove(); // PickUpItem(bb2); }
+	 * 
+	 * if (ke.getKeyCode() == 65) { List<Obstruction> obstructions =
+	 * nowBG.getAllObstruction(); boolean flag = true; for (Obstruction ob :
+	 * obstructions) { int mX = bb2.getX(); int mY = bb2.getY(); int obX =
+	 * ob.getX(); int obY = ob.getY(); if (obX < mX && mX <= obX + 48 && (obY <
+	 * mY + 2 && mY + 2 <= obY + 45 || (mY + 45 < obY + 45 && mY + 45 > obY))) {
+	 * flag = false; // bb2.setY(ob.getY() + 46); break; }
+	 * 
+	 * } if (flag) bb2.leftmove(); // PickUpItem(bb2); }
+	 * 
+	 * if (ke.getKeyCode() == 83) {
+	 * 
+	 * List<Obstruction> obstructions = nowBG.getAllObstruction(); boolean flag
+	 * = true; for (Obstruction ob : obstructions) { int mX = bb2.getX(); int mY
+	 * = bb2.getY(); int obX = ob.getX(); int obY = ob.getY(); if (obY <= mY +
+	 * 48 && mY + 48 <= obY + 48 && (obX < mX + 2 && mX + 2 <= obX + 45 || (mX +
+	 * 45 < obX + 45 && mX + 45 > obX))) { flag = false; // bb2.setY(ob.getY() +
+	 * 46); break; }
+	 * 
+	 * } if (flag) bb2.upmove(); // PickUpItem(bb2); }
+	 * 
+	 * if (ke.getKeyCode() == 87) {
+	 * 
+	 * List<Obstruction> obstructions = nowBG.getAllObstruction(); boolean flag
+	 * = true; for (Obstruction ob : obstructions) { int mX = bb2.getX(); int mY
+	 * = bb2.getY(); int obX = ob.getX(); int obY = ob.getY(); if (obY < mY &&
+	 * mY <= obY + 48 && (obX < mX + 2 && mX + 2 <= obX + 45 || (mX + 45 < obX +
+	 * 45 && mX + 45 > obX))) { flag = false; // bb2.setY(ob.getY() + 46);
+	 * break; }
+	 * 
+	 * } if (flag) bb2.downmove(); // PickUpItem(bb2);
+	 * 
+	 * } }
+	 * 
+	 * }
+	 */
 }
