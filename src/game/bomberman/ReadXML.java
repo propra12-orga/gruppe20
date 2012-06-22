@@ -31,6 +31,16 @@ public class ReadXML {
 	private List<Integer> boxX = new ArrayList<Integer>();
 	// boxY speichert die Y-Koordinaten derBoxen
 	private List<Integer> boxY = new ArrayList<Integer>();
+	// Obstruction speicher alle obstructions
+	private List<Obstruction> obs = new ArrayList<Obstruction>();
+
+	public List<Obstruction> getObs() {
+		return obs;
+	}
+
+	public void setObs(List<Obstruction> obs) {
+		this.obs = obs;
+	}
 
 	public List<Integer> getStoneX() {
 		return stoneX;
@@ -109,7 +119,7 @@ public class ReadXML {
 	 * initialisire die Koordinaten der Obstruction
 	 */
 	public void initObLocation() {
-		// System.out.println("Obstruction Koordinaten einlesen");
+
 		SAXBuilder sb = new SAXBuilder();
 		Document doc = null;
 		try {
@@ -135,14 +145,20 @@ public class ReadXML {
 
 			if (id.equals("stone")) {
 
-				this.stoneX.add(x1);
-				this.stoneY.add(y1);
-
+				// this.stoneX.add(x1);
+				// this.stoneY.add(y1);
+				Obstruction ob = new Obstruction(x1, y1, 0);
+				ob.setType(0);
+				obs.add(ob);
 			}
 
 			else if (id.equals("box")) {
-				this.boxX.add(x1);
-				this.boxY.add(y1);
+
+				// this.boxX.add(x1);
+				// this.boxY.add(y1);
+				Obstruction ob = new Obstruction(x1, y1, 1);
+				ob.setType(1);
+				obs.add(ob);
 
 			}
 

@@ -86,11 +86,10 @@ public class StaticValue {
 
 		for (int i = 0; i < bgList.size(); i++) {
 			try {
-				// allPlayerImage.add(ImageIO.read(new
-				// File(System.getProperty("user.dir")+"/pic"+i+".png")));
+
 				allWindowsImage.add(ImageIO.read(new File(bgList.get(i))));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
@@ -98,11 +97,10 @@ public class StaticValue {
 		// 1.Player Image in eine List
 		for (int i = 0; i < ppList.size(); i++) {
 			try {
-				// allPlayerImage.add(ImageIO.read(new
-				// File(System.getProperty("user.dir")+"/pic"+i+".png")));
+
 				allPlayerImage.add(ImageIO.read(new File(ppList.get(i))));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
@@ -112,7 +110,7 @@ public class StaticValue {
 				allPlayerImage.add(ImageIO.read(new File(imagePath + "e" + i
 						+ ".png")));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
@@ -121,7 +119,7 @@ public class StaticValue {
 			try {
 				allObstructionImage.add(ImageIO.read(new File(obList.get(i))));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
@@ -131,7 +129,7 @@ public class StaticValue {
 				allItemImage.add(ImageIO.read(new File(imagePath + "it" + i
 						+ ".png")));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
@@ -141,7 +139,7 @@ public class StaticValue {
 				allBoomImage.add(ImageIO.read(new File(imagePath + "bo" + i
 						+ ".png")));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
@@ -151,7 +149,7 @@ public class StaticValue {
 				allBackGroundImage.add(ImageIO.read(new File(imagePath + "bg"
 						+ i + ".png")));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}

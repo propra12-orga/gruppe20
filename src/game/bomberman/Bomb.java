@@ -14,6 +14,10 @@ public class Bomb implements Runnable {
 	// Koordinaten
 	private int x;
 	private int y;
+
+	private int xlength = 5;
+	private int ylength = 5;
+
 	// Icon
 	private BufferedImage showImage;
 	/**
@@ -31,6 +35,23 @@ public class Bomb implements Runnable {
 	// private int effectivel;
 
 	// Getters Setters
+
+	public int getXlength() {
+		return xlength;
+	}
+
+	public void setXlength(int xlength) {
+		this.xlength = xlength;
+	}
+
+	public int getYlength() {
+		return ylength;
+	}
+
+	public void setYlength(int ylength) {
+		this.ylength = ylength;
+	}
+
 	public int getCountdown() {
 		return countdown;
 	}
