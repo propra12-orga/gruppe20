@@ -14,14 +14,13 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-@SuppressWarnings("serial")
 /**
- * Enthaelt Main Methode
- * Erzeugt Fenster mit bestimmter Groesse
+ * Enthaelt Main Methode Erzeugt Fenster mit bestimmter Groesse
  * 
  * @author timozjx, Yuankun, KingManuel
- *
+ * 
  */
+@SuppressWarnings("serial")
 public class MyFrame extends JFrame implements KeyListener, Runnable {
 	private Boolean doublePlayer = false;
 	private Boolean startGame = false;
