@@ -43,6 +43,13 @@ public class MapEditor extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			this.showimage[1] = ImageIO.read(new File(System
+					.getProperty("user.dir") + "/pics/" + "rock" + ".png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -54,7 +61,8 @@ public class MapEditor extends JFrame implements Runnable {
 		Graphics g2 = image.getGraphics();
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				g2.drawImage(showimage[0], 48 + 48 * i, 48 * j + 20, this);
+				g2.drawImage(showimage[map[i][j]], 48 + 48 * i, 48 * j + 20,
+						this);
 				g.drawImage(image, 0, 0, this);
 			}
 		}

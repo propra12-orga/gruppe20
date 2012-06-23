@@ -88,7 +88,7 @@ public class MyFrame extends JFrame implements KeyListener, Runnable {
 
 	public static void main(String[] args) {
 		new MyFrame();
-
+		// new MapEditor();
 	}
 
 	/**
