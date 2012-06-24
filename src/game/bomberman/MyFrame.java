@@ -16,15 +16,15 @@ import java.util.Random;
 import javax.media.CannotRealizeException;
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
 /**
- * Enthaelt Main Methode
- * Erzeugt Fenster mit bestimmter Groesse
+ * Enthaelt Main Methode Erzeugt Fenster mit bestimmter Groesse
  * 
  * @author timozjx, Yuankun, KingManuel
- *
+ * 
  */
+@SuppressWarnings("serial")
 public class MyFrame extends JPanel implements KeyListener, Runnable {
+
 	private Boolean doublePlayer = false;
 	private Boolean startGame = false;
 	private Boolean gameover = true;
@@ -99,6 +99,11 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		this.bb = bb;
 	}
 
+	public static void main(String[] args) {
+		// new MyFrame();
+
+	}
+
 	/**
 	 * Erzeugt Fenster mit bestimmter Groesse
 	 */
@@ -165,11 +170,12 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		g2.drawImage(this.nowBG.getBgImage(), 0, 20, this);
 
 		// Zeichne Items
-		/*
-		 * Iterator<Item> iteritem = this.nowBG.getAllItem().iterator(); while
-		 * (iteritem.hasNext()) { Item item = iteritem.next();
-		 * g2.drawImage(item.getShowImage(), item.getX(), item.getY(), this); }
-		 */
+
+		Iterator<Item> iteritem = this.nowBG.getAllItem().iterator();
+		while (iteritem.hasNext()) {
+			Item item = iteritem.next();
+			g2.drawImage(item.getShowImage(), item.getX(), item.getY(), this);
+		}
 
 		// Malen Obstruction
 		Iterator<Obstruction> iter = this.nowBG.getAllObstruction().iterator();
@@ -193,8 +199,8 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// this.drawBombs(g2, this.bombs, bb);
 		// this.drawBombs(g2, this.bombs2, bb2);
 
-		this.drawBombs(g2, this.bombs);
-		this.drawBombs(g2, this.bombs2);
+		this.drawBombs(g2, this.bombs, bb);
+		this.drawBombs(g2, this.bombs2, bb2);
 
 		// zeichne die Player in Spielfeld
 		if (bb != null)
@@ -228,13 +234,16 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		 */
 		int bbX = bb.getX();
 		int bbY = bb.getY();
-		List<int[]> area = this.ExplodeArea(bomb);
+		List<int[]> area = this.ExplodeArea(bomb, bb);
 		for (int[] a : area) {
 			if (bbX == a[0] && bbY == a[1])
 				flag = true;
-			this.PlaySound(MySound.dead, -1);
+
 		}
 
+		if (flag == true) {
+			this.PlaySound(MySound.dead, -1);
+		}
 		return flag;
 	}
 
@@ -288,16 +297,21 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * Zeichne Bomben und entferne Objekte im Exlposionsradius
 	 * 
 	 */
-	public void drawBombs(Graphics g2, Bomb[] bombs) {
+	public void drawBombs(Graphics g2, Bomb[] bombs, Player player) {
+
 		for (int i = 0; i < 4; i++) {
 			g2.drawImage(bombs[i].getShowImage(), bombs[i].getX(),
 					bombs[i].getY(), this);
 			// Zeichne Explosion
 			if (0 < bombs[i].getCountdown() & bombs[i].getCountdown() < 21) {
-				this.PlaySound(MySound.fire, -1);
+				if (bombs[i].getCountdown() == 20) {
+
+					this.PlaySound(MySound.fire, -1);
+				}
+
 				List<Obstruction> obstructions = this.nowBG.getAllObstruction();
 				// entferne die Obstruction
-				this.destoryObCheck(bombs[i], obstructions);
+				this.destoryObCheck(bombs[i], obstructions, player);
 				// invoke the mothod if kill player
 				this.bombChain(bombs[i]);
 				if (startGame) {
@@ -308,7 +322,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					if (f1) {
 
 						startGame = false;
-						// change the image , the player die-------------------
+						// change the image , the player die
 						if (bb2 != null)
 							logoString = "player2 win!";
 						else
@@ -344,37 +358,17 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 							 */
 						}
 						obstructions.remove(ob);
-						// Erzeuge Items wo Boxen verschwinden
-						int random = new Random().nextInt(100);
-						/*
-						 * if (random < 30) { // List<Item> items =
-						 * this.nowBG.getAllItem(); if (random < 15) {
-						 * items.add(new Item(ob.getX(), ob.getY(), 0)); } else
-						 * { items.add(new Item(ob.getX(), ob.getY(), 1)); } //
-						 * this.nowBG.setAllItem(items); }
-						 */
+
 					}
 
 				}
 
-				List<int[]> area = this.ExplodeArea(bombs[i]);
+				List<int[]> area = this.ExplodeArea(bombs[i], player);
 				for (int[] a : area) {
 					g2.drawImage(StaticValue.allBoomImage.get(2), a[0], a[1],
 							this);
 				}
 
-				/*
-				 * 
-				 * for (int j = 1; j <= player.getBombradius(); j++) {
-				 * g2.drawImage(StaticValue.allBoomImage.get(2),
-				 * bombs[i].getX(), bombs[i].getY() + j * 48, this);
-				 * g2.drawImage(StaticValue.allBoomImage.get(2),
-				 * bombs[i].getX(), bombs[i].getY() - j * 48, this);
-				 * g2.drawImage(StaticValue.allBoomImage.get(2), bombs[i].getX()
-				 * + j * 48, bombs[i].getY(), this);
-				 * g2.drawImage(StaticValue.allBoomImage.get(2), bombs[i].getX()
-				 * - j * 48, bombs[i].getY(), this); }
-				 */
 			}
 		}
 	}
@@ -395,7 +389,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 	}
 
-	private List<int[]> ExplodeArea(Bomb bomb) {
+	private List<int[]> ExplodeArea(Bomb bomb, Player player) {
 
 		/*
 		 * int a[] speichert die Koordinaten der Rechteck und den Radius vom
@@ -408,18 +402,19 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// pruefe jeder Richtung zu vermeiden die Sache hinter der Obstructions
 		// zu zerstoeren
 
-		// clockwise
-		this.ExplodeAreatiny(bomb, area, 0);
-		this.ExplodeAreatiny(bomb, area, 1);
-		this.ExplodeAreatiny(bomb, area, 2);
-		this.ExplodeAreatiny(bomb, area, 3);
+		// uhrzeigersinn
+		this.ExplodeAreatiny(bomb, area, 0, player);
+		this.ExplodeAreatiny(bomb, area, 1, player);
+		this.ExplodeAreatiny(bomb, area, 2, player);
+		this.ExplodeAreatiny(bomb, area, 3, player);
 
 		return area;
 	}
 
 	// pruefen die Bereichen vom Bomb,area ist die Einheit,
 	// wenn nicht hinter vom Stein,fuegen wir in List ein,explode
-	private void ExplodeAreatiny(Bomb bomb, List<int[]> area, int dir) {
+	private void ExplodeAreatiny(Bomb bomb, List<int[]> area, int dir,
+			Player player) {
 		List<Obstruction> obs = this.nowBG.getAllObstruction();
 		int x = bomb.getX();
 		int y = bomb.getY();
@@ -435,7 +430,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		/*
 		 * je zwei Richtung plus zentrale punkt deswegen (length-1)/2=2
 		 */
-		for (int i = 0; i <= (length - 1) / 2; i++) {
+		for (int i = 0; i <= length; i++) {//
 			int tempX = 0;
 			int tempY = 0;
 			if (dir == 0) {
@@ -472,8 +467,15 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		}
 	}
 
-	private void destoryObCheck(Bomb bomb, List<Obstruction> obs) {
-		List<int[]> area = this.ExplodeArea(bomb);
+	/**
+	 * entferne die Obstructions von List<Obstruction>
+	 * 
+	 * @param bomb
+	 * @param obs
+	 * @param player
+	 */
+	private void destoryObCheck(Bomb bomb, List<Obstruction> obs, Player player) {
+		List<int[]> area = this.ExplodeArea(bomb, player);
 		for (int a[] : area) {
 			for (Obstruction ob : obs) {
 				// 1 fuer box
@@ -482,11 +484,38 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				int obX = ob.getX();
 				int obY = ob.getY();
 
-				if (a[0] == obX && a[1] == obY)
+				if (a[0] == obX && a[1] == obY) {
 					ob.setRemove(true);
+
+					int random = new Random().nextInt(100);
+
+					if (random < 30) {
+						List<Item> items = this.nowBG.getAllItem();
+						if (random < 15) {
+							items.add(new Item(ob.getX(), ob.getY(), 0));
+						} else {
+							items.add(new Item(ob.getX(), ob.getY(), 1));
+						}
+						this.nowBG.setAllItem(items);
+					}
+
+				}
 			}
 		}
 
+	}
+
+	public void PickUpItem(Player player) {
+		int x = player.getX();
+		int y = player.getY();
+		for (int i = 0; i < this.nowBG.getAllItem().size(); i++) {
+			if (x == this.nowBG.getAllItem().get(i).getX()
+					&& y == this.nowBG.getAllItem().get(i).getY()) {
+
+				player.UseItem(this.nowBG.getAllItem().get(i).getType());
+				this.nowBG.getAllItem().remove(i);
+			}
+		}
 	}
 
 	/*
@@ -535,15 +564,19 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 			switch (direction) {
 			case 0:
 				bb.upmove();
+				PickUpItem(bb);
 				break;
 			case 1:
 				bb.rightmove();
+				PickUpItem(bb);
 				break;
 			case 2:
 				bb.downmove();
+				PickUpItem(bb);
 				break;
 			case 3:
 				bb.leftmove();
+				PickUpItem(bb);
 				break;
 			}
 
@@ -705,7 +738,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					int bombX = bomb.getX();
 					int bombY = bomb.getY();
 
-					this.destoryObCheck(bomb, obstructions);
+					this.destoryObCheck(bomb, obstructions, bb2);
 					this.repaint();
 
 				}
@@ -819,7 +852,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				bb2 = null;
 				int count = 50;
 				while (!startGame && count > 0) {
-					this.startGame = false;
+					// this.startGame = false;
 					Graphics g = this.getGraphics();
 					g.setColor(Color.blue);
 					g.setFont(new Font("Arial", Font.BOLD, 20));
@@ -827,29 +860,18 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					try {
 						Thread.sleep(100);
 						this.AusgangShow = false;
+
 						for (int i = 0; i < 4; i++) {
 							this.bombs[i].setCountdown(0);
 							this.bombs2[i].setCountdown(0);
 							this.bombs[i].Disappear();
 							this.bombs2[i].Disappear();
 						}
+
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 
-					for (int i = 0; i < 2; i++) {
-						if (this.bombs[i].getCountdown() > 0) {
-							this.bombs[i].Decreasecountdown();
-							if (this.bombs[i].getCountdown() == 20) {
-								this.bombs[i].Explode();
-							}
-							if (this.bombs[i].getCountdown() == 0) {
-								this.bombs[i].Disappear();
-							}
-
-						}
-
-					}
 					count--;
 				}
 

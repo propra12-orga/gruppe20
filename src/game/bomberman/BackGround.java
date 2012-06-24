@@ -32,6 +32,20 @@ public class BackGround {
 	private List<Obstruction> allObstruction = new ArrayList<Obstruction>();
 
 	/**
+	 * Speichert all Items
+	 */
+
+	private List<Item> allItem = new ArrayList<Item>();
+
+	public List<Item> getAllItem() {
+		return allItem;
+	}
+
+	public void setAllItem(List<Item> allItem) {
+		this.allItem = allItem;
+	}
+
+	/**
 	 * 
 	 * Get all obstruction
 	 */
@@ -84,49 +98,9 @@ public class BackGround {
 			ReadXML r = new ReadXML();
 
 			r.initObLocation();
-			/*
-			 * List<Integer> stoneX = r.getStoneX(); List<Integer> stoneY =
-			 * r.getStoneY(); List<Integer> boxX = r.getBoxX(); List<Integer>
-			 * boxY = r.getBoxY();
-			 */
+
 			List<Obstruction> obs = r.getObs();
 			this.allObstruction = obs;
-			/*
-			 * for (int i = 0; i < stoneX.size(); i++) { int x1 =
-			 * stoneX.get(i).intValue();
-			 * 
-			 * int y1 = stoneY.get(i).intValue(); Obstruction ob = new
-			 * Obstruction(x1, y1, 0); ob.setType(0);
-			 * this.allObstruction.add(ob);
-			 * 
-			 * }
-			 * 
-			 * 
-			 * for (int i = 0; i < boxX.size(); i++) {
-			 * 
-			 * int x1 = boxX.get(i).intValue(); int y1 = boxY.get(i).intValue();
-			 * if (x1 == 0 && y1 == 116) {
-			 * 
-			 * } else { Obstruction ob = new Obstruction(x1, y1, 1);
-			 * ob.setType(1); this.allObstruction.add(ob);
-			 * 
-			 * }
-			 * 
-			 * 
-			 * }
-			 * 
-			 * // Ausgang(Exit)
-			 * 
-			 * /* MyFrame.setAusgangX(392); MyFrame.setAusgangY(360);
-			 */
-			/*
-			 * int t[] = this.getRandom(); while (t[0] < 2 || t[1] < 2) { t =
-			 * this.getRandom(); }
-			 * 
-			 * MyFrame.setAusgangX(48 * ((t[0] * 2) - 1));
-			 * MyFrame.setAusgangY(48 * ((t[1] * 2) - 1) + 20); int temp1 = 48 *
-			 * ((t[0] * 2) - 1); int temp2 = 48 * ((t[1] * 2) - 1) + 20;
-			 */
 
 			List<Obstruction> box = new ArrayList<Obstruction>();
 			for (Obstruction ob : this.allObstruction) {
