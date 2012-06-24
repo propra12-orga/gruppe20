@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
  * verschiedene Arten. Items haben verschiedene Typen: 0:=erhoet
  * BombenKapazitaet um 1 1:=erhoet BombenRadius um 1
  * 
- * @author HC
+ * @author KingManuel
  * 
  */
 public class Item {

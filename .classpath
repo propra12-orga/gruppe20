@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/AbsoluteLayout.jar"/>
-<classpathentry kind="lib" path="lib/jdom.jar"/>
+	<classpathentry kind="lib" path="lib/jdom.jar"/>
+	<classpathentry kind="lib" path="C:/Users/timo/Workspaces/MyEclipse 10/Bomberman/lib/jmf2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
