@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ * @author timozjx
+ * 
+ */
+
 public class OnlineClient implements Runnable {
 	private String serverIP;
 	private int port = 9999;
@@ -13,6 +18,8 @@ public class OnlineClient implements Runnable {
 	private DataOutputStream dos;
 	private DataInputStream dis;
 	public boolean join = false;
+	public Process process;
+	public NewMyFrame newMF;
 
 	private ChooseMenu cm;
 	public NewMyFrame newmf;
@@ -21,6 +28,9 @@ public class OnlineClient implements Runnable {
 		cm = ObjectContainer.cm;
 	}
 
+	/**
+	 * Socket intialisieren client wird verbindet laut der ip Adresse
+	 */
 	public boolean connect(String serverIP) {
 		try {
 			System.out.println("IP:" + serverIP);
@@ -48,6 +58,12 @@ public class OnlineClient implements Runnable {
 		}
 	}
 
+	/**
+	 * wenn es kein Information eingelesen kann, stopp den Thread ,diese
+	 * Methoden wird aufgerufen in run-Methode
+	 * 
+	 * @return message
+	 */
 	public String read() {
 		String msg = null;
 		try {
@@ -88,14 +104,32 @@ public class OnlineClient implements Runnable {
 
 	}
 
+	/**
+	 * Der Client hat Aktion wenn es Information bekommen
+	 * 
+	 * @param str
+	 */
 	public void process(String str) {
 		if (str == null)
 			return;
 		if (str.equals("start")) {
 			System.out.println("game start");
 			cm.setVisible(false);
+			cm = null;
+			int temp[];
+			// online game
+			// die Koordinaten wird verwechselt
+			// fuer Client wir die Koordianten an der 384,452
+			// aber fuer Client die selbe is Player 1
+			temp = Config.point1;
+			Config.point1 = Config.point2;
+			Config.point2 = temp;
 			ObjectContainer.newmf = new NewMyFrame();
-
+			this.newmf = ObjectContainer.newmf;
+			newmf.jPanel1.netGame();
+			process = ObjectContainer.process;
+		} else {
+			process.getPlayerStatus(str);
 		}
 	}
 }

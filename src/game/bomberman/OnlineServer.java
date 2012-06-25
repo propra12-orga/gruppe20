@@ -13,6 +13,7 @@ public class OnlineServer implements Runnable {
 	private DataOutputStream dos;
 	private DataInputStream dis;
 	public boolean join = false;
+	public Process process;
 
 	public OnlineServer() {
 
@@ -57,6 +58,7 @@ public class OnlineServer implements Runnable {
 
 				e.printStackTrace();
 			}
+		// System.out.println("∂¡µΩ¡À" + msg);
 		return msg;
 	}
 
@@ -67,6 +69,18 @@ public class OnlineServer implements Runnable {
 			String msg = read();
 			if (msg != null) {
 				System.out.println("wir bekommen die Information " + msg);
+				process(msg);
+			}
+		}
+	}
+
+	public void process(String str) {
+		if (str.equals("join")) {
+			join = true;
+		} else {
+
+			if (process != null) {
+				process.getPlayerStatus(str);
 			}
 		}
 	}

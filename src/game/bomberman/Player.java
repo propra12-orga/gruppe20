@@ -1,6 +1,7 @@
 package game.bomberman;
 
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 /**
  * Plaer enthaelt Koordinaten x,y , ShowImage ist das momentan anzuzeigene Bild
@@ -12,6 +13,21 @@ import java.awt.image.BufferedImage;
  */
 public class Player implements Runnable {
 
+	private Bomb[] bombs;
+	private MyFrame mf;
+
+	private boolean isComputer = false;
+
+	private int lastDir = -1;
+
+	public boolean isComputer() {
+		return isComputer;
+	}
+
+	public void setComputer(boolean isComputer) {
+		this.isComputer = isComputer;
+	}
+
 	private Thread t;
 	// Koordinaten
 	private int x;
@@ -19,6 +35,16 @@ public class Player implements Runnable {
 	private BackGround nowBG;
 	// Gewonnen
 	private boolean flag = false;
+
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	// Geschwindigkeit
 	private int xmove = 0;
@@ -59,14 +85,13 @@ public class Player implements Runnable {
 
 	private int ymove = 0;
 
-	// MoveStatus von Player
-	private String status;
-
 	// Icon
 	protected BufferedImage showImage;
 
 	// Konstruktor
-	public Player(int x, int y, BackGround nowBG) {
+	public Player(int x, int y, BackGround nowBG, Bomb[] bombs, MyFrame mf) {
+		this.mf = mf;
+		this.bombs = bombs;
 		this.x = x;
 		this.y = y;
 		this.nowBG = nowBG;
@@ -244,4 +269,20 @@ public class Player implements Runnable {
 		}
 	}
 
+	public void randomMove() {
+		int oldX = this.x;
+		int oldY = this.y;
+		int direction = -2;
+		while (true) {
+			direction = new Random().nextInt(4);
+			if (direction != lastDir)
+				break;
+		}
+		mf.moveProcess(this, direction);
+		if (this.x == oldX && this.y == oldY) {
+			lastDir = direction;
+		} else {
+			lastDir = -1;
+		}
+	}
 }

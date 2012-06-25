@@ -7,13 +7,11 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import javax.media.CannotRealizeException;
 import javax.swing.JPanel;
 
 /**
@@ -25,7 +23,8 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class MyFrame extends JPanel implements KeyListener, Runnable {
 
-	private Boolean doublePlayer = false;
+	public boolean netGame = false;
+	public Boolean doublePlayer = false;
 	private Boolean startGame = false;
 	private Boolean gameover = true;
 	// the Ausgang object
@@ -37,7 +36,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	// if has winner or game over ,draw this string
 	private String logoString = "";
 	// the Ausgang location
-	private static int AusgangX = -100, AusgangY = -100;
+	protected static int AusgangX = -100, AusgangY = -100;
 
 	public Process process;
 	/**
@@ -47,10 +46,18 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	/**
 	 * aktuelles Level
 	 */
-	private BackGround nowBG = null;
+	protected BackGround nowBG = null;
 
 	// zur Zeit nicht benutzete isStart
 	// private boolean isStart = false;
+
+	public Bomb[] getBomb2() {
+		return bombs2;
+	}
+
+	public void setBomb2(Bomb[] bombs2) {
+		this.bombs2 = bombs2;
+	}
 
 	public static int getAusgangX() {
 		return AusgangX;
@@ -241,9 +248,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 		}
 
-		if (flag == true) {
-			this.PlaySound(MySound.dead, -1);
-		}
+		// if (flag == true) {
+		// this.PlaySound(MySound.dead, -1);
+		// }
 		return flag;
 	}
 
@@ -304,10 +311,10 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					bombs[i].getY(), this);
 			// Zeichne Explosion
 			if (0 < bombs[i].getCountdown() & bombs[i].getCountdown() < 21) {
-				if (bombs[i].getCountdown() == 20) {
-
-					this.PlaySound(MySound.fire, -1);
-				}
+				// if (bombs[i].getCountdown() == 20) {
+				//
+				// this.PlaySound(MySound.fire, -1);
+				// }
 
 				List<Obstruction> obstructions = this.nowBG.getAllObstruction();
 				// entferne die Obstruction
@@ -373,21 +380,21 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		}
 	}
 
-	private void PlaySound(String path, int status) {
-		try {
-			MySound.PlaySound(path, status);
-		} catch (CannotRealizeException e) {
-
-			e.printStackTrace();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-	}
+	// private void PlaySound(String path, int status) {
+	// try {
+	// MySound.PlaySound(path, status);
+	// } catch (CannotRealizeException e) {
+	//
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	//
+	// e.printStackTrace();
+	// } catch (Exception e) {
+	//
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	private List<int[]> ExplodeArea(Bomb bomb, Player player) {
 
@@ -591,45 +598,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	public void keyPressed(KeyEvent ke) {
 		// neue Start
 		if (ke.getKeyCode() == 112) {
-
-			startGame = true;
-			this.gameover = false;
-
-			this.AusgangShow = false;
-			// reloead
-
-			this.allBG.clear();
-			this.logoString = "";
-
-			for (int i = 1; i <= 5; i++) {
-
-				this.allBG.add(new BackGround(i, i == 5 ? true : false));
-				this.nowBG = this.allBG.get(0);
-				this.repaint();
-			}
-
-			this.bb = new Player(0, 68, this.nowBG);
-
-			if (doublePlayer == true)
-				this.bb2 = new Player(384, 452, this.nowBG);
-
-			int times = 15;
-			while (times > 0) {
-
-				Graphics g = this.getGraphics();
-				g.setColor(Color.blue);
-				g.setFont(new Font("Arial", Font.BOLD, 20));
-				g.drawString("let's go!", 200, 150);
-				this.repaint();
-				try {
-
-					Thread.sleep(100);
-
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				times--;
-			}
+			this.go();
 
 		}
 		// F2 2-Player mode
@@ -668,40 +637,52 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		if (ke.getKeyCode() == 39) {
 
 			this.moveProcess(bb, 1);
+			if (netGame) {
+				this.sendPlayerStatus(1);
+			}
 		}
 
 		if (ke.getKeyCode() == 37) {
 
 			this.moveProcess(bb, 3);
+			{
+				this.sendPlayerStatus(1);
+			}
 		}
 
 		if (ke.getKeyCode() == 40) {
 
 			this.moveProcess(bb, 2);
+			{
+				this.sendPlayerStatus(1);
+			}
 		}
 
 		if (ke.getKeyCode() == 38) {
 
 			this.moveProcess(bb, 0);
+			{
+				this.sendPlayerStatus(1);
+			}
 		}
 
 		// keyListener player2
 		if (ke.getKeyCode() == 68) {
-			if (bb2 != null) {
+			if (bb2 != null && !netGame) {
 				this.moveProcess(bb2, 1);
 			}
 		}
-		if (ke.getKeyCode() == 65) {
+		if (ke.getKeyCode() == 65 && !netGame) {
 			if (bb2 != null) {
 				this.moveProcess(bb2, 3);
 			}
 		}
-		if (ke.getKeyCode() == 83) {
+		if (ke.getKeyCode() == 83 && !netGame) {
 			if (bb2 != null) {
 				this.moveProcess(bb2, 2);
 			}
 		}
-		if (ke.getKeyCode() == 87) {
+		if (ke.getKeyCode() == 87 && !netGame) {
 			if (bb2 != null) {
 				this.moveProcess(bb2, 0);
 			}
@@ -726,6 +707,10 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		}
 		// 2 Player legt Bombe wenn er "j" drueckt
 		if (ke.getKeyCode() == 74 && bb2 != null) {
+			// computergame or netgame return kein Ausfuehren
+			if (bb2.isComputer() || netGame) {
+				return;
+			}
 			if (this.bombs2[bombcount2].getCountdown() == 0) {
 				Bomb bomb = this.bombs2[bombcount2];
 				this.bombs2[bombcount2].setX(this.bb2.getX());
@@ -899,4 +884,139 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		}
 	}
 
+	public void doublePlayer() {
+		if (doublePlayer == false) {
+			this.bb2 = new Player(0, 68, this.nowBG, bombs2, this);
+			this.repaint();
+			doublePlayer = true;
+		}
+	}
+
+	public void netGame() {
+		netGame = true;
+		doublePlayer();
+		go();
+		process = new Process();
+		ObjectContainer.process = process;
+	}
+
+	public void go() {
+
+		// Mysound.stop();
+		// this.PlaySound(Mysound.bg, -1);
+
+		this.gameover = false;
+
+		this.AusgangShow = false;
+		// reloead
+
+		this.allBG.clear();
+		// init bomb
+		this.bombs[0] = new Bomb(0, -200, 0);
+		this.bombs[1] = new Bomb(0, -200, 0);
+		this.bombs2[0] = new Bomb(0, -200, 0);
+		this.bombs2[1] = new Bomb(0, -200, 0);
+		this.logoString = "";
+
+		for (int i = 1; i <= 5; i++) {
+
+			this.allBG.add(new BackGround(i, i == 5 ? true : false));
+			this.nowBG = this.allBG.get(0);
+			this.repaint();
+		}
+
+		if (doublePlayer == true) {
+			// fuer Player2
+			int x2 = Config.point2[0];
+			int y2 = Config.point2[1];
+			this.bb2 = new Player(x2, y2, this.nowBG, bombs2, this);
+
+			this.repaint();
+		}
+		int x1 = Config.point1[0];
+		int y1 = Config.point1[1];
+		this.bb = new Player(x1, y1, this.nowBG, bombs, this);
+		// hier senden wir die Koordinaten wenn oline game ist
+		if (ObjectContainer.olserver != null) {
+			this.sendPlayerStatus(2);
+		}
+		int times = 15;
+		while (times > 0) {
+
+			Graphics g = this.getGraphics();
+			g.setColor(Color.blue);
+			g.setFont(new Font("Arial", Font.BOLD, 20));
+			g.drawString("let's go!", 200, 150);
+			this.repaint();
+			try {
+
+				Thread.sleep(100);
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			times--;
+		}
+		startGame = true;
+		// f1 fuer new game
+		/*
+		 * if (Config.select == 1) { getBb().setX(0); getBb().setY(212 - 48); }
+		 */
+	}
+
+	public game.bomberman.Player getBb2() {
+		return bb2;
+	}
+
+	public void setBb2(game.bomberman.Player bb2) {
+		this.bb2 = bb2;
+	}
+
+	// Informationen senden,Type 0 fuer Bomb Type 1 fuer Koordinaten der Player
+	public void sendPlayerStatus(int type) {
+		// wenn nicht online game return
+		if (ObjectContainer.olserver == null
+				&& ObjectContainer.olclient == null) {
+			return;
+		}
+		int s = 0;
+		if (bb.getX() < 0)
+			bb.setX(0);
+		if (bb.getX() > 432)
+			bb.setX(432);
+		if (bb.getY() < 24)
+			bb.setY(24);
+		if (bb.getY() > 452)
+			bb.setY(452);
+		int b1X = this.bombs[0].getX();
+		int b1Y = this.bombs[0].getY();
+		int b2X = this.bombs[1].getX();
+		int b2Y = this.bombs[1].getY();
+		String str = "";
+		if (type == 1) {
+			str = "1x:" + bb.getX() + "_y:" + bb.getY() + "_s:"
+					+ bb.getStatus() + "_b1:" + b1X + "|" + b1Y + "_b2:" + b2X
+					+ "|" + b2Y;
+
+		} else if (type == 0) {
+			str = "0x:" + bombs[0].getX() + "_y:" + bombs[0].getY() + "x:"
+					+ bombs[1].getX() + "_y:" + bombs[1].getY();
+
+		} else if (type == 2) {
+			// fuer Ausgang koordinaten
+			str = "2x:" + this.AusgangX + "_y:" + this.AusgangY;
+
+		}
+		System.out.println("send msg£º" + str);
+
+		if (ObjectContainer.olclient != null) {
+			ObjectContainer.olclient.send(str);
+		}
+		if (ObjectContainer.olserver != null) {
+
+			ObjectContainer.olserver.send(str);
+
+		}
+
+	}
 }
