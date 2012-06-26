@@ -315,6 +315,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				//
 				// this.PlaySound(MySound.fire, -1);
 				// }
+				if (bombs[i].getCountdown() < 5) {
+					bombs[i].setY(-200);
+				}
 
 				List<Obstruction> obstructions = this.nowBG.getAllObstruction();
 				// entferne die Obstruction
@@ -697,6 +700,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				Bomb bomb = this.bombs[bombcount];
 				this.bombs[bombcount].setX(this.bb.getX());
 				this.bombs[bombcount].setY(this.bb.getY());
+				this.sendPlayerStatus(0);
 
 				this.bombs[bombcount].setCountdown(70);
 				this.bombs[bombcount].setShowImage(StaticValue.allBoomImage
