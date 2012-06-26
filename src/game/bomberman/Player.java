@@ -156,7 +156,7 @@ public class Player implements Runnable {
 		this.ymove = -48;
 		// change the status
 		y += ymove;
-		this.status = "up--standing";
+		this.status = "up--moving";
 	}
 
 	public void upstop() {
@@ -171,7 +171,7 @@ public class Player implements Runnable {
 		this.ymove = 48;
 		// change the status
 		y += ymove;
-		this.status = "down--standing";
+		this.status = "down--moving";
 	}
 
 	public void downstop() {
@@ -238,11 +238,11 @@ public class Player implements Runnable {
 			}
 			// nach oben
 			if (this.status.indexOf("up") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(0);
+				this.showImage = StaticValue.allPlayerImage.get(4);
 			}
 			// nach unten
 			if (this.status.indexOf("down") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(4);
+				this.showImage = StaticValue.allPlayerImage.get(0);
 			}
 
 			// Figur soll nicht den Spielberreich verlassen

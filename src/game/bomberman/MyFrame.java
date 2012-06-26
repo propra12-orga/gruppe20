@@ -203,9 +203,6 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// Malen BufferImage in Fenster(Frame)
 
 		// zeichne die Bomben
-		// this.drawBombs(g2, this.bombs, bb);
-		// this.drawBombs(g2, this.bombs2, bb2);
-
 		this.drawBombs(g2, this.bombs, bb);
 		this.drawBombs(g2, this.bombs2, bb2);
 
@@ -727,7 +724,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					int bombX = bomb.getX();
 					int bombY = bomb.getY();
 
-					this.destoryObCheck(bomb, obstructions, bb2);
+					// this.destoryObCheck(bomb, obstructions, bb2);
 					this.repaint();
 
 				}
@@ -755,11 +752,11 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 			this.bb.leftstop();
 		}
 
-		if (ke.getKeyCode() == 40) {
+		if (ke.getKeyCode() == 38) {
 			this.bb.upstop();
 		}
 
-		if (ke.getKeyCode() == 38) {
+		if (ke.getKeyCode() == 40) {
 			this.bb.downstop();
 		}
 	}
