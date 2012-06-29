@@ -258,7 +258,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * @param bomb2
 	 * @param bomb
 	 */
-	public void ifbombOverlay(Bomb bomb2, Bomb bomb) {
+	public void ifbombOverlay(Bomb bomb2, Bomb bomb, Player player) {
 		int bombX = bomb.getX();
 		int bombY = bomb.getY();
 		int b2X = bomb2.getX();
@@ -267,16 +267,20 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		/*
 		 * pruefen ob der zweite Bomb in der Radius vom erste Bomb
 		 */
-		if ((bombX - 48 * 2 < b2X + 2 && b2X < bombX + 48 * 3 - 5 && (b2Y < bombY + 2
-				&& bombY + 2 <= b2Y + 45 || (bombY + 45 < b2Y + 45 && bombY + 35 > b2Y)))
-				|| (bombY - 48 * 3 < b2Y && b2Y < bombY + 48 * 3 - 5 && (b2X < bombX + 2
-						&& bombX + 2 <= b2X + 45 || (bombX + 45 < b2X + 45 && bombX + 35 > b2X)))) {
+		if (player != null) {
+			if ((bombX - 48 * player.getBombradius() < b2X + 2
+					&& b2X < bombX + 48 * player.getBombradius() + 5 && (b2Y < bombY + 2
+					&& bombY + 2 <= b2Y + 45 || (bombY + 45 < b2Y + 45 && bombY + 35 > b2Y)))
+					|| (bombY - 48 * player.getBombradius() <= b2Y
+							&& b2Y < bombY + 48 * player.getBombradius() + 5 && (b2X < bombX + 2
+							&& bombX + 2 <= b2X + 45 || (bombX + 45 < b2X + 45 && bombX + 35 > b2X)))) {
 
-			if (bomb2.getCountdown() != 0 && bomb2.getCountdown() > 20) {
-				bomb2.setCountdown(20);
-				bomb2.Explode();
+				if (bomb2.getCountdown() != 0 && bomb2.getCountdown() > 20) {
+					bomb2.setCountdown(20);
+					bomb2.Explode();
+				}
+
 			}
-
 		}
 
 	}
@@ -286,12 +290,12 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * 
 	 * @param toExplode
 	 */
-	public void bombChain(Bomb toExplode) {
+	public void bombChain(Bomb toExplode, Player player) {
 		Bomb[] allbombs = { bombs[0], bombs[1], bombs[2], bombs[3], bombs2[0],
 				bombs2[1], bombs2[2], bombs2[3] };
 		for (Bomb b : allbombs) {
 			if (b != toExplode)
-				this.ifbombOverlay(b, toExplode);
+				this.ifbombOverlay(b, toExplode, player);
 
 		}
 
@@ -304,7 +308,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	public void drawBombs(Graphics g2, Bomb[] bombs, Player player) {
 		for (int i = 0; i < 4; i++) {
 			if (bombs[i].getCountdown() == 20) {
-				this.bombChain(bombs[i]);
+				this.bombChain(bombs[i], player);
 			}
 		}
 		for (int i = 0; i < 4; i++) {
