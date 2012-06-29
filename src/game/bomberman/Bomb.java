@@ -1,6 +1,7 @@
 package game.bomberman;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 /**
  * Jede Bombe besitzt Koordinaten einen Countdown der immer herunterzaehlt wenn
@@ -27,14 +28,21 @@ public class Bomb implements Runnable {
 	 */
 	private int countdown;
 
-	// effektiver Explosionsradius oben, unten, rechts, links
-
-	// private int effectiveu;
-	// private int effectived;
-	// private int effectiver;
-	// private int effectivel;
+	/**
+	 * effektiver Explosionsradius oben, unten, rechts, links
+	 * 
+	 */
+	List<int[]> area;
 
 	// Getters Setters
+
+	public List<int[]> getArea() {
+		return area;
+	}
+
+	public void setArea(List<int[]> area) {
+		this.area = area;
+	}
 
 	public int getXlength() {
 		return xlength;

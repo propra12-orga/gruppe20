@@ -74,10 +74,20 @@ public class Obstruction {
 		this.y = y;
 	}
 
+	/**
+	 * Obstruction haben 3 Typen; 0: Stein-unzerstoerbar; 1:Box-zerstoerbar;
+	 * 2:Ausgang(Tuer)
+	 * 
+	 */
 	public int getType() {
 		return type;
 	}
 
+	/**
+	 * Obstruction haben 3 Typen; 0: Stein-unzerstoerbar; 1:Box-zerstoerbar;
+	 * 2:Ausgang(Tuer)
+	 * 
+	 */
 	public void setType(int type) {
 		this.type = type;
 	}

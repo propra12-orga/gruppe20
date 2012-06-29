@@ -302,7 +302,11 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * 
 	 */
 	public void drawBombs(Graphics g2, Bomb[] bombs, Player player) {
-
+		for (int i = 0; i < 4; i++) {
+			if (bombs[i].getCountdown() == 20) {
+				this.bombChain(bombs[i]);
+			}
+		}
 		for (int i = 0; i < 4; i++) {
 			g2.drawImage(bombs[i].getShowImage(), bombs[i].getX(),
 					bombs[i].getY(), this);
@@ -313,14 +317,15 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				// this.PlaySound(MySound.fire, -1);
 				// }
 				if (bombs[i].getCountdown() < 5) {
-					bombs[i].setY(-200);
+					bombs[i].setY(-600);
 				}
 
 				List<Obstruction> obstructions = this.nowBG.getAllObstruction();
 				// entferne die Obstruction
-				this.destoryObCheck(bombs[i], obstructions, player);
-				// invoke the mothod if kill player
-				this.bombChain(bombs[i]);
+				if (bombs[i].getCountdown() == 20) {
+					this.destoryObCheck(bombs[i], obstructions, player);
+				}
+
 				if (startGame) {
 					boolean f1 = false;
 					if (bb != null)
@@ -347,6 +352,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 							logoString = "Game over !";
 					}
 				}
+				if (bombs[i].getCountdown() == 20) {
+					bombs[i].setArea(this.ExplodeArea(bombs[i], player));
+				}
 				obstructions = this.nowBG.getAllObstruction();
 				for (int a = 0; a < obstructions.size(); a++) {
 					Obstruction ob = this.nowBG.getAllObstruction().get(a);
@@ -364,20 +372,21 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 							 * + "aus" + this.AusgangY);
 							 */
 						}
+
 						obstructions.remove(ob);
 
 					}
 
 				}
 
-				List<int[]> area = this.ExplodeArea(bombs[i], player);
-				for (int[] a : area) {
+				for (int[] a : bombs[i].getArea()) {
 					g2.drawImage(StaticValue.allBoomImage.get(2), a[0], a[1],
 							this);
 				}
 
 			}
 		}
+		// hier auslagern
 	}
 
 	// private void PlaySound(String path, int status) {
@@ -409,7 +418,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// pruefe jeder Richtung zu vermeiden die Sache hinter der Obstructions
 		// zu zerstoeren
 
-		// uhrzeigersinn
+		// uhrzeigersinn 0=oben, 1=rechts, 2=unten, 3=links
 		this.ExplodeAreatiny(bomb, area, 0, player);
 		this.ExplodeAreatiny(bomb, area, 1, player);
 		this.ExplodeAreatiny(bomb, area, 2, player);
@@ -427,16 +436,23 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		int y = bomb.getY();
 
 		int length = 0;
-		if (dir == 1 || dir == 3)
-			length = bomb.getXlength();
-		else if (dir == 0 || dir == 2)
-			length = bomb.getYlength();
+		if (dir == 1 || dir == 3) {
+			if (player != null) {
+				length = player.getBombradius();
+			}
+		} else if (dir == 0 || dir == 2) {
+			if (player != null) {
+				length = player.getBombradius();
+			}
+		}
 
 		boolean mark = true;
+		boolean mark2 = true;
 
 		/*
 		 * je zwei Richtung plus zentrale punkt deswegen (length-1)/2=2
 		 */
+
 		for (int i = 0; i <= length; i++) {//
 			int tempX = 0;
 			int tempY = 0;
@@ -456,7 +472,22 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 			for (Obstruction ob : obs) {
 
-				// wenn steine
+				// wenn boxen
+				if (mark) {
+
+					if (ob.getType() == 1) {
+
+						if (ob.getX() == tempX && ob.getY() == tempY) {
+							// wenn obstruction break
+							mark = false;
+							int a[] = { tempX, tempY };
+							area.add(a);
+
+							break;
+
+						}
+					}
+				}// wenn steine
 				if (ob.getType() == 0) {
 					if (ob.getX() == tempX && ob.getY() == tempY) {
 						// wenn obstruction break
@@ -464,13 +495,15 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 						break;
 					}
 				}
-			}
 
+			}
 			if (mark) {
 				int a[] = { tempX, tempY };
 				area.add(a);
-			} else
-				break;// schleifen anhalten
+			} else {
+				break;
+			}
+			// schleifen anhalten
 		}
 	}
 
