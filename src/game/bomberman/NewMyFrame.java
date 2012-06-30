@@ -11,8 +11,8 @@ public class NewMyFrame extends javax.swing.JFrame {
 	private ClickAction ca;
 
 	/** Creates new form myFrameTest */
-	public NewMyFrame() {
-		initComponents();
+	public NewMyFrame(String level) {
+		initComponents(level);
 		this.setVisible(true);
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -21,9 +21,9 @@ public class NewMyFrame extends javax.swing.JFrame {
 		this.jPanel1.requestFocus();
 	}
 
-	private void initComponents() {
+	private void initComponents(String level) {
 
-		jPanel1 = new MyFrame();
+		jPanel1 = new MyFrame(level);
 		ca = new ClickAction(jPanel1, this);
 		menuBar = new javax.swing.JMenuBar();
 		fileMenu = new javax.swing.JMenu();

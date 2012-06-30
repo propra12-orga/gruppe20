@@ -1,6 +1,5 @@
 package game.bomberman;
 
-
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,7 +51,7 @@ public class EndMenu extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Yes")) {
 			this.yes = true;
-			new MyFrame();
+			new MyFrame("obstruction.xml");
 		}
 
 		if (e.getActionCommand().equals("No")) {

@@ -35,7 +35,7 @@ public class ClickAction implements ActionListener {
 		} else if (e.getActionCommand().equals("load game")) {
 			Config.select = 1;
 			newmf.setVisible(false);
-			NewMyFrame newmf = new NewMyFrame();
+			NewMyFrame newmf = new NewMyFrame("obstruction.xml");
 			newmf.setLocationRelativeTo(null);
 			newmf.setVisible(true);
 			newmf.jPanel1.requestFocus();
@@ -43,13 +43,13 @@ public class ClickAction implements ActionListener {
 		} else if (e.getActionCommand().equals("new game")) {
 			Config.select = 0;
 			newmf.setVisible(false);
-			NewMyFrame newmf = new NewMyFrame();
+			NewMyFrame newmf = new NewMyFrame("obstruction.xml");
 			newmf.setLocationRelativeTo(null);
 			newmf.setVisible(true);
 			newmf.jPanel1.requestFocus();
 		} else if (e.getActionCommand().equals("computer game")) {
 			newmf.setVisible(false);
-			NewMyFrame newmf = new NewMyFrame();
+			NewMyFrame newmf = new NewMyFrame("obstruction.xml");
 			newmf.setLocationRelativeTo(null);
 			newmf.setVisible(true);
 			newmf.jPanel1.requestFocus();

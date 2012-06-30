@@ -118,13 +118,13 @@ public class ReadXML {
 	/**
 	 * initialisire die Koordinaten der Obstruction
 	 */
-	public void initObLocation() {
+	public void initObLocation(String level) {
 
 		SAXBuilder sb = new SAXBuilder();
 		Document doc = null;
 		try {
 			doc = sb.build(ReadXML.class.getClassLoader().getResourceAsStream(
-					"obstruction.xml"));
+					level));
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

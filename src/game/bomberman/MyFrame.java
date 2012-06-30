@@ -29,6 +29,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	private Boolean gameover = true;
 	// the Ausgang object
 	private Obstruction Ausgang = null;
+	private String level;
 	/**
 	 * Der Ausgang wird sichtbar wenn true
 	 */
@@ -115,8 +116,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * Erzeugt Fenster mit bestimmter Groesse
 	 */
 
-	public MyFrame() {
+	public MyFrame(String level) {
 
+		this.level = level;
 		// Fenster
 		// this.setTitle("Bombermann");
 		this.setSize(480, 550);
@@ -131,7 +133,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// Bilden allen Senze
 		for (int i = 1; i <= 5; i++) {
 
-			this.allBG.add(new BackGround(i, i == 5 ? true : false));
+			this.allBG.add(new BackGround(level));
 		}
 
 		// Setzen Senz(1) als angesichte Senze
@@ -904,7 +906,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 				for (int i = 1; i <= 5; i++) {
 
-					this.allBG.add(new BackGround(i, i == 5 ? true : false));
+					this.allBG.add(new BackGround(level));
 					this.nowBG = this.allBG.get(0);
 					this.repaint();
 				}
@@ -958,7 +960,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 		for (int i = 1; i <= 5; i++) {
 
-			this.allBG.add(new BackGround(i, i == 5 ? true : false));
+			this.allBG.add(new BackGround(level));
 			this.nowBG = this.allBG.get(0);
 			this.repaint();
 		}

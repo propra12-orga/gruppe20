@@ -219,13 +219,13 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 				System.out.println("double game");
 				main.setVisible(false);
 				main = null;
-				NewMyFrame doublegame = new NewMyFrame();
+				NewMyFrame doublegame = new NewMyFrame("obstruction.xml");
 				doublegame.jPanel1.doublePlayer = true;
 
 			} else if (e.getActionCommand().equals("single game")) {
 				main.setVisible(false);
 				main = null;
-				new NewMyFrame();
+				new NewMyFrame("Level1");
 			} else if (e.getActionCommand().equals("online game")) {
 
 				main.jButton1.setVisible(false);
@@ -268,7 +268,7 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 				olserver.send("start");
 				main.setVisible(false);
 
-				newmf = new NewMyFrame();
+				newmf = new NewMyFrame("obstruction.xml");
 				ObjectContainer.newmf = newmf;
 				newmf.jPanel1.netGame();
 				// die Methoden in Server aufzurufen
