@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
  * Items werden zufällig erzeugt wenn eine Box zerstoert wird. Tritt ein Spieler
  * auf ein offen liegendes Item verschwindet es und veraendert den Spieler auf
  * verschiedene Arten. Items haben verschiedene Typen: 0:=erhoet
- * BombenKapazitaet um 1 1:=erhoet BombenRadius um 1
+ * BombenKapazitaet um 1 1:=erhoet BombenRadius um 1, 2:=durch Wände laufen
  * 
  * @author KingManuel
  * 
@@ -20,7 +20,7 @@ public class Item {
 
 	/**
 	 * Um welche Art von Item handelt es sich? 0:=BombCapacity Up 1:=BombRadius
-	 * Up
+	 * Up, 2:=durch Wände laufen
 	 * 
 	 */
 	private int type;
@@ -61,7 +61,7 @@ public class Item {
 	 * Items werden zufällig erzeugt wenn eine Box zerstoert wird. Tritt ein
 	 * Spieler auf ein offen liegendes Item verschwindet es und veraendert den
 	 * Spieler auf verschiedene Arten. Items haben verschiedene Typen: 0:=erhoet
-	 * BombenKapazitaet um 1 1:=erhoet BombenRadius um 1
+	 * BombenKapazitaet um 1 1:=erhoet BombenRadius um 1, 2:=durch Wände laufen
 	 * 
 	 * @param x
 	 *            Koordinaten

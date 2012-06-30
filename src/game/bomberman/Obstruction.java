@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 
 /**
  * 
- * Obstruction haben 3 Typen; 0: Stein-unzerstoerbar; 1:Box-zerstoerbar;
- * 2:Ausgang(Tuer)
+ * Obstruction haben 3 Typen; 1: Stein-unzerstoerbar; 2:Box-zerstoerbar;
+ * 3:Ausgang(Tuer)
  * 
  * @author tomozjx, yuankun
  * 
@@ -30,8 +30,8 @@ public class Obstruction {
 	}
 
 	/**
-	 * Obstruction haben 3 Typen; 0: Stein-unzerstoerbar; 1:Box-zerstoerbar;
-	 * 2:Ausgang(Tuer)
+	 * Obstruction haben 3 Typen; 1: Stein-unzerstoerbar; 2:Box-zerstoerbar;
+	 * 3:Ausgang(Tuer)
 	 * 
 	 */
 	private int type;
@@ -75,8 +75,8 @@ public class Obstruction {
 	}
 
 	/**
-	 * Obstruction haben 3 Typen; 0: Stein-unzerstoerbar; 1:Box-zerstoerbar;
-	 * 2:Ausgang(Tuer)
+	 * Obstruction haben 3 Typen; 1: Stein-unzerstoerbar; 2:Box-zerstoerbar;
+	 * 3:Ausgang(Tuer)
 	 * 
 	 */
 	public int getType() {
@@ -84,8 +84,8 @@ public class Obstruction {
 	}
 
 	/**
-	 * Obstruction haben 3 Typen; 0: Stein-unzerstoerbar; 1:Box-zerstoerbar;
-	 * 2:Ausgang(Tuer)
+	 * Obstruction haben 3 Typen; 1: Stein-unzerstoerbar; 2:Box-zerstoerbar;
+	 * 3:Ausgang(Tuer)
 	 * 
 	 */
 	public void setType(int type) {
