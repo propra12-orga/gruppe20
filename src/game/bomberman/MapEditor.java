@@ -115,12 +115,12 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 
 	public void save() {
 		String savePath = System.getProperty("user.dir") + "/src/";
-		File file = new File(savePath + "RandomMap.xml");
+		File file = new File(savePath + "Mapeditor.xml");
 		try {
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			FileWriter fw = new FileWriter(file);
+
 			// als XML speichern
 			String s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
 			s = s + "<config>\r\n";
@@ -140,7 +140,10 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 				}
 			}
 			s = s + "</config>";
-			fw.write(s + "\r\n");
+			FileWriter fw = new FileWriter(file);
+			fw.write(s);
+			fw.write("f");
+			System.out.println(file.canWrite());
 			System.out.println(s);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
