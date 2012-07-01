@@ -61,20 +61,8 @@ public class Player implements Runnable {
 	 * Anzahl der Bomben die der Spieler auf einmal legen kann
 	 */
 	private int bombcapacity;
-	/**
-	 * Der Spieler kann durdch Boxen laufen wenn true
-	 */
-	private boolean walkthroughboxes;
 
 	// Getters Setters
-
-	public boolean isWalkthroughboxes() {
-		return walkthroughboxes;
-	}
-
-	public void setWalkthroughboxes(boolean walkthroughboxes) {
-		this.walkthroughboxes = walkthroughboxes;
-	}
 
 	public void setX(int x) {
 		this.x = x;
@@ -124,7 +112,6 @@ public class Player implements Runnable {
 		this.showImage = StaticValue.allPlayerImage.get(0);
 		this.bombradius = 1;
 		this.bombcapacity = 3;
-		this.walkthroughboxes = false;
 		t = new Thread(this);
 		t.start();
 
@@ -241,9 +228,6 @@ public class Player implements Runnable {
 			if (this.bombradius < 10) {
 				this.bombradius++;
 			}
-		}
-		if (type == 2) {
-			this.walkthroughboxes = true;
 		}
 	}
 
