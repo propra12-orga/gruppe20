@@ -46,7 +46,7 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 		this.setLocation((width - 480) / 2, (height - 480) / 2);
 		this.setResizable(false);
 		// Beende das Pragramm bei Schliessen des Spielfelds
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// sichtbar
 		this.setVisible(true);
 		try {
@@ -142,7 +142,7 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 			s = s + "</config>";
 			FileWriter fw = new FileWriter(file);
 			fw.write(s);
-			fw.write("f");
+			fw.close();
 			System.out.println(file.canWrite());
 			System.out.println(s);
 		} catch (IOException e) {

@@ -88,8 +88,11 @@ public class BackGround {
 		 * die Steine Koordinaten von XML einlesen
 		 */
 		ReadXML r = new ReadXML();
-
-		r.initObLocation(level);
+		if (Config.select == 2) {
+			r.initObLocation("Mapeditor.xml");
+		} else {
+			r.initObLocation();
+		}
 
 		List<Obstruction> obs = r.getObs();
 		this.allObstruction = obs;

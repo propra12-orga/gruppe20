@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 	public boolean netGame = false;
-	public Boolean doublePlayer = false;
+	public static Boolean doublePlayer = false;
 	private Boolean startGame = false;
 	private Boolean gameover = true;
 	// the Ausgang object
@@ -116,7 +116,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * Erzeugt Fenster mit bestimmter Groesse
 	 */
 
-	public MyFrame(String level) {
+	public MyFrame() {
 
 		this.level = level;
 		// Fenster

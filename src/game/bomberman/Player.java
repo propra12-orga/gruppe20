@@ -1,7 +1,10 @@
 package game.bomberman;
 
+import game.bomberman.thing.Thing;
+
 import java.awt.image.BufferedImage;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Plaer enthaelt Koordinaten x,y , ShowImage ist das momentan anzuzeigene Bild
@@ -12,6 +15,8 @@ import java.util.Random;
  * 
  */
 public class Player implements Runnable {
+
+	public List<Thing> things = new ArrayList<Thing>();
 
 	private Bomb[] bombs;
 	private MyFrame mf;
@@ -100,7 +105,16 @@ public class Player implements Runnable {
 	// Icon
 	protected BufferedImage showImage;
 
-	// Konstruktor
+	/**
+	 * Konstruktor
+	 * 
+	 * @param x
+	 *            Koordinaten des Speilers
+	 * @param y
+	 * @param nowBG
+	 * @param bombs
+	 * @param mf
+	 */
 	public Player(int x, int y, BackGround nowBG, Bomb[] bombs, MyFrame mf) {
 		this.mf = mf;
 		this.bombs = bombs;
@@ -211,7 +225,8 @@ public class Player implements Runnable {
 
 	/**
 	 * Wenn type==0 wird Bombenkapazitaet um 1 erhoet Wenn type==1 wird
-	 * Bombenradius um 1 erhoet
+	 * Bombenradius um 1 erhoet, wenn type==2 kann man durch Waende gehen
+	 * (walkthroughwalls=true)
 	 * 
 	 * @param type
 	 */
@@ -234,15 +249,8 @@ public class Player implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		while (true) {
 			flag = false;
-
-			/*
-			 * x += xmove;
-			 * 
-			 * y += ymove;
-			 */
 			// Status Image siehen Sie bitte in StaticValue.java
 			// nach links
 			if (this.status.indexOf("left") == 0) {
@@ -262,43 +270,39 @@ public class Player implements Runnable {
 			}
 
 			// Figur soll nicht den Spielberreich verlassen
-			if (this.x < 0)
-				x = 0;
-			if (this.x > 432)
-				x = 432;
-			if (this.y < 24)
-				y = 20;
-			if (this.y > 452)
-				y = 452;
-
-			/*
-			 * if (this.x <= 240 && this.y <= 308 && this.x >= 192 && this.y >=
-			 * 260) { flag = true; this.reset(); new EndMenu(); }
-			 */
-
+			// if (this.x < 0)
+			// x = 0;
+			// if (this.x > 432)
+			// x = 432;
+			// if (this.y < 24)
+			// y = 20;
+			// if (this.y > 452)
+			// y = 452;
 			try {
-				Thread.sleep(50);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			for (int i = 0; i < things.size(); i++) {
+				things.get(i).affect();
 			}
 		}
 	}
 
-	public void randomMove() {
-		int oldX = this.x;
-		int oldY = this.y;
-		int direction = -2;
-		while (true) {
-			direction = new Random().nextInt(4);
-			if (direction != lastDir)
-				break;
-		}
-		mf.moveProcess(this, direction);
-		if (this.x == oldX && this.y == oldY) {
-			lastDir = direction;
-		} else {
-			lastDir = -1;
-		}
-	}
+	// public void randomMove() {
+	// int oldX = this.x;
+	// int oldY = this.y;
+	// int direction = -2;
+	// while (true) {
+	// direction = new Random().nextInt(4);
+	// if (direction != lastDir)
+	// break;
+	// }
+	// mf.moveProcess(this, direction);
+	// if (this.x == oldX && this.y == oldY) {
+	// lastDir = direction;
+	// } else {
+	// lastDir = -1;
+	// }
+	// }
 }

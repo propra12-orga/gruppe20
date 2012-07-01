@@ -124,7 +124,7 @@ public class OnlineClient implements Runnable {
 			temp = Config.point1;
 			Config.point1 = Config.point2;
 			Config.point2 = temp;
-			ObjectContainer.newmf = new NewMyFrame("obstruction.xml");
+			ObjectContainer.newmf = new NewMyFrame();
 			this.newmf = ObjectContainer.newmf;
 			newmf.jPanel1.netGame();
 			process = ObjectContainer.process;

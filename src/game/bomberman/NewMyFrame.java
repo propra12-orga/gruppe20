@@ -1,8 +1,11 @@
 package game.bomberman;
 
+import java.awt.Color;
 import java.awt.Toolkit;
 
 /**
+ * Erzeugt Fenster in dem das Spielfeld erzeugt wird. Ausserdem wird eine
+ * Highscore angezeigt und es gibt auswaehlbare Optionen im Menubar.
  * 
  * @author tiomzjx
  */
@@ -10,9 +13,14 @@ public class NewMyFrame extends javax.swing.JFrame {
 
 	private ClickAction ca;
 
-	/** Creates new form myFrameTest */
-	public NewMyFrame(String level) {
-		initComponents(level);
+	/**
+	 * Creates new form myFrameTest
+	 * 
+	 * @param Level
+	 *            -String : Pfad der XML Datei des einzulesenden Levels
+	 * */
+	public NewMyFrame() {
+		initComponents();
 		this.setVisible(true);
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -21,13 +29,20 @@ public class NewMyFrame extends javax.swing.JFrame {
 		this.jPanel1.requestFocus();
 	}
 
-	private void initComponents(String level) {
+	private void initComponents() {
 
-		jPanel1 = new MyFrame(level);
+		side = new SidePanel();
+		new Thread(side).start();
+		side.setSize(88, 450);
+		side.setBackground(new Color(238, 238, 238));
+		side.setLocation(490, 35);
+		this.add(side);
+
+		jPanel1 = new MyFrame();
 		ca = new ClickAction(jPanel1, this);
 		menuBar = new javax.swing.JMenuBar();
 		fileMenu = new javax.swing.JMenu();
-		openMenuItem = new javax.swing.JMenuItem();
+		playEditorMapMenuItem = new javax.swing.JMenuItem();
 		saveMenuItem = new javax.swing.JMenuItem();
 		saveAsMenuItem = new javax.swing.JMenuItem();
 		exitMenuItem = new javax.swing.JMenuItem();
@@ -39,7 +54,7 @@ public class NewMyFrame extends javax.swing.JFrame {
 		contentsMenuItem = new javax.swing.JMenuItem();
 		aboutMenuItem = new javax.swing.JMenuItem();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		// setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
 				jPanel1);
@@ -53,12 +68,12 @@ public class NewMyFrame extends javax.swing.JFrame {
 
 		fileMenu.setText("File");
 
-		openMenuItem.setText("Open");
-		openMenuItem
+		playEditorMapMenuItem.setText("PlayEditorMap");
+		playEditorMapMenuItem
 				.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
 					public void menuKeyPressed(
 							javax.swing.event.MenuKeyEvent evt) {
-						openMenuItemMenuKeyPressed(evt);
+						playEditorMapMenuItemMenuKeyPressed(evt);
 					}
 
 					public void menuKeyReleased(
@@ -68,20 +83,22 @@ public class NewMyFrame extends javax.swing.JFrame {
 					public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
 					}
 				});
-		fileMenu.add(openMenuItem);
+		fileMenu.add(playEditorMapMenuItem);
 
-		saveMenuItem.setText("Save");
+		saveMenuItem.setText("save");
+		saveMenuItem.addActionListener(ca);
+		fileMenu.add(saveMenuItem);
 
 		fileMenu.add(saveMenuItem);
 
 		saveAsMenuItem.setText("Save as...");
-		saveAsMenuItem.addActionListener(ca);
-		fileMenu.add(saveAsMenuItem);
+		// saveAsMenuItem.addActionListener(ca);
+		// fileMenu.add(saveAsMenuItem);
 
 		exitMenuItem.setText("Exit");
 		exitMenuItem.addKeyListener(new java.awt.event.KeyAdapter() {
 			public void keyPressed(java.awt.event.KeyEvent evt) {
-				exitMenuItemKeyPressed(evt);
+				System.exit(0);
 			}
 		});
 		fileMenu.add(exitMenuItem);
@@ -98,7 +115,7 @@ public class NewMyFrame extends javax.swing.JFrame {
 		newGame.addActionListener(ca);
 		edit.add(newGame);
 
-		computerModul.setText("computer Game");
+		computerModul.setText("monster Game");
 		computerModul.addActionListener(ca);
 		edit.add(computerModul);
 
@@ -146,7 +163,8 @@ public class NewMyFrame extends javax.swing.JFrame {
 	}// </editor-fold>
 		// GEN-END:initComponents
 
-	private void openMenuItemMenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
+	private void playEditorMapMenuItemMenuKeyPressed(
+			javax.swing.event.MenuKeyEvent evt) {
 		// TODO add your handling code here:
 	}
 
@@ -162,23 +180,6 @@ public class NewMyFrame extends javax.swing.JFrame {
 		// TODO add your handling co
 	}
 
-	/**
-	 * @param args
-	 *            the command line arguments
-	 */
-	// public static void main(String args[]) {
-	// java.awt.EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// NewMyFrame newMF = new NewMyFrame();
-	// newMF.setVisible(true);
-	// newMF.jPanel1.requestFocus();
-	//
-	// }
-	// });
-	// }
-
-	// GEN-BEGIN:variables
-	// Variables declaration - do not modify
 	private javax.swing.JMenuItem aboutMenuItem;
 	private javax.swing.JMenuItem computerModul;
 	private javax.swing.JMenuItem contentsMenuItem;
@@ -190,10 +191,11 @@ public class NewMyFrame extends javax.swing.JFrame {
 	private javax.swing.JMenuItem loadGame;
 	private javax.swing.JMenuBar menuBar;
 	private javax.swing.JMenuItem newGame;
-	private javax.swing.JMenuItem openMenuItem;
+	private javax.swing.JMenuItem playEditorMapMenuItem;
 	private javax.swing.JMenuItem saveAsMenuItem;
 	private javax.swing.JMenuItem saveMenuItem;
 	MyFrame jPanel1;
+	SidePanel side;
 	// End of variables declaration//GEN-END:variables
 
 }

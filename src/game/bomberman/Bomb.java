@@ -7,7 +7,7 @@ import java.util.List;
  * Jede Bombe besitzt Koordinaten einen Countdown der immer herunterzaehlt wenn
  * er ueber 0 ist
  * 
- * @author HC
+ * @author KingManuel, Timozjx, YuanKun
  * 
  */
 public class Bomb implements Runnable {
@@ -96,6 +96,9 @@ public class Bomb implements Runnable {
 		this.countdown = countdown - 1;
 	}
 
+	/**
+	 * Setze Bombimage auf explodierende Bombe
+	 */
 	public void Explode() {
 
 		this.showImage = StaticValue.allBoomImage.get(1);

@@ -13,16 +13,18 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 
 /**
+ * Enthaelt Main Methode. Erstellt Fenster mit Hauptmenu.
  * 
- * @author timozjx
+ * @author timozjx,kingManuel
  */
 
 public class ChooseMenu extends javax.swing.JFrame implements Runnable {
-
+	/**
+	 * Erstellt Fenster mit Hauptmenu.
+	 */
 	public ChooseMenu() {
 		initComponents();
 		this.setSize(480, 550);
@@ -34,12 +36,16 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 
 	private ClickAction ck;
 
+	/**
+	 * Initialisiert Objekte die fuer den Aufbau des Fensters benoetigt werden.
+	 */
 	private void initComponents() {
 
 		jPanel1 = new javax.swing.JPanel();
 		jButton1 = new javax.swing.JButton();
 		jButton2 = new javax.swing.JButton();
 		jButton3 = new javax.swing.JButton();
+		jButton4 = new javax.swing.JButton();
 		ck = new ClickAction();
 		jButton3.addActionListener(ck);
 		menuBar = new javax.swing.JMenuBar();
@@ -49,11 +55,6 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 		saveAsMenuItem = new javax.swing.JMenuItem();
 
 		exitMenuItem = new javax.swing.JMenuItem();
-		editMenu = new javax.swing.JMenu();
-		cutMenuItem = new javax.swing.JMenuItem();
-		copyMenuItem = new javax.swing.JMenuItem();
-		pasteMenuItem = new javax.swing.JMenuItem();
-		deleteMenuItem = new javax.swing.JMenuItem();
 		helpMenu = new javax.swing.JMenu();
 		contentsMenuItem = new javax.swing.JMenuItem();
 
@@ -64,6 +65,8 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 		jButton2.setText("single game");
 		jButton2.addActionListener(new ClickAction());
 		jButton3.setText("online game");
+		jButton4.setText("MapEditor");
+		jButton4.addActionListener(new ClickAction());
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
 				jPanel1);
@@ -82,20 +85,19 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 																javax.swing.GroupLayout.Alignment.LEADING)
 														.addComponent(jButton3)
 														.addComponent(jButton1)
-														.addComponent(jButton2))
+														.addComponent(jButton2)
+														.addComponent(jButton4))
 										.addContainerGap(215, Short.MAX_VALUE)));
 		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
 				jPanel1Layout.createSequentialGroup().addGap(184, 184, 184)
 						.addComponent(jButton2).addGap(18, 18, 18)
 						.addComponent(jButton1).addGap(18, 18, 18)
-						.addComponent(jButton3)
+						.addComponent(jButton3).addGap(18, 18, 18)
+						.addComponent(jButton4)
 						.addContainerGap(156, Short.MAX_VALUE)));
 
 		fileMenu.setText("start menu");
-		JMenuItem open = new JMenuItem("load game");
-		open.addActionListener(new ClickAction());
-		fileMenu.add(open);
 		openMenuItem.setText("new Server");
 		openMenuItem.addActionListener(new ClickAction());
 		fileMenu.add(openMenuItem);
@@ -108,8 +110,6 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 		saveAsMenuItem.addActionListener(new ClickAction());
 		saveAsMenuItem.setEnabled(false);
 		fileMenu.add(saveAsMenuItem);
-		JMenuItem save = new JMenuItem("save");
-		fileMenu.add(save);
 
 		exitMenuItem.setText("Exit");
 		exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -120,22 +120,6 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 		fileMenu.add(exitMenuItem);
 
 		menuBar.add(fileMenu);
-
-		editMenu.setText("Edit");
-
-		cutMenuItem.setText("Cut");
-		editMenu.add(cutMenuItem);
-
-		copyMenuItem.setText("Copy");
-		editMenu.add(copyMenuItem);
-
-		pasteMenuItem.setText("Paste");
-		editMenu.add(pasteMenuItem);
-
-		deleteMenuItem.setText("Delete");
-		editMenu.add(deleteMenuItem);
-
-		menuBar.add(editMenu);
 
 		helpMenu.setText("Help");
 
@@ -166,6 +150,8 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 	}
 
 	/**
+	 * Main Methode des Programms
+	 * 
 	 * @param args
 	 *            the command line arguments
 	 */
@@ -182,20 +168,16 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 	}
 
 	private javax.swing.JMenuItem contentsMenuItem;
-	private javax.swing.JMenuItem copyMenuItem;
-	private javax.swing.JMenuItem cutMenuItem;
-	private javax.swing.JMenuItem deleteMenuItem;
-	private javax.swing.JMenu editMenu;
 	private javax.swing.JMenuItem exitMenuItem;
 	private javax.swing.JMenu fileMenu;
 	private javax.swing.JMenu helpMenu;
 	private javax.swing.JButton jButton1;
 	private javax.swing.JButton jButton2;
 	private javax.swing.JButton jButton3;
+	private javax.swing.JButton jButton4;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JMenuBar menuBar;
 	private javax.swing.JMenuItem openMenuItem;
-	private javax.swing.JMenuItem pasteMenuItem;
 	private javax.swing.JMenuItem saveAsMenuItem;
 	private javax.swing.JMenuItem saveMenuItem;
 	private static ChooseMenu main;
@@ -213,26 +195,30 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Graphics g = main.jPanel1.getGraphics();
-			if (e.getActionCommand().equals("load game")) {
-
-			} else if (e.getActionCommand().equals("double game")) {
+			if (e.getActionCommand().equals("double game")) {
 				System.out.println("double game");
-				main.setVisible(false);
-				main = null;
-				NewMyFrame doublegame = new NewMyFrame("obstruction.xml");
+				// main.setVisible(false);
+				// main = null;
+				NewMyFrame doublegame = new NewMyFrame();
 				doublegame.jPanel1.doublePlayer = true;
 
 			} else if (e.getActionCommand().equals("single game")) {
-				main.setVisible(false);
-				main = null;
-				new NewMyFrame("Level1");
+				main.setVisible(true);
+				// /main = null;
+				new NewMyFrame();
+
 			} else if (e.getActionCommand().equals("online game")) {
 
-				main.jButton1.setVisible(false);
-				main.jButton2.setVisible(false);
-				main.jButton3.setVisible(false);
+				// main.jButton1.setVisible(false);
+				// main.jButton2.setVisible(false);
+				// main.jButton3.setVisible(false);
+				// main.jButton4.setVisible(false);
 				dia = new inputDialog();
 				dia.setVisible(true);
+			} else if (e.getActionCommand().equals("MapEditor")) {
+				main.setVisible(true);
+
+				new MapEditor();
 
 			} else if (e.getActionCommand().equals("confirm")) {
 				dia.setVisible(false);
@@ -251,9 +237,9 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 				olserver = new OnlineServer();
 				ObjectContainer.olserver = olserver;
 				new Thread(olserver).start();
-				main.jButton1.setVisible(false);
-				main.jButton2.setVisible(false);
-				main.jButton3.setVisible(false);
+				// main.jButton1.setVisible(false);
+				// main.jButton2.setVisible(false);
+				// main.jButton3.setVisible(false);
 				wait = true;
 
 				new Thread(main).start();
@@ -268,7 +254,7 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 				olserver.send("start");
 				main.setVisible(false);
 
-				newmf = new NewMyFrame("obstruction.xml");
+				newmf = new NewMyFrame();
 				ObjectContainer.newmf = newmf;
 				newmf.jPanel1.netGame();
 				// die Methoden in Server aufzurufen
@@ -283,9 +269,18 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 		}
 	}
 
+	/**
+	 * Fragt IP Adresse des Servers ab. Erstellt Eingabefenster.
+	 * 
+	 * @author timo
+	 * 
+	 */
 	class inputDialog extends Dialog {
 		public JTextField t;
 
+		/**
+		 * Fragt IP Adresse des Servers ab. Erstellt Eingabefenster.
+		 */
 		public inputDialog() {
 			super(ChooseMenu.this, true);
 			this.setLayout(new FlowLayout());
