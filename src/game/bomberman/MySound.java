@@ -7,6 +7,12 @@ import javax.media.CannotRealizeException;
 import javax.media.Manager;
 import javax.media.MediaLocator;
 
+/**
+ * verwaltet die Geraeusche die waehrend des Spiels abgespielt werden
+ * 
+ * @author timo
+ * 
+ */
 public class MySound {
 	public static javax.media.Player player = null;
 

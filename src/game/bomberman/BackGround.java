@@ -22,11 +22,6 @@ public class BackGround {
 	private boolean flag;
 
 	/**
-	 * Speichert alle Gegner
-	 */
-	private List<Enemy> allEnemy = new ArrayList<Enemy>();
-
-	/**
 	 * Speichert alle Gegenstaende
 	 */
 	private List<Obstruction> allObstruction = new ArrayList<Obstruction>();
@@ -54,11 +49,6 @@ public class BackGround {
 	}
 
 	/**
-	 * Speichert alle vernichteten Gegner
-	 */
-	private List<Enemy> removedEnemy = new ArrayList<Enemy>();
-
-	/**
 	 * Speichert alle zerstoerten Gegenstaende
 	 */
 	private List<Obstruction> removedObstruction = new ArrayList<Obstruction>();
@@ -72,7 +62,7 @@ public class BackGround {
 	 * @param flag
 	 *            Level wird sichtbar wenn true
 	 */
-	public BackGround(/* int sort, boolean flag, */String level) {
+	public BackGround(int sort, boolean flag) {
 
 		// this.sort = sort;
 		// this.flag = flag;

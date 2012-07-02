@@ -31,12 +31,14 @@ public class NewMyFrame extends javax.swing.JFrame {
 
 	private void initComponents() {
 
-		side = new SidePanel();
-		new Thread(side).start();
-		side.setSize(88, 450);
-		side.setBackground(new Color(238, 238, 238));
-		side.setLocation(490, 35);
-		this.add(side);
+		if (!Config.netGame && !MyFrame.doublePlayer) {
+			side = new SidePanel();
+			new Thread(side).start();
+			side.setSize(88, 450);
+			side.setBackground(new Color(238, 238, 238));
+			side.setLocation(490, 35);
+			this.add(side);
+		}
 
 		jPanel1 = new MyFrame();
 		ca = new ClickAction(jPanel1, this);
@@ -91,7 +93,11 @@ public class NewMyFrame extends javax.swing.JFrame {
 
 		fileMenu.add(saveMenuItem);
 
-		saveAsMenuItem.setText("Save as...");
+		loadGame.setText("load Game");
+		loadGame.addActionListener(ca);
+		fileMenu.add(loadGame);
+
+		// saveAsMenuItem.setText("Save as...");
 		// saveAsMenuItem.addActionListener(ca);
 		// fileMenu.add(saveAsMenuItem);
 
@@ -105,25 +111,21 @@ public class NewMyFrame extends javax.swing.JFrame {
 
 		menuBar.add(fileMenu);
 
-		edit.setText("Edit");
+		// edit.setText("Edit");
 
-		loadGame.setText("load Game");
-		loadGame.addActionListener(ca);
-		edit.add(loadGame);
-
-		newGame.setText("new Game");
-		newGame.addActionListener(ca);
-		edit.add(newGame);
-
-		computerModul.setText("monster Game");
-		computerModul.addActionListener(ca);
-		edit.add(computerModul);
+		// newGame.setText("new Game");
+		// newGame.addActionListener(ca);
+		// edit.add(newGame);
+		//
+		// computerModul.setText("monster Game");
+		// computerModul.addActionListener(ca);
+		// edit.add(computerModul);
 
 		menuBar.add(edit);
 
 		helpMenu.setText("Help");
 
-		contentsMenuItem.setText("Contents");
+		contentsMenuItem.setText("Help Contents");
 		helpMenu.add(contentsMenuItem);
 
 		aboutMenuItem.setText("About");
@@ -132,7 +134,7 @@ public class NewMyFrame extends javax.swing.JFrame {
 				aboutMenuItemActionPerformed(evt);
 			}
 		});
-		helpMenu.add(aboutMenuItem);
+		// helpMenu.add(aboutMenuItem);
 
 		menuBar.add(helpMenu);
 

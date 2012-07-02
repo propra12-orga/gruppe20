@@ -7,11 +7,15 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
+import javax.media.CannotRealizeException;
 import javax.swing.JPanel;
 
 /**
@@ -22,8 +26,20 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class MyFrame extends JPanel implements KeyListener, Runnable {
+	public Vector<Monster> vc = new Vector<Monster>();
+
+	public Vector<Monster> getVc() {
+		return vc;
+	}
+
+	public void setVc(Vector<Monster> vc) {
+		this.vc = vc;
+	}
 
 	public boolean netGame = false;
+	/**
+	 * es gibt einen 2. Spieler wenn true
+	 */
 	public static Boolean doublePlayer = false;
 	private Boolean startGame = false;
 	private Boolean gameover = true;
@@ -133,7 +149,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// Bilden allen Senze
 		for (int i = 1; i <= 5; i++) {
 
-			this.allBG.add(new BackGround(level));
+			this.allBG.add(new BackGround(i, i == 5 ? true : false));
 		}
 
 		// Setzen Senz(1) als angesichte Senze
@@ -156,6 +172,40 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// sichtbar
 		this.setVisible(true);
 
+	}
+
+	/**
+	 * Zeichne Lebens Items
+	 * 
+	 * @param g
+	 */
+	public void drawThing(Graphics g) {
+		if (Config.bomb != null) {
+			BufferedImage bf = StaticValue.allObstructionImage.get(4);
+			g.drawImage(bf, Config.bomb.getX(), Config.bomb.getY(), this);
+		}
+		if (Config.life != null) {
+			BufferedImage bf = StaticValue.allItemImage.get(3);
+			g.drawImage(bf, Config.life.getX(), Config.life.getY(), this);
+		}
+	}
+
+	// public void drawRecoder(Graphics g) {
+	// g.setColor(Color.RED);
+	// g.drawString("1", 450, 300);
+	// }
+	/**
+	 * Zeichne Monster
+	 * 
+	 * @param g
+	 */
+	public void drawMonster(Graphics g) {
+		for (Monster mon : this.vc) {
+			int x = mon.getX();
+			int y = mon.getY();
+			if (mon.getShowImage() != null && x != 0 && y != 0)
+				g.drawImage(StaticValue.allEnemyImage.get(0), x, y, this);
+		}
 	}
 
 	/**
@@ -191,11 +241,18 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 		while (iter.hasNext()) {
 			Obstruction ob = iter.next();
-			if (ob.getType() == 3 && !AusgangShow) {
+			if (ob.getType() == 3) {
 
 				this.Ausgang = ob;
-				this.Ausgang.setX(-100);
-				this.Ausgang.setY(-100);
+
+				if (!Config.AusgangShow) {
+					this.Ausgang.setX(-100);
+					this.Ausgang.setY(-100);
+
+				} else if (Config.AusgangShow) {
+					this.Ausgang.setX(Config.dx);
+					this.Ausgang.setY(Config.dy);
+				}
 
 			}
 			g2.drawImage(ob.getShowImage(), ob.getX(), ob.getY(), this);
@@ -224,6 +281,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 		g.setColor(new Color(238, 238, 238));
 		g.fillRect(0, 0, 480, 20);
+		this.drawMonster(g);
+
+		this.drawThing(g);
 	}
 
 	/**
@@ -234,7 +294,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 */
 	public boolean ifKillplayer(Player bb, Bomb bomb) {
 		boolean flag = false;
-		/*
+		/**
 		 * int bombX = bomb.getX(); int bombY = bomb.getY(); int obX =
 		 * bb.getX(); int obY = bb.getY();
 		 */
@@ -242,14 +302,90 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		int bbY = bb.getY();
 		List<int[]> area = this.ExplodeArea(bomb, bb);
 		for (int[] a : area) {
-			if (bbX == a[0] && bbY == a[1])
-				flag = true;
+			if (bbX == a[0] && bbY == a[1]) {
+				if (TimeCounter.time1 == 0) {
+					bb.setLife(bb.getLife() - 1);
+					this.PlaySound(MySound.dead, -1);
+				}
+				if (TimeCounter.time1 == 0 && TimeCounter.time2 == 0) {
+					TimeCounter.time1 = Calendar.getInstance()
+							.getTimeInMillis();
+					TimeCounter.time2 = Calendar.getInstance()
+							.getTimeInMillis();
 
+				} else {
+					if (TimeCounter.time1 - TimeCounter.time2 > 0)
+						TimeCounter.time2 = Calendar.getInstance()
+								.getTimeInMillis();
+					else
+						TimeCounter.time1 = Calendar.getInstance()
+								.getTimeInMillis();
+				}
+				if (Math.abs(TimeCounter.time1 - TimeCounter.time2) > 1000) {
+					bb.setLife(bb.getLife() - 1);
+					this.PlaySound(MySound.dead, -1);
+
+					bb.setShowImage(StaticValue.allPlayerImage.get(2));
+				}
+
+				if (bb.getLife() <= 0) {
+					flag = true;
+
+				}
+			}
 		}
 
 		// if (flag == true) {
 		// this.PlaySound(MySound.dead, -1);
 		// }
+		return flag;
+	}
+
+	/**
+	 * Entfernt Monster wenn es von Bombe getroffen wird
+	 * 
+	 * @param bomb
+	 * @param vc
+	 * @param player
+	 */
+	public void ifKillMonster(Bomb bomb, Vector<Monster> vc, Player player) {
+		List<int[]> area = this.ExplodeArea(bomb, player);
+		for (int a[] : area) {
+			for (int i = 0; i < vc.size(); i++) {
+				int x = vc.get(i).getX();
+				int y = vc.get(i).getY();
+				if (a[0] == x && a[1] == y) {
+
+					vc.remove(i);
+					i--;
+					Config.existMonster--;
+
+					Temp.currentGrade += 10;
+				}
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param bb
+	 * @param vc
+	 * @return boolean true wenn Player von einem Monster beruehrt wird
+	 */
+	public boolean isKilledByMonster(Player bb, Vector<Monster> vc) {
+		boolean flag = false;
+		for (Monster mon : vc) {
+			int x = mon.getX();
+			int y = mon.getY();
+			if (bb != null) {
+
+				if (bb.getX() == x && bb.getY() == y) {
+					flag = true;
+				}
+
+			}
+
+		}
 		return flag;
 	}
 
@@ -318,10 +454,10 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					bombs[i].getY(), this);
 			// Zeichne Explosion
 			if (0 < bombs[i].getCountdown() & bombs[i].getCountdown() < 21) {
-				// if (bombs[i].getCountdown() == 20) {
-				//
-				// this.PlaySound(MySound.fire, -1);
-				// }
+				if (bombs[i].getCountdown() == 20) {
+
+					this.PlaySound(MySound.fire, -1);
+				}
 				if (bombs[i].getCountdown() < 5) {
 					bombs[i].setY(-600);
 				}
@@ -331,7 +467,8 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				if (bombs[i].getCountdown() == 20) {
 					this.destoryObCheck(bombs[i], obstructions, player);
 				}
-
+				this.ifKillMonster(bombs[i], this.vc, player);
+				this.bombChain(bombs[i], player);
 				if (startGame) {
 					boolean f1 = false;
 					if (bb != null)
@@ -340,6 +477,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					if (f1) {
 
 						startGame = false;
+						Config.startGame = startGame;
 						// change the image , the player die
 						if (bb2 != null)
 							logoString = "player2 win!";
@@ -352,26 +490,26 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					if (f2) {
 						// System.out.println("----------------true2");
 						startGame = false;
+						Config.startGame = startGame;
 						if (bb != null)
 							logoString = "player1 win!";
 						else
 							logoString = "Game over !";
 					}
 				}
-				if (bombs[i].getCountdown() == 20) {
-					bombs[i].setArea(this.ExplodeArea(bombs[i], player));
-				}
+				// if (bombs[i].getCountdown() == 20) {
+				// bombs[i].setArea(this.ExplodeArea(bombs[i], player));
+				// }
 				obstructions = this.nowBG.getAllObstruction();
 				for (int a = 0; a < obstructions.size(); a++) {
 					Obstruction ob = this.nowBG.getAllObstruction().get(a);
 
 					if (ob != null && ob.isRemove()) {
 
-						if (ob.getX() == this.AusgangX
-								&& ob.getY() == this.AusgangY) {
+						if (ob.getX() == Config.dx && ob.getY() == Config.dy) {
 							Ausgang.setX(ob.getX());
 							Ausgang.setY(ob.getY());
-							this.AusgangShow = true;
+							Config.AusgangShow = true;
 							/*
 							 * System.out.println(Ausgang.getX() + "door" +
 							 * Ausgang.getY()); System.out.println(this.AusgangX
@@ -385,32 +523,49 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 				}
 
-				for (int[] a : bombs[i].getArea()) {
+				// for (int[] a : bombs[i].getArea()) {
+				// g2.drawImage(StaticValue.allBoomImage.get(2), a[0], a[1],
+				// this);
+				// }
+				List<int[]> area = this.ExplodeArea(bombs[i], player);
+				for (int[] a : area) {
 					g2.drawImage(StaticValue.allBoomImage.get(2), a[0], a[1],
 							this);
 				}
-
 			}
 		}
 		// hier auslagern
 	}
 
-	// private void PlaySound(String path, int status) {
-	// try {
-	// MySound.PlaySound(path, status);
-	// } catch (CannotRealizeException e) {
-	//
-	// e.printStackTrace();
-	// } catch (IOException e) {
-	//
-	// e.printStackTrace();
-	// } catch (Exception e) {
-	//
-	// e.printStackTrace();
-	// }
-	//
-	// }
+	/**
+	 * Spielt Sounddatei ab
+	 * 
+	 * @param path
+	 * @param status
+	 */
+	private void PlaySound(String path, int status) {
+		try {
+			MySound.PlaySound(path, status);
+		} catch (CannotRealizeException e) {
 
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param bomb
+	 * @param player
+	 * @return List<int> mit Koordinaten der Felder in der die Bombe explodieren
+	 *         soll
+	 */
 	private List<int[]> ExplodeArea(Bomb bomb, Player player) {
 
 		/*
@@ -433,8 +588,15 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		return area;
 	}
 
-	// pruefen die Bereichen vom Bomb,area ist die Einheit,
-	// wenn nicht hinter vom Stein,fuegen wir in List ein,explode
+	/**
+	 * pruefen die Bereichen vom Bomb,area ist die Einheit, wenn nicht hinter
+	 * vom Stein,fuegen wir in List ein,explode
+	 * 
+	 * @param bomb
+	 * @param area
+	 * @param dir
+	 * @param player
+	 */
 	private void ExplodeAreatiny(Bomb bomb, List<int[]> area, int dir,
 			Player player) {
 		List<Obstruction> obs = this.nowBG.getAllObstruction();
@@ -453,10 +615,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		}
 
 		boolean mark = true;
-		boolean mark2 = true;
 
-		/*
-		 * je zwei Richtung plus zentrale punkt deswegen (length-1)/2=2
+		/**
+		 * prueft nach Objekten in angegebener Richtung
 		 */
 
 		for (int i = 0; i <= length; i++) {//
@@ -514,7 +675,8 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	}
 
 	/**
-	 * entferne die Obstructions von List<Obstruction>
+	 * entferne die Obstructions von List<Obstruction> generiere zufaellig Items
+	 * an Stelle der zerstoerten Objekte
 	 * 
 	 * @param bomb
 	 * @param obs
@@ -553,6 +715,12 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 	}
 
+	/**
+	 * wenn der spieler ueber ein item laeuft veraendern sich variablen des
+	 * Spielers und das item verschwindet
+	 * 
+	 * @param player
+	 */
 	public void PickUpItem(Player player) {
 		int x = player.getX();
 		int y = player.getY();
@@ -570,6 +738,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * Beim Bewegen wird diese Methoden aufgerufen
 	 */
 	public void moveProcess(Player bb, int direction) {
+		System.out.println(direction);
 		List<Obstruction> obstructions = nowBG.getAllObstruction();
 
 		boolean flag = true;
@@ -583,16 +752,22 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 		switch (direction) {
 		case 0:
-			mY -= 48;
+
+			bb.setStatus("up");
+			mY -= bb.getSpeed();
+			System.out.println(mY);
 			break;
 		case 1:
-			mX += 48;
+			bb.setStatus("right");
+			mX += bb.getSpeed();
 			break;
 		case 2:
-			mY += 48;
+			bb.setStatus("down");
+			mY += bb.getSpeed();
 			break;
 		case 3:
-			mX -= 48;
+			bb.setStatus("left");
+			mX -= bb.getSpeed();
 			break;
 		}
 
@@ -610,7 +785,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				}
 			}
 		}
-
+		System.out.println(flag);
 		if (flag) {
 			switch (direction) {
 			case 0:
@@ -618,16 +793,90 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				PickUpItem(bb);
 				break;
 			case 1:
+				System.out.println("right move");
 				bb.rightmove();
 				PickUpItem(bb);
 				break;
 			case 2:
+				System.out.println("down move");
 				bb.downmove();
 				PickUpItem(bb);
 				break;
 			case 3:
 				bb.leftmove();
 				PickUpItem(bb);
+				break;
+			}
+
+		}
+	}
+
+	/*
+	 * Beim Bewegen wird diese Methoden aufgerufen
+	 */
+	public void moveProcess(Monster bb, int direction) {
+		List<Obstruction> obstructions = nowBG.getAllObstruction();
+
+		boolean flag = true;
+		/*
+		 * temporaere varieable wenn der Player bewegen wird, die Koordinaten
+		 * der Players und die Koordinaten der Obstructions nicht ueberlappend
+		 * dann wir der Player echt bewegt flag default true
+		 */
+		int mX = bb.getX();
+		int mY = bb.getY();
+
+		switch (direction) {
+		case 0:
+
+			bb.setStatus("up");
+			mY -= bb.getSpeed();
+			break;
+		case 1:
+			bb.setStatus("right");
+			mX += bb.getSpeed();
+			break;
+		case 2:
+			bb.setStatus("down");
+			mY += bb.getSpeed();
+			break;
+		case 3:
+			bb.setStatus("left");
+			mX -= bb.getSpeed();
+			break;
+		}
+
+		// wenn Ooobstruction tuer ist,dann darf hrein
+		for (Obstruction ob : obstructions) {
+			if (ob.getType() != 3) {
+				if (ob.getType() == 0 || (ob.getType() == 1)) {
+					int obX = ob.getX();
+					int obY = ob.getY();
+					if (mX == obX && mY == obY) {
+						flag = false;
+						break;
+					}
+				}
+			}
+		}
+
+		if (flag) {
+			switch (direction) {
+			case 0:
+				bb.upmove();
+
+				break;
+			case 1:
+				bb.rightmove();
+
+				break;
+			case 2:
+				bb.downmove();
+
+				break;
+			case 3:
+				bb.leftmove();
+
 				break;
 			}
 
@@ -743,6 +992,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				this.bombs[bombcount].setY(this.bb.getY());
 				this.sendPlayerStatus(0);
 
+				this.PlaySound(MySound.bombSet, -1);
 				this.bombs[bombcount].setCountdown(70);
 				this.bombs[bombcount].setShowImage(StaticValue.allBoomImage
 						.get(0));
@@ -753,25 +1003,26 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// 2 Player legt Bombe wenn er "j" drueckt
 		if (ke.getKeyCode() == 74 && bb2 != null) {
 			// computergame or netgame return kein Ausfuehren
-			if (bb2.isComputer() || netGame) {
+			if (netGame) {
 				return;
 			}
 			if (this.bombs2[bombcount2].getCountdown() == 0) {
+				this.PlaySound(MySound.bombSet, -1);
 				Bomb bomb = this.bombs2[bombcount2];
 				this.bombs2[bombcount2].setX(this.bb2.getX());
 				this.bombs2[bombcount2].setY(this.bb2.getY());
 				List<Obstruction> obstructions = this.nowBG.getAllObstruction();
-				for (int i = 0; i < obstructions.size(); i++) {
-					Obstruction ob = obstructions.get(i);
-					int obX = ob.getX();
-					int obY = ob.getY();
-					int bombX = bomb.getX();
-					int bombY = bomb.getY();
-
-					// this.destoryObCheck(bomb, obstructions, bb2);
-					this.repaint();
-
-				}
+				// for (int i = 0; i < obstructions.size(); i++) {
+				// Obstruction ob = obstructions.get(i);
+				// int obX = ob.getX();
+				// int obY = ob.getY();
+				// int bombX = bomb.getX();
+				// int bombY = bomb.getY();
+				//
+				// // this.destoryObCheck(bomb, obstructions, bb2);
+				// this.repaint();
+				//
+				// }
 
 			}
 
@@ -788,21 +1039,21 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 			return;
 
 		// wenn man loslaesst: stopmove
-		if (ke.getKeyCode() == 39) {
-			this.bb.rightstop();
-		}
-
-		if (ke.getKeyCode() == 37) {
-			this.bb.leftstop();
-		}
-
-		if (ke.getKeyCode() == 38) {
-			this.bb.upstop();
-		}
-
-		if (ke.getKeyCode() == 40) {
-			this.bb.downstop();
-		}
+		// if (ke.getKeyCode() == 39) {
+		// this.bb.rightstop();
+		// }
+		//
+		// if (ke.getKeyCode() == 37) {
+		// this.bb.leftstop();
+		// }
+		//
+		// if (ke.getKeyCode() == 38) {
+		// this.bb.upstop();
+		// }
+		//
+		// if (ke.getKeyCode() == 40) {
+		// this.bb.downstop();
+		// }
 	}
 
 	@Override
@@ -811,15 +1062,15 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	}
 
 	/**
-	 * 
-	 * Return true or false ,if the player enter into the Ausgang, return
-	 * true,the player win and gameover
+	 * @param Return
+	 *            true or false ,if the player enter into the Ausgang, return
+	 *            true,the player win and gameover
 	 */
-
 	public boolean ifFindAusgang(Player pp) {
 		boolean flag = false;
 
-		if (pp.getX() == AusgangX && pp.getY() == AusgangY && AusgangShow) {
+		if (pp.getX() == Config.dx && pp.getY() == Config.dy
+				&& Config.AusgangShow) {
 			flag = true;
 		}
 		return flag;
@@ -847,14 +1098,64 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 	}
 
+	/**
+	 * Sammele LebensItems auf
+	 * 
+	 * @param bb
+	 */
+	public void ifGetBuff(Player bb) {
+		int bbX = bb.getX();
+		int bbY = bb.getY();
+		// if (Config.bomb != null) {
+		// int bombx = Config.bomb.getX();
+		// int bomby = Config.bomb.getY();
+		//
+		// if (bbX == bombx && bbY == bomby) {
+		//
+		// if (bb != null) {
+		//
+		// new BombBuff(bb);
+		// System.out.println("get a bomb£º" + Config.exist);
+		//
+		// Config.exist--;
+		//
+		// Temp.currentGrade += 5;
+		// Config.bomb = null;
+		// System.out.println("Do you get a bomb?");
+		// }
+		//
+		// }
+		//
+		// }
+		if (Config.life != null) {
+			int x = Config.life.getX();
+			int y = Config.life.getY();
+			if (bbX == x && bbY == y) {
+				if (bb != null) {
+					bb.setLife(bb.getLife() + 1);
+					System.out.println("Life Item: " + Config.exist);
+					Config.exist--;
+
+					Temp.currentGrade += 5;
+					Config.life = null;
+					System.out.println("Do you get another life?");
+				}
+			}
+
+		}
+
+	}
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true) {
 
-			// if win
 			this.repaint();
-
+			if (this.bb != null)
+				this.ifGetBuff(bb);
+			if (this.bb2 != null)
+				this.ifGetBuff(bb2);
 			boolean flag1 = false;
 
 			boolean flag2 = false;
@@ -863,33 +1164,39 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 				flag1 = this.ifFindAusgang(this.bb);
 
-				if (flag1 && this.AusgangShow == true)
+				if (flag1 && Config.AusgangShow == true)
 					logoString = "player1 win !";
+
 			}
+			if (this.isKilledByMonster(this.bb, vc))
+				logoString = "Game Over!";
+
 			if (this.bb2 != null) {
 				flag2 = this.ifFindAusgang(this.bb2);
-				if (flag2 && this.AusgangShow == true)
+				if (flag2 && Config.AusgangShow == true)
 					logoString = "player2 win !";
 			}
 
-			if (((this.AusgangShow == true && (flag1 || flag2)) || (!logoString
+			if (((Config.AusgangShow == true && (flag1 || flag2)) || (!logoString
 					.equals("let's go!") && !logoString.equals("")))) {
 				// System.out.println(logoString);
 				this.startGame = false;
-				this.doublePlayer = false;
+				Config.startGame = false;
+				MyFrame.doublePlayer = false;
 
 				bb = null;
 				bb2 = null;
 				int count = 50;
 				while (!startGame && count > 0) {
-					// this.startGame = false;
+					this.startGame = false;
+					Config.startGame = false;
 					Graphics g = this.getGraphics();
 					g.setColor(Color.blue);
 					g.setFont(new Font("Arial", Font.BOLD, 20));
 					g.drawString(logoString, 200, 150);
 					try {
 						Thread.sleep(100);
-						this.AusgangShow = false;
+						Config.AusgangShow = false;
 
 						for (int i = 0; i < 4; i++) {
 							this.bombs[i].setCountdown(0);
@@ -901,7 +1208,19 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					for (int i = 0; i < 2; i++) {
+						if (this.bombs[i].getCountdown() > 0) {
+							this.bombs[i].Decreasecountdown();
+							if (this.bombs[i].getCountdown() == 20) {
+								this.bombs[i].Explode();
+							}
+							if (this.bombs[i].getCountdown() == 0) {
+								this.bombs[i].Disappear();
+							}
 
+						}
+
+					}
 					count--;
 				}
 
@@ -911,7 +1230,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 				for (int i = 1; i <= 5; i++) {
 
-					this.allBG.add(new BackGround(level));
+					this.allBG.add(new BackGround(i, i == 5 ? true : false));
 					this.nowBG = this.allBG.get(0);
 					this.repaint();
 				}
@@ -929,6 +1248,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		}
 	}
 
+	/**
+	 * Erzeuge 2. Spieler bei 0 68 wenn es noch keinen 2. spieler gibt
+	 */
 	public void doublePlayer() {
 		if (doublePlayer == false) {
 			this.bb2 = new Player(0, 68, this.nowBG, bombs2, this);
@@ -937,6 +1259,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		}
 	}
 
+	/**
+	 * starte netGame
+	 */
 	public void netGame() {
 		netGame = true;
 		doublePlayer();
@@ -945,30 +1270,32 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		ObjectContainer.process = process;
 	}
 
+	/**
+	 * Spiel starten
+	 */
 	public void go() {
 
-		// Mysound.stop();
-		// this.PlaySound(Mysound.bg, -1);
+		MySound.stop();
+		this.PlaySound(MySound.bg, -1);
 
 		this.gameover = false;
+		if (Config.select == 0)
+			Config.AusgangShow = false;
 
-		this.AusgangShow = false;
-		// reloead
-
-		this.allBG.clear();
+		// this.allBG.clear();
 		// init bomb
-		this.bombs[0] = new Bomb(0, -200, 0);
-		this.bombs[1] = new Bomb(0, -200, 0);
-		this.bombs2[0] = new Bomb(0, -200, 0);
-		this.bombs2[1] = new Bomb(0, -200, 0);
+		this.bombs[0] = new Bomb(0, -20000, 0);
+		this.bombs[1] = new Bomb(0, -20000, 0);
+		this.bombs2[0] = new Bomb(0, -20000, 0);
+		this.bombs2[1] = new Bomb(0, -20000, 0);
 		this.logoString = "";
 
-		for (int i = 1; i <= 5; i++) {
-
-			this.allBG.add(new BackGround(level));
-			this.nowBG = this.allBG.get(0);
-			this.repaint();
-		}
+		// for (int i = 1; i <= 5; i++) {
+		//
+		// this.allBG.add(new BackGround(level));
+		// this.nowBG = this.allBG.get(0);
+		// this.repaint();
+		// }
 
 		if (doublePlayer == true) {
 			// fuer Player2
@@ -1003,13 +1330,15 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 			times--;
 		}
 		startGame = true;
-		// f1 fuer new game
-		/*
-		 * if (Config.select == 1) { getBb().setX(0); getBb().setY(212 - 48); }
-		 */
+		Config.startGame = startGame;
+		if (this.netGame && ObjectContainer.olclient != null) {
+
+		} else {
+			new Global(this).start();
+		}
 	}
 
-	public game.bomberman.Player getBb2() {
+	public Player getBb2() {
 		return bb2;
 	}
 

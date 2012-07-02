@@ -107,7 +107,7 @@ public class StaticValue {
 		// 2.Enemy Image in eine List
 		for (int i = 1; i <= 5; i++) {
 			try {
-				allPlayerImage.add(ImageIO.read(new File(imagePath + "e" + i
+				allEnemyImage.add(ImageIO.read(new File(imagePath + "e" + i
 						+ ".png")));
 			} catch (IOException e) {
 
@@ -124,7 +124,7 @@ public class StaticValue {
 			}
 		}
 		// 4.Item Image in eine List
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= 4; i++) {
 			try {
 				allItemImage.add(ImageIO.read(new File(imagePath + "it" + i
 						+ ".png")));

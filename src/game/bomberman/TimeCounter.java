@@ -1,6 +1,7 @@
 package game.bomberman;
 
 /**
+ * Enthaelt Variablen um Zeit zu messen
  * 
  * @author timo
  * 

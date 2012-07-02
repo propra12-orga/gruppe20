@@ -14,7 +14,7 @@ import java.util.List;
  * @author timozjx, Yuankun, KingManuel
  * 
  */
-public class Player implements Runnable {
+public class Player extends MoveObject implements Runnable {
 
 	public List<Thing> things = new ArrayList<Thing>();
 
@@ -40,6 +40,10 @@ public class Player implements Runnable {
 	private BackGround nowBG;
 	// Gewonnen
 	private boolean flag = false;
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
 
 	private String status;
 
@@ -117,6 +121,8 @@ public class Player implements Runnable {
 	 */
 	public Player(int x, int y, BackGround nowBG, Bomb[] bombs, MyFrame mf) {
 		this.mf = mf;
+		this.setX(x);
+		this.setY(y);
 		this.bombs = bombs;
 		this.x = x;
 		this.y = y;
@@ -212,8 +218,8 @@ public class Player implements Runnable {
 	 * setzte Koordinaten auf Anfangsposition (Momentan (550,658))
 	 */
 	public void reset() {
-		this.x = 550;
-		this.y = 658;
+		this.setX(550);
+		this.setY(658);
 	}
 
 	/**
@@ -253,31 +259,33 @@ public class Player implements Runnable {
 			flag = false;
 			// Status Image siehen Sie bitte in StaticValue.java
 			// nach links
-			if (this.status.indexOf("left") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(1);
+			// Status Image siehen Sie bitte in StaticValue.java
+			// nach links
+			if (this.getStatus().indexOf("left") == 0) {
+				this.setShowImage(StaticValue.allPlayerImage.get(1));
 			}
 			// nach rechts
-			if (this.status.indexOf("right") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(3);
+			if (this.getStatus().indexOf("right") == 0) {
+				this.setShowImage(StaticValue.allPlayerImage.get(3));
 			}
 			// nach oben
-			if (this.status.indexOf("up") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(4);
+			if (this.getStatus().indexOf("up") == 0) {
+				this.setShowImage(StaticValue.allPlayerImage.get(4));
 			}
 			// nach unten
-			if (this.status.indexOf("down") == 0) {
-				this.showImage = StaticValue.allPlayerImage.get(0);
+			if (this.getStatus().indexOf("down") == 0) {
+				this.setShowImage(StaticValue.allPlayerImage.get(0));
 			}
 
 			// Figur soll nicht den Spielberreich verlassen
-			// if (this.x < 0)
-			// x = 0;
-			// if (this.x > 432)
-			// x = 432;
-			// if (this.y < 24)
-			// y = 20;
-			// if (this.y > 452)
-			// y = 452;
+			if (this.x < 0)
+				x = 0;
+			if (this.x > 432)
+				x = 432;
+			if (this.y < 24)
+				y = 20;
+			if (this.y > 452)
+				y = 452;
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {

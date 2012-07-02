@@ -1,5 +1,11 @@
 package game.bomberman;
 
+/**
+ * Speichert einige Variablen
+ * 
+ * @author timo
+ * 
+ */
 public class ObjectContainer {
 	public static NewMyFrame newmf = null;
 	public static OnlineClient olclient = null;

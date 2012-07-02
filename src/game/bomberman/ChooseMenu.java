@@ -122,8 +122,9 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 		menuBar.add(fileMenu);
 
 		helpMenu.setText("Help");
+		helpMenu.add(helpMenu);
 
-		contentsMenuItem.setText("Contents");
+		contentsMenuItem.setText("Help Contents");
 		helpMenu.add(contentsMenuItem);
 
 		menuBar.add(helpMenu);
@@ -199,13 +200,26 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 				System.out.println("double game");
 				// main.setVisible(false);
 				// main = null;
+
 				NewMyFrame doublegame = new NewMyFrame();
 				doublegame.jPanel1.doublePlayer = true;
 
 			} else if (e.getActionCommand().equals("single game")) {
 				main.setVisible(true);
 				// /main = null;
-				new NewMyFrame();
+				// new NewMyFrame();
+
+				// newmf.setVisible(false);
+				// newmf = null;
+				Config.computerFight = true;
+				NewMyFrame newmf = new NewMyFrame();
+				newmf.setLocationRelativeTo(null);
+				newmf.setVisible(true);
+				newmf.jPanel1.requestFocus();
+				// doublePlayer: set true£¬init player2
+				newmf.jPanel1.doublePlayer = false;
+				// newmf.jPanel1.go();
+				// newmf.jPanel1.getBb2().setComputer(true);
 
 			} else if (e.getActionCommand().equals("online game")) {
 

@@ -3,6 +3,12 @@ package game.bomberman;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Zustaendig fuer die Kommunikation zwischen Server und Client.
+ * 
+ * @author timo
+ * 
+ */
 public class Process {
 	private NewMyFrame newmf;
 	private Player bb2;
@@ -15,12 +21,21 @@ public class Process {
 		this.bombs = newmf.jPanel1.getBomb2();
 	}
 
+	/**
+	 * uebermittelt aktuelle Koordinaten des Spielers und seine
+	 * Bewegungsanimation
+	 * 
+	 * @param x
+	 * @param y
+	 * @param status
+	 */
 	public void moveProcess(int x, int y, String status) {
-
-		bb2.setX(x);
-		bb2.setY(y);
-		bb2.setStatus(status);
-		newmf.jPanel1.repaint();
+		if (bb2 != null) {
+			bb2.setX(x);
+			bb2.setY(y);
+			bb2.setStatus(status);
+			newmf.jPanel1.repaint();
+		}
 	}
 
 	/**
@@ -106,8 +121,8 @@ public class Process {
 				while (matcher.find()) {
 					x = Integer.parseInt(matcher.group(1));
 					y = Integer.parseInt(matcher.group(2));
-					newmf.jPanel1.AusgangX = x;
-					newmf.jPanel1.AusgangY = y;
+					Config.dx = x;
+					Config.dy = y;
 				}
 
 			}

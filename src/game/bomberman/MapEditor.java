@@ -12,6 +12,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+/**
+ * Erzeugt Fenster in dem man eine Map erstellen kann. Man benutzt die
+ * Pfeiltasten um den Cursor zu bewegen und drueckt a um einen Weg zu erstellen,
+ * s um einen Stein und d um eine Box zu erstellen
+ * 
+ * @author KingManuel
+ * 
+ */
 public class MapEditor extends JFrame implements KeyListener, Runnable {
 
 	public static void main(String[] args) {
@@ -21,6 +29,9 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 	}
 
 	private Thread t = new Thread(this);
+	/**
+	 * Zeigt auf das Kaestchen, das man veraendern kann
+	 */
 	private Pointer pointer;
 	private static final long serialVersionUID = 1L;
 	/**
@@ -38,6 +49,11 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 
 	private BufferedImage[] showimage = new BufferedImage[6];
 
+	/**
+	 * Erzeugt Fenster in dem man eine Map erstellen kann. Man benutzt die
+	 * Pfeiltasten um den Cursor zu bewegen und drueckt a um einen Weg zu
+	 * erstellen, s um einen Stein und d um eine Box zu erstellen
+	 */
 	public MapEditor() {
 		this.pointer = new Pointer();
 		this.setSize(528, 550);
@@ -113,38 +129,57 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 		}
 	}
 
+	/**
+	 * speichert die gezeichnete Map als xml Datei "Mapeditor.xml"
+	 */
 	public void save() {
 		String savePath = System.getProperty("user.dir") + "/src/";
 		File file = new File(savePath + "Mapeditor.xml");
+		FileWriter fw;
+
 		try {
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-
+			fw = new FileWriter(file);
+			fw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
+			fw.write("<config>\r\n");
 			// als XML speichern
-			String s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
-			s = s + "<config>\r\n";
+			// String s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+			// s = s + "<config>\r\n";
+			String s = "";
+			for (int i = 0; i < 10; i++) {
+
+				for (int j = 0; j < 10; j++) {
+
+					System.out.print(map[j][i]);
+
+				}
+				System.out.println();
+			}
+
 			for (int i = 0; i < 10; i++) {
 
 				for (int j = 0; j < 10; j++) {
 
 					if (map[i][j] == 2) {
-						s = s + "<ob id=\"box\"x=\"" + j * 48 + "\"y=\""
-								+ (i * 48 + 20) + "\"/>\r\n";
-					}
-					if (map[i][j] == 1) {
-						s = s + "<ob id=\"stone\"x=\"" + i * 48 + "\"y=\""
-								+ (j * 48 + 20) + "\"/>\r\n";
+						s = s + "<ob id=\"box\" x=\"" + i * 48 + "\" y=\""
+								+ (j * 48 + 20) + "\"/>" + "\n";
+					} else if (map[i][j] == 1) {
+						s = s + "<ob id=\"stone\" x=\"" + i * 48 + "\" y=\""
+								+ (j * 48 + 20) + "\"/>" + "\n";
 					}
 
 				}
+
 			}
-			s = s + "</config>";
-			FileWriter fw = new FileWriter(file);
-			fw.write(s);
+			System.out.println(s);
+			fw.write(s + "\r\n");
+			// s = s + "</config>";
+			fw.write("</config>\r\n");
+			// fw.write(s);
 			fw.close();
 			System.out.println(file.canWrite());
-			System.out.println(s);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

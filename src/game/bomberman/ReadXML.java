@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -197,7 +196,8 @@ public class ReadXML {
 				if (Config.netGame) {
 					obPath = "obstruction1.xml";
 				} else {
-					int ran = new Random().nextInt(4);
+					// int ran = new Random().nextInt(4);
+					int ran = 3;
 					switch (ran) {
 					case 0:
 						obPath = "obstruction1.xml";

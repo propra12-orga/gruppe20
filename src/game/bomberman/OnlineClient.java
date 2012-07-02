@@ -13,15 +13,12 @@ import java.net.UnknownHostException;
 
 public class OnlineClient implements Runnable {
 	private String serverIP;
-	private int port = 9999;
 	private Socket socket;
+	private int port = 9999;
 	private DataOutputStream dos;
 	private DataInputStream dis;
-	public boolean join = false;
-	public Process process;
-	public NewMyFrame newMF;
-
 	private ChooseMenu cm;
+	public Process process;
 	public NewMyFrame newmf;
 
 	public OnlineClient() {
@@ -124,6 +121,7 @@ public class OnlineClient implements Runnable {
 			temp = Config.point1;
 			Config.point1 = Config.point2;
 			Config.point2 = temp;
+			Config.netGame = true;
 			ObjectContainer.newmf = new NewMyFrame();
 			this.newmf = ObjectContainer.newmf;
 			newmf.jPanel1.netGame();

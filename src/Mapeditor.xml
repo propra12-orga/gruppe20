@@ -1,63 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-<ob id="box"x="0"y="20"/>
-<ob id="box"x="48"y="20"/>
-<ob id="box"x="96"y="20"/>
-<ob id="box"x="144"y="20"/>
-<ob id="box"x="192"y="20"/>
-<ob id="box"x="240"y="20"/>
-<ob id="box"x="288"y="20"/>
-<ob id="box"x="336"y="20"/>
-<ob id="box"x="384"y="20"/>
-<ob id="box"x="432"y="20"/>
-<ob id="box"x="0"y="68"/>
-<ob id="box"x="432"y="68"/>
-<ob id="box"x="0"y="116"/>
-<ob id="box"x="96"y="116"/>
-<ob id="box"x="144"y="116"/>
-<ob id="box"x="192"y="116"/>
-<ob id="box"x="240"y="116"/>
-<ob id="box"x="288"y="116"/>
-<ob id="box"x="336"y="116"/>
-<ob id="box"x="432"y="116"/>
-<ob id="box"x="0"y="164"/>
-<ob id="box"x="96"y="164"/>
-<ob id="box"x="336"y="164"/>
-<ob id="box"x="432"y="164"/>
-<ob id="box"x="0"y="212"/>
-<ob id="box"x="96"y="212"/>
-<ob id="box"x="192"y="212"/>
-<ob id="box"x="240"y="212"/>
-<ob id="box"x="336"y="212"/>
-<ob id="box"x="432"y="212"/>
-<ob id="box"x="0"y="260"/>
-<ob id="box"x="96"y="260"/>
-<ob id="box"x="192"y="260"/>
-<ob id="box"x="240"y="260"/>
-<ob id="box"x="336"y="260"/>
-<ob id="box"x="432"y="260"/>
-<ob id="box"x="0"y="308"/>
-<ob id="box"x="96"y="308"/>
-<ob id="box"x="336"y="308"/>
-<ob id="box"x="432"y="308"/>
-<ob id="box"x="0"y="356"/>
-<ob id="box"x="96"y="356"/>
-<ob id="box"x="144"y="356"/>
-<ob id="box"x="192"y="356"/>
-<ob id="box"x="240"y="356"/>
-<ob id="box"x="288"y="356"/>
-<ob id="box"x="336"y="356"/>
-<ob id="box"x="432"y="356"/>
-<ob id="box"x="0"y="404"/>
-<ob id="box"x="432"y="404"/>
-<ob id="box"x="0"y="452"/>
-<ob id="box"x="48"y="452"/>
-<ob id="box"x="96"y="452"/>
-<ob id="box"x="144"y="452"/>
-<ob id="box"x="192"y="452"/>
-<ob id="box"x="240"y="452"/>
-<ob id="box"x="288"y="452"/>
-<ob id="box"x="336"y="452"/>
-<ob id="box"x="384"y="452"/>
-<ob id="box"x="432"y="452"/>
+<ob id="box" x="0" y="116"/>
+<ob id="box" x="0" y="260"/>
+<ob id="box" x="0" y="404"/>
+<ob id="stone" x="48" y="68"/>
+<ob id="stone" x="48" y="164"/>
+<ob id="stone" x="48" y="260"/>
+<ob id="box" x="48" y="308"/>
+<ob id="stone" x="48" y="356"/>
+<ob id="stone" x="48" y="404"/>
+<ob id="box" x="96" y="20"/>
+<ob id="box" x="96" y="116"/>
+<ob id="box" x="96" y="212"/>
+<ob id="box" x="96" y="356"/>
+<ob id="box" x="96" y="452"/>
+<ob id="stone" x="144" y="68"/>
+<ob id="box" x="144" y="164"/>
+<ob id="stone" x="144" y="260"/>
+<ob id="stone" x="144" y="356"/>
+<ob id="stone" x="144" y="404"/>
+<ob id="box" x="192" y="68"/>
+<ob id="stone" x="192" y="164"/>
+<ob id="box" x="192" y="260"/>
+<ob id="box" x="192" y="404"/>
+<ob id="stone" x="240" y="68"/>
+<ob id="box" x="240" y="116"/>
+<ob id="box" x="240" y="164"/>
+<ob id="stone" x="240" y="260"/>
+<ob id="box" x="240" y="356"/>
+<ob id="box" x="288" y="20"/>
+<ob id="stone" x="288" y="164"/>
+<ob id="box" x="288" y="212"/>
+<ob id="stone" x="288" y="356"/>
+<ob id="stone" x="288" y="404"/>
+<ob id="box" x="336" y="20"/>
+<ob id="box" x="336" y="116"/>
+<ob id="box" x="336" y="260"/>
+<ob id="box" x="336" y="356"/>
+<ob id="box" x="336" y="452"/>
+<ob id="stone" x="384" y="68"/>
+<ob id="stone" x="384" y="164"/>
+<ob id="box" x="384" y="212"/>
+<ob id="stone" x="384" y="260"/>
+<ob id="stone" x="384" y="356"/>
+<ob id="stone" x="384" y="404"/>
+<ob id="box" x="432" y="20"/>
+<ob id="box" x="432" y="164"/>
+<ob id="box" x="432" y="308"/>
+<ob id="box" x="432" y="404"/>
+
 </config>
