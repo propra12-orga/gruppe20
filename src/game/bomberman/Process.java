@@ -46,19 +46,21 @@ public class Process {
 	 * @param b2X
 	 * @param b2Y
 	 */
-	public void bombProcess(int b1X, int b1Y, int b2X, int b2Y) {
-		bombs[0].setX(b1X);
-		bombs[0].setY(b1Y);
-		bombs[1].setX(b2X);
-		bombs[1].setY(b2Y);
+	public void bombProcess(int type, int x, int y) {
 
-		for (int i = 0; i < bombs.length; i++) {
-			if (bombs[i].getY() > 0) {
-				bombs[i].setCountdown(70);
-				bombs[i].setShowImage(StaticValue.allBoomImage.get(0));
-			}
+		if (type == 11) {
+			bombs[0].setX(x);
+			bombs[0].setY(y);
+			bombs[0].setCountdown(70);
+			bombs[0].setShowImage(StaticValue.allBoomImage.get(0));
+
+		} else if (type == 12) {
+			bombs[1].setX(x);
+			bombs[1].setY(y);
+			bombs[1].setCountdown(70);
+			bombs[1].setShowImage(StaticValue.allBoomImage.get(0));
 		}
-		newmf.jPanel1.drawBombs(newmf.jPanel1.getGraphics(), bombs, player);
+
 	}
 
 	/**
@@ -70,34 +72,31 @@ public class Process {
 		int x = -100;
 		int y = -100;
 
-		int b1X = -200;
-		int b1Y = -200;
-		int b2X = -200;
-		int b2Y = -200;
+		int type = 0;
+		// type fuer welche Bomb
+		int bx = -1000;
+		int by = -1000;
 
 		String status = "";
 
-		// Beispiel
-		// msg:1x:195_y:168_s:right--moving_b1:50|118_b2:35|168
 		if (message != null) {
-			if (this.bb2 == null) {
+			if (this.bb2 == null)
 				return;
-			}
-			System.out.println("get the information:" + message);
-			// wenn der Anfang der Information ist 0
-			if (message.startsWith("0")) {
-				String reg = "0x:(-?\\d+)_y:(-?\\d+)x:(-?\\d+)_y:(-?\\d+)";
+			System.out.println("Information£ºmsg:" + message);
+			// bomb
+			if (message.startsWith("31")) {
+				String reg = "3(\\d+)x:(-?\\d+)_y:(-?\\d+)";
 				Pattern pattern = Pattern.compile(reg);
 				Matcher matcher = pattern.matcher(message);
 				while (matcher.find()) {
-					b1X = Integer.parseInt(matcher.group(1));
-					b1Y = Integer.parseInt(matcher.group(2));
-					b2X = Integer.parseInt(matcher.group(3));
-					b2Y = Integer.parseInt(matcher.group(4));
-					this.bombProcess(b1X, b1Y, b2X, b2Y);
+					type = Integer.parseInt(matcher.group(1));
+					bx = Integer.parseInt(matcher.group(2));
+					by = Integer.parseInt(matcher.group(3));
+					this.bombProcess(type, bx, by);
 
 				}
 			}
+			// player
 			if (message.startsWith("1")) {
 
 				String reg = "1x:(\\d+)_y:(\\d+)_s:(\\w+)";
@@ -113,6 +112,7 @@ public class Process {
 				}
 
 			}
+			// tuer
 			if (message.startsWith("2")) {
 
 				String reg = "2x:(\\d+)_y:(\\d+)";

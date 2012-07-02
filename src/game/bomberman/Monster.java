@@ -38,8 +38,7 @@ public class Monster extends MoveObject implements Runnable {
 				e.printStackTrace();
 			}
 			direction = new Random().nextInt(4);
-			System.out.println("richtung: " + direction);
-			System.out.println("letzte richtung: " + lastDir);
+
 			/**
 			 * Wenn die Richtung gleich der letzten Richtung ist: break
 			 */

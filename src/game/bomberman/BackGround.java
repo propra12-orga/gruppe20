@@ -101,6 +101,8 @@ public class BackGround {
 		int temp2 = box.get(random).getY();
 		MyFrame.setAusgangX(temp1);
 		MyFrame.setAusgangY(temp2);
+		Config.dx = temp1;
+		Config.dy = temp2;
 		System.out.println(temp1 + "door" + temp2);
 		this.allObstruction.add(new Obstruction(temp1, temp2, 3));
 

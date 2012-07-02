@@ -47,6 +47,9 @@ public class Global extends Thread {
 					mark = true;
 				}
 			}
+			if (Config.x1 == x && Config.y1 == y) {
+				mark = true;
+			}
 			if (!mark) {
 				result[0] = x;
 				result[1] = y;

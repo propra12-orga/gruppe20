@@ -157,8 +157,8 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 		// initialisiere BombenArrays
 		for (int i = 0; i < 4; i++) {
-			this.bombs[i] = new Bomb(0, -20, 0);
-			this.bombs2[i] = new Bomb(0, -20, 0);
+			this.bombs[i] = new Bomb(0, -2000, 0);
+			this.bombs2[i] = new Bomb(0, -2000, 0);
 		}
 
 		t.start();
@@ -252,6 +252,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				} else if (Config.AusgangShow) {
 					this.Ausgang.setX(Config.dx);
 					this.Ausgang.setY(Config.dy);
+					g2.drawImage(ob.getShowImage(), Config.dx, Config.dy, this);
 				}
 
 			}
@@ -450,8 +451,19 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 			}
 		}
 		for (int i = 0; i < 4; i++) {
+			if (bombs[i].getCountdown() == 20) {
+				this.bombChain(bombs[i], player);
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			if (bombs[i].getCountdown() == 20) {
+				bombs[i].setArea(this.ExplodeArea(bombs[i], player));
+			}
+		}
+		for (int i = 0; i < 4; i++) {
 			g2.drawImage(bombs[i].getShowImage(), bombs[i].getX(),
 					bombs[i].getY(), this);
+
 			// Zeichne Explosion
 			if (0 < bombs[i].getCountdown() & bombs[i].getCountdown() < 21) {
 				if (bombs[i].getCountdown() == 20) {
@@ -466,9 +478,10 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				// entferne die Obstruction
 				if (bombs[i].getCountdown() == 20) {
 					this.destoryObCheck(bombs[i], obstructions, player);
+					bombs[i].Decreasecountdown();
 				}
 				this.ifKillMonster(bombs[i], this.vc, player);
-				this.bombChain(bombs[i], player);
+				// this.bombChain(bombs[i], player);
 				if (startGame) {
 					boolean f1 = false;
 					if (bb != null)
@@ -510,6 +523,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 							Ausgang.setX(ob.getX());
 							Ausgang.setY(ob.getY());
 							Config.AusgangShow = true;
+							this.AusgangShow = true;
 							/*
 							 * System.out.println(Ausgang.getX() + "door" +
 							 * Ausgang.getY()); System.out.println(this.AusgangX
@@ -523,15 +537,15 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 				}
 
-				// for (int[] a : bombs[i].getArea()) {
-				// g2.drawImage(StaticValue.allBoomImage.get(2), a[0], a[1],
-				// this);
-				// }
-				List<int[]> area = this.ExplodeArea(bombs[i], player);
-				for (int[] a : area) {
+				for (int[] a : bombs[i].getArea()) {
 					g2.drawImage(StaticValue.allBoomImage.get(2), a[0], a[1],
 							this);
 				}
+				// List<int[]> area = this.ExplodeArea(bombs[i], player);
+				// for (int[] a : area) {
+				// g2.drawImage(StaticValue.allBoomImage.get(2), a[0], a[1],
+				// this);
+				// }
 			}
 		}
 		// hier auslagern
@@ -584,7 +598,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		this.ExplodeAreatiny(bomb, area, 1, player);
 		this.ExplodeAreatiny(bomb, area, 2, player);
 		this.ExplodeAreatiny(bomb, area, 3, player);
-
+		// for (int i = 0; i < 4; i++) {
+		// System.out.println(area.get(i));
+		// }
 		return area;
 	}
 
@@ -683,7 +699,8 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * @param player
 	 */
 	private void destoryObCheck(Bomb bomb, List<Obstruction> obs, Player player) {
-		List<int[]> area = this.ExplodeArea(bomb, player);
+		// List<int[]> area = this.ExplodeArea(bomb, player);
+		List<int[]> area = bomb.getArea();
 		for (int a[] : area) {
 			for (Obstruction ob : obs) {
 				// 1 fuer box
@@ -736,7 +753,6 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * Beim Bewegen wird diese Methoden aufgerufen
 	 */
 	public void moveProcess(Player bb, int direction) {
-		System.out.println(direction);
 		List<Obstruction> obstructions = nowBG.getAllObstruction();
 
 		boolean flag = true;
@@ -748,12 +764,14 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		int mX = bb.getX();
 		int mY = bb.getY();
 
+		Config.x1 = mX;
+		Config.y1 = mY;
+
 		switch (direction) {
 		case 0:
 
 			bb.setStatus("up");
 			mY -= bb.getSpeed();
-			System.out.println(mY);
 			break;
 		case 1:
 			bb.setStatus("right");
@@ -780,7 +798,6 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				}
 			}
 		}
-		System.out.println(flag);
 		if (flag) {
 			switch (direction) {
 			case 0:
@@ -788,12 +805,10 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				PickUpItem(bb);
 				break;
 			case 1:
-				System.out.println("right move");
 				bb.rightmove();
 				PickUpItem(bb);
 				break;
 			case 2:
-				System.out.println("down move");
 				bb.downmove();
 				PickUpItem(bb);
 				break;
@@ -1018,10 +1033,9 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				// this.repaint();
 				//
 				// }
-
+				this.bombs2[bombcount2].setCountdown(70);
 			}
 
-			this.bombs2[bombcount2].setCountdown(70);
 			this.bombs2[bombcount2].setShowImage(StaticValue.allBoomImage
 					.get(0));
 			bombcount2 = (bombcount2 + 1) % bb2.getBombcapacity();
@@ -1128,12 +1142,12 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 			if (bbX == x && bbY == y) {
 				if (bb != null) {
 					bb.setLife(bb.getLife() + 1);
-					System.out.println("Life Item: " + Config.exist);
+					// System.out.println("Life Item: " + Config.exist);
 					Config.exist--;
 
 					Temp.currentGrade += 5;
 					Config.life = null;
-					System.out.println("Do you get another life?");
+					// System.out.println("Do you get another life?");
 				}
 			}
 
@@ -1341,13 +1355,19 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		this.bb2 = bb2;
 	}
 
-	// Informationen senden,Type 0 fuer Bomb Type 1 fuer Koordinaten der Player
+	/**
+	 * Informationen senden
+	 * 
+	 * @param type
+	 *            0 fuer Bomb Type 1 fuer Koordinaten der Player
+	 */
+	//
 	public void sendPlayerStatus(int type) {
 		// wenn nicht online game return
+
 		if (ObjectContainer.olserver == null
-				&& ObjectContainer.olclient == null) {
+				&& ObjectContainer.olclient == null)
 			return;
-		}
 		int s = 0;
 		if (bb.getX() < 0)
 			bb.setX(0);
@@ -1363,20 +1383,23 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		int b2Y = this.bombs[1].getY();
 		String str = "";
 		if (type == 1) {
+			// str = "1x:" + bb.getX() + "_y:" + bb.getY() + "_s:"
+			// + bb.getStatus() + "_b1:" + b1X + "|" + b1Y + "_b2:" + b2X
+			// + "|" + b2Y;
 			str = "1x:" + bb.getX() + "_y:" + bb.getY() + "_s:"
-					+ bb.getStatus() + "_b1:" + b1X + "|" + b1Y + "_b2:" + b2X
-					+ "|" + b2Y;
+					+ bb.getStatus();
 
-		} else if (type == 0) {
-			str = "0x:" + bombs[0].getX() + "_y:" + bombs[0].getY() + "x:"
-					+ bombs[1].getX() + "_y:" + bombs[1].getY();
+		} else if (type == 31) {
+			str = "311x:" + bombs[0].getX() + "_y:" + bombs[0].getY();
 
+		} else if (type == 32) {
+			str = "312x:" + bombs[1].getX() + "_y:" + bombs[1].getY();
 		} else if (type == 2) {
-			// fuer Ausgang koordinaten
-			str = "2x:" + this.AusgangX + "_y:" + this.AusgangY;
+
+			str = "2x:" + Config.dx + "_y:" + Config.dy;
 
 		}
-		System.out.println("send msg£º" + str);
+		System.out.println("send information£º" + str);
 
 		if (ObjectContainer.olclient != null) {
 			ObjectContainer.olclient.send(str);
@@ -1386,6 +1409,5 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 			ObjectContainer.olserver.send(str);
 
 		}
-
 	}
 }

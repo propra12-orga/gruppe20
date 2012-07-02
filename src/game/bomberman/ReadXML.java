@@ -197,7 +197,7 @@ public class ReadXML {
 					obPath = "obstruction1.xml";
 				} else {
 					// int ran = new Random().nextInt(4);
-					int ran = 3;
+					int ran = 1;
 					switch (ran) {
 					case 0:
 						obPath = "obstruction1.xml";
