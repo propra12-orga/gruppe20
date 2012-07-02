@@ -697,14 +697,12 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 					int random = new Random().nextInt(100);
 
-					if (random < 40) {
+					if (random < 30) {
 						List<Item> items = this.nowBG.getAllItem();
 						if (random < 15) {
 							items.add(new Item(ob.getX(), ob.getY(), 0));
-						} else if (random < 30) {
-							items.add(new Item(ob.getX(), ob.getY(), 1));
 						} else {
-							items.add(new Item(ob.getX(), ob.getY(), 2));
+							items.add(new Item(ob.getX(), ob.getY(), 1));
 						}
 						this.nowBG.setAllItem(items);
 					}
@@ -774,14 +772,11 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// wenn Ooobstruction tuer ist,dann darf hrein
 		for (Obstruction ob : obstructions) {
 			if (ob.getType() != 3) {
-				if (ob.getType() == 0
-						|| (ob.getType() == 1 && !bb.isWalkthroughboxes())) {
-					int obX = ob.getX();
-					int obY = ob.getY();
-					if (mX == obX && mY == obY) {
-						flag = false;
-						break;
-					}
+				int obX = ob.getX();
+				int obY = ob.getY();
+				if (mX == obX && mY == obY) {
+					flag = false;
+					break;
 				}
 			}
 		}
