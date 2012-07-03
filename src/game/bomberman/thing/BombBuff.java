@@ -3,6 +3,12 @@ package game.bomberman.thing;
 import game.bomberman.Bomb;
 import game.bomberman.Player;
 
+/**
+ * die Behandlung von Bomb Items
+ * 
+ * @author timozjx,LuoYuankun
+ * 
+ */
 public class BombBuff extends Thing {
 
 	// Itemsdauer
@@ -36,6 +42,9 @@ public class BombBuff extends Thing {
 		continueTime--;
 	}
 
+	/**
+	 * Bomb affect
+	 */
 	@Override
 	public void affect() {
 		if (type == 1 && continueTime > 0) {
@@ -49,6 +58,9 @@ public class BombBuff extends Thing {
 		}
 	}
 
+	/**
+	 * Bomb Radius einstellen
+	 */
 	public void BombArea() {
 		int area = 9;
 
@@ -70,6 +82,9 @@ public class BombBuff extends Thing {
 		System.out.println("bomb power bis 9");
 	}
 
+	/**
+	 * Bomb verschwinden
+	 */
 	public void disappear() {
 		System.out.println("bomb power disapper");
 		int area = 5; // bomb status disapper

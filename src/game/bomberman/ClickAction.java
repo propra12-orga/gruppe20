@@ -93,6 +93,9 @@ public class ClickAction implements ActionListener {
 
 	}
 
+	/*
+	 * Game speichern
+	 */
 	public void save() throws IOException {
 		savePath = System.getProperty("user.dir") + "/bin/game/bomberman/ob/";
 

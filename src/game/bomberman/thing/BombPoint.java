@@ -1,5 +1,11 @@
 package game.bomberman.thing;
 
+/**
+ * Bomb Koordinaten
+ * 
+ * @author timozjx,LuoYuankun
+ * 
+ */
 public class BombPoint {
 	private int x;
 	private int y;

@@ -44,6 +44,11 @@ public class OnlineClient implements Runnable {
 		return true;
 	}
 
+	/**
+	 * Die game Informationen senden
+	 * 
+	 * @param str
+	 */
 	public void send(String str) {
 		try {
 			if (dos != null) {

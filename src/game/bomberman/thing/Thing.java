@@ -2,6 +2,12 @@ package game.bomberman.thing;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Die Eingenschaften von Items
+ * 
+ * @author timo,LuoYUANkun
+ * 
+ */
 public abstract class Thing {
 	protected int x;
 	protected int y;

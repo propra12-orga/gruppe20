@@ -6,6 +6,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Netzwerk Server erstellen
+ * 
+ * @author timozjx
+ * 
+ */
 public class OnlineServer implements Runnable {
 
 	private int port = 9999;
@@ -19,6 +25,9 @@ public class OnlineServer implements Runnable {
 
 	}
 
+	/**
+	 * Server starten
+	 */
 	public void startServer() {
 		try {
 			ServerSocket s = new ServerSocket(port);
@@ -37,6 +46,12 @@ public class OnlineServer implements Runnable {
 
 	}
 
+	/**
+	 * die methoden message Senden
+	 * 
+	 * @param die
+	 *            game information
+	 */
 	public void send(String str) {
 		if (dos != null) {
 			try {
@@ -48,6 +63,11 @@ public class OnlineServer implements Runnable {
 		}
 	}
 
+	/**
+	 * die methoden mesage Lesen
+	 * 
+	 * @return
+	 */
 	public String read() {
 		String msg = null;
 
@@ -74,6 +94,11 @@ public class OnlineServer implements Runnable {
 		}
 	}
 
+	/**
+	 * verbinden test und process aufrufen
+	 * 
+	 * @param str
+	 */
 	public void process(String str) {
 		if (str.equals("join")) {
 			join = true;

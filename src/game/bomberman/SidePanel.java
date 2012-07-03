@@ -8,7 +8,7 @@ import javax.swing.JPanel;
  * SidePanel wird neben dem Spielfeld gezeichnet. Dort werden der aktuelle
  * Punktestand und der Highscore abgebildet
  * 
- * @author timo
+ * @author timozjx
  * 
  */
 public class SidePanel extends JPanel implements Runnable {

@@ -5,6 +5,12 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
+/**
+ * Key Pressed testen
+ * 
+ * @author timo
+ * 
+ */
 public class Test extends JFrame implements KeyListener {
 	private int i = 10, j = 10;
 
