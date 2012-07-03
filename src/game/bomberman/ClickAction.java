@@ -41,7 +41,7 @@ public class ClickAction implements ActionListener {
 							"please press F1 to start a new game£¡");
 				} else {
 					this.save();
-					JOptionPane.showMessageDialog(panel, "save succesful");
+					JOptionPane.showMessageDialog(panel, "save successful");
 					// wenn speichert dann set true
 					Config.hasSave = true;
 
@@ -56,6 +56,13 @@ public class ClickAction implements ActionListener {
 			newmf.setLocationRelativeTo(null);
 			newmf.setVisible(true);
 			newmf.jPanel1.requestFocus();
+			Config.mapEditor = 0;
+
+		} else if (e.getActionCommand().equals("PlayEditorMap")) {
+			Config.mapEditor = 1;
+
+			JOptionPane.showMessageDialog(panel, "load editormap successful");
+			// wenn speichert dann set true
 
 		}
 		// else if (e.getActionCommand().equals("new game")) {
@@ -82,8 +89,8 @@ public class ClickAction implements ActionListener {
 	}
 
 	public void save() throws IOException {
-		savePath = System.getProperty("user.dir") + "/bin/game/bomberman/ob/";
-		System.out.println();
+		savePath = System.getProperty("user.dir") + "/src/";
+
 		File file = new File(savePath + "last.xml");
 		if (!file.exists()) {
 			file.createNewFile();

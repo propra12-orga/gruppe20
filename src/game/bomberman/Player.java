@@ -18,6 +18,16 @@ public class Player extends MoveObject implements Runnable {
 
 	public List<Thing> things = new ArrayList<Thing>();
 
+	private boolean walkthroughwalls;
+
+	public boolean isWalkthroughwalls() {
+		return walkthroughwalls;
+	}
+
+	public void setWalkthroughwalls(boolean walkthroughwalls) {
+		this.walkthroughwalls = walkthroughwalls;
+	}
+
 	private Bomb[] bombs;
 	private MyFrame mf;
 
@@ -109,6 +119,7 @@ public class Player extends MoveObject implements Runnable {
 	 */
 	public Player(int x, int y, BackGround nowBG, Bomb[] bombs, MyFrame mf) {
 		this.mf = mf;
+		this.walkthroughwalls = false;
 		this.setX(x);
 		this.setY(y);
 		this.bombs = bombs;
@@ -225,7 +236,7 @@ public class Player extends MoveObject implements Runnable {
 	 */
 	public void UseItem(int type) {
 		if (type == 0) {
-			if (this.bombcapacity < 2) {
+			if (this.bombcapacity < 4) {
 				this.bombcapacity++;
 			}
 		}
@@ -234,6 +245,9 @@ public class Player extends MoveObject implements Runnable {
 			if (this.bombradius < 10) {
 				this.bombradius++;
 			}
+		}
+		if (type == 2) {
+			this.walkthroughwalls = true;
 		}
 	}
 

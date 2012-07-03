@@ -62,7 +62,7 @@ public class Config {
 	 * maximal monster Anzahl
 	 * 
 	 */
-	public static int maxMonster = 30;
+	public static int maxMonster = 10000;
 
 	public static int allowexist = 5;
 
@@ -99,5 +99,7 @@ public class Config {
 	public static Life life = null;
 
 	public static TimeCounter bugifx = null;
+
+	public static int mapEditor = 0;
 
 }

@@ -29,8 +29,8 @@ public class Bomb implements Runnable {
 	private int countdown;
 
 	/**
-	 * effektiver Explosionsradius oben, unten, rechts, links
-	 * 
+	 * effektiver Explosionsradius oben, unten, rechts, links enthaelt 4 integer
+	 * arrays fuer je eine richtung
 	 */
 	List<int[]> area;
 

@@ -93,7 +93,7 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 
 	public void paint(Graphics g) {
 		g.drawString(
-				"Press:   'a'  for  Path,   's'  for  Stone,   'd'  for  Box",
+				"Press:  'f2' for Save 'a'  for  Path,   's'  for  Stone,   'd'  for  Box",
 				200, 520);
 		BufferedImage image = new BufferedImage(528, 500,
 				BufferedImage.TYPE_3BYTE_BGR);
@@ -131,8 +131,10 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 
 	/**
 	 * speichert die gezeichnete Map als xml Datei "Mapeditor.xml"
+	 * 
+	 * @throws IOException
 	 */
-	public void save() {
+	public void save() throws IOException {
 		String savePath = System.getProperty("user.dir") + "/src/";
 		File file = new File(savePath + "Mapeditor.xml");
 		FileWriter fw;
@@ -297,7 +299,12 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 			this.map[(this.pointer.getX() - 66) / 48][(this.pointer.getY() - 38) / 48] = 1;
 		}
 		if (ke.getKeyCode() == 113) {
-			this.save();
+			try {
+				this.save();
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
 		}
 	}
 

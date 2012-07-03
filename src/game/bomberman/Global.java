@@ -108,12 +108,12 @@ public class Global extends Thread {
 			 * hoert auf Monster zu generieren wenn schon 5 Monster auf dem
 			 * Spielfeld sind
 			 */
-			if (Config.computerFight && counter > 5) {
+			if (Config.computerFight && counter > 2) {
 				this.monsterProduce();
 
 			}
 
-			if (Config.exist < Config.max && Config.startGame && counter > 15
+			if (Config.exist < Config.max && Config.startGame && counter > 5
 					&& !Config.netGame) {
 				int ran = new Random().nextInt(3);
 

@@ -78,9 +78,11 @@ public class BackGround {
 		 * die Steine Koordinaten von XML einlesen
 		 */
 		ReadXML r = new ReadXML();
-		if (Config.select == 2) {
+		if (Config.mapEditor == 1) {
 			r.initObLocation("Mapeditor.xml");
-		} else {
+		} else if (Config.select == 1) {
+			r.initObLocation("last.xml");
+		} else if (Config.select == 0) {
 			r.initObLocation();
 		}
 

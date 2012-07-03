@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -94,6 +95,7 @@ public class ReadXML {
 	 * 
 	 */
 	public ReadXML() {
+
 		r = ReadXML.class.getClassLoader().getResource("").toString()
 				+ "\\game\\bomberman\\ob\\";
 
@@ -176,10 +178,30 @@ public class ReadXML {
 				ob.setType(1);
 				obs.add(ob);
 
+			} else if (id.equals("player1") && Config.select == 1) {
+				Config.point1[0] = x1;
+				Config.point1[1] = y1;
+			} else if (id.equals("player2") && Config.select == 1) {
+
+				MyFrame.doublePlayer = true;
+				Config.point2[0] = x1;
+				Config.point2[1] = y1;
+
+			} else if (id.equals("door")) {
+				Config.dx = x1;
+				Config.dy = y1;
+				String t = element.getAttributeValue("show");
+				Integer show = new Integer(t);
+				if (show == 1)
+					Config.AusgangShow = true;
+				else if (show == 0)
+					Config.AusgangShow = false;
+				Obstruction ob = new Obstruction(x1, y1, 3);
+				ob.setType(3);
+				obs.add(ob);
+
 			}
-
 		}
-
 	}
 
 	/**
@@ -187,7 +209,6 @@ public class ReadXML {
 	 * Int Config.select wird eine andere xml Datei eingelesen
 	 */
 	public void initObLocation() {
-		// System.out.println("Obstruction Koordinaten einlesen");
 		SAXBuilder sb = new SAXBuilder();
 		Document doc = null;
 		try {
@@ -196,9 +217,8 @@ public class ReadXML {
 				if (Config.netGame) {
 					obPath = "obstruction1.xml";
 				} else {
-					// int ran = new Random().nextInt(4);
-					int ran = 1;
-					switch (ran) {
+					int ran = new Random().nextInt(4);
+					switch (0) {
 					case 0:
 						obPath = "obstruction1.xml";
 						break;
@@ -215,17 +235,9 @@ public class ReadXML {
 
 				}
 
-			} else if (Config.select == 1) {
-				obPath = "last.xml";
-				System.out.println("continue from last time...");
 			}
-			File f = new File(System.getProperty("user.dir")
-					+ "\\bin\\game\\bomberman\\ob\\last.xml");
-
-			if (f.exists())
-				Config.hasSave = true;
-
 			doc = sb.build(r + obPath);
+
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -293,10 +305,13 @@ public class ReadXML {
 	 * @return Int Highscore
 	 */
 	public static int getMaxGrade() {
+
+		String savePath = System.getProperty("user.dir") + "/src/max.txt";
+
 		int result = 0;
-		String path = System.getProperty("user.dir")
-				+ "/bin/game/bomberman/ob/max.txt";
-		File f = new File(path);
+
+		File f = new File(savePath);
+
 		BufferedReader br = null;
 		try {
 			if (!f.exists()) {
@@ -330,9 +345,8 @@ public class ReadXML {
 	public static void saveMaxGrade(int grade) {
 		if (grade == 0)
 			return;
-		String path = System.getProperty("user.dir")
-				+ "/bin/game/bomberman/ob/max.txt";
-		File f = new File(path);
+		String savePath = System.getProperty("user.dir") + "/src/max.txt";
+		File f = new File(savePath);
 		FileWriter fw = null;
 		try {
 			if (!f.exists())

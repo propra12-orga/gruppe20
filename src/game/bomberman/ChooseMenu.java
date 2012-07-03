@@ -60,9 +60,9 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-		jButton1.setText("double game");
+		jButton1.setText("Arena!");
 		jButton1.addActionListener(new ClickAction());
-		jButton2.setText("single game");
+		jButton2.setText("Monster Game");
 		jButton2.addActionListener(new ClickAction());
 		jButton3.setText("online game");
 		jButton4.setText("MapEditor");
@@ -196,15 +196,15 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Graphics g = main.jPanel1.getGraphics();
-			if (e.getActionCommand().equals("double game")) {
-				System.out.println("double game");
+			if (e.getActionCommand().equals("Arena!")) {
+				System.out.println("Arena!");
 				// main.setVisible(false);
 				// main = null;
-
+				Config.computerFight = false;
 				NewMyFrame doublegame = new NewMyFrame();
 				doublegame.jPanel1.doublePlayer = true;
 
-			} else if (e.getActionCommand().equals("single game")) {
+			} else if (e.getActionCommand().equals("Monster Game")) {
 				main.setVisible(true);
 				// /main = null;
 				// new NewMyFrame();
@@ -220,6 +220,9 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 				newmf.jPanel1.doublePlayer = false;
 				// newmf.jPanel1.go();
 				// newmf.jPanel1.getBb2().setComputer(true);
+				Config.existMonster = 0;
+				Config.monsterCounter = 0;
+				Config.startGame = true;
 
 			} else if (e.getActionCommand().equals("online game")) {
 

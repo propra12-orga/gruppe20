@@ -71,20 +71,7 @@ public class NewMyFrame extends javax.swing.JFrame {
 		fileMenu.setText("File");
 
 		playEditorMapMenuItem.setText("PlayEditorMap");
-		playEditorMapMenuItem
-				.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
-					public void menuKeyPressed(
-							javax.swing.event.MenuKeyEvent evt) {
-						playEditorMapMenuItemMenuKeyPressed(evt);
-					}
-
-					public void menuKeyReleased(
-							javax.swing.event.MenuKeyEvent evt) {
-					}
-
-					public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
-					}
-				});
+		playEditorMapMenuItem.addActionListener(ca);
 		fileMenu.add(playEditorMapMenuItem);
 
 		saveMenuItem.setText("save");
