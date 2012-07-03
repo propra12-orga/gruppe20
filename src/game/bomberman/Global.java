@@ -85,7 +85,7 @@ public class Global extends Thread {
 			int x = randomPoint[0];
 			int y = randomPoint[1];
 			Monster mon = new Monster(panel, x, y);
-
+			mon.setShowImage(StaticValue.allEnemyImage.get(0));
 			Vector<Monster> vc = panel.getVc();
 			vc.add(mon);
 			Config.monsterCounter++;

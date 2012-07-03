@@ -4,8 +4,6 @@
 <ob id="stone" x="48" y="164"/>
 <ob id="stone" x="48" y="260"/>
 <ob id="stone" x="48" y="356"/>
-<ob id="stone" x="48" y="452"/>
-<ob id="stone" x="144" y="68"/>
 <ob id="stone" x="144" y="164"/>
 <ob id="stone" x="144" y="260"/>
 <ob id="stone" x="144" y="356"/>
@@ -19,18 +17,12 @@
 <ob id="stone" x="336" y="164"/>
 <ob id="stone" x="336" y="260"/>
 <ob id="stone" x="336" y="356"/>
-<ob id="stone" x="336" y="452"/>
-<ob id="stone" x="432" y="68"/>
-<ob id="stone" x="432" y="164"/>
 <ob id="stone" x="432" y="260"/>
 <ob id="stone" x="432" y="356"/>
-<ob id="box" x="0" y="20"/>
-<ob id="box" x="0" y="212"/>
-<ob id="box" x="0" y="308"/>
 <ob id="box" x="0" y="404"/>
-<ob id="box" x="96" y="308"/>
-<ob id="box" x="96" y="404"/>
+<ob id="box" x="0" y="500"/>
 <ob id="box" x="192" y="20"/>
+<ob id="box" x="192" y="116"/>
 <ob id="box" x="192" y="212"/>
 <ob id="box" x="192" y="308"/>
 <ob id="box" x="192" y="404"/>
@@ -43,8 +35,8 @@
 <ob id="box" x="384" y="116"/>
 <ob id="box" x="384" y="212"/>
 <ob id="box" x="384" y="308"/>
-<ob id="box" x="384" y="404"/>
 
-<ob id="player1" x="96" y="116"/>
-<ob id="door" x="0" y="212" show="0"/>
+
+<ob id="player1" x="0" y="212"/>
+<ob id="door" x="96" y="404" show="1"/>
 </config>

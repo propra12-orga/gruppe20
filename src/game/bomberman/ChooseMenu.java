@@ -270,7 +270,7 @@ public class ChooseMenu extends javax.swing.JFrame implements Runnable {
 			} else if (e.getActionCommand().equals("start online game")) {
 				olserver.send("start");
 				main.setVisible(false);
-
+				Config.netGame = true;
 				newmf = new NewMyFrame();
 				ObjectContainer.newmf = newmf;
 				newmf.jPanel1.netGame();

@@ -2,6 +2,8 @@ package game.bomberman;
 
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Erzeugt Fenster in dem das Spielfeld erzeugt wird. Ausserdem wird eine
@@ -27,6 +29,20 @@ public class NewMyFrame extends javax.swing.JFrame {
 		this.setLocation((width - 480) / 2, (height - 480) / 2);
 		this.setResizable(false);
 		this.jPanel1.requestFocus();
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				if (Temp.currentGrade >= Config.maxGrade) {
+					System.out.println(Temp.currentGrade);
+
+					ReadXML.saveMaxGrade(Temp.currentGrade);
+
+				}
+				Config.AusgangShow = false;
+
+			}
+		});
 	}
 
 	private void initComponents() {
@@ -89,8 +105,8 @@ public class NewMyFrame extends javax.swing.JFrame {
 		// fileMenu.add(saveAsMenuItem);
 
 		exitMenuItem.setText("Exit");
-		exitMenuItem.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyPressed(java.awt.event.KeyEvent evt) {
+		exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				System.exit(0);
 			}
 		});

@@ -212,13 +212,15 @@ public class ReadXML {
 		SAXBuilder sb = new SAXBuilder();
 		Document doc = null;
 		try {
-			if (Config.select == 0) {
+			if (Config.select == 2) {
+				obPath = "Mapeditor.xml";
+			} else if (Config.select == 0) {
 
 				if (Config.netGame) {
 					obPath = "obstruction1.xml";
 				} else {
 					int ran = new Random().nextInt(4);
-					switch (0) {
+					switch (ran) {
 					case 0:
 						obPath = "obstruction1.xml";
 						break;
@@ -235,9 +237,17 @@ public class ReadXML {
 
 				}
 
+			} else if (Config.select == 1) {
+				obPath = "last.xml";
+				System.out.println("continue from last time...");
 			}
-			doc = sb.build(r + obPath);
+			File f = new File(System.getProperty("user.dir")
+					+ "\\bin\\game\\bomberman\\ob\\last.xml");
 
+			if (f.exists())
+				Config.hasSave = true;
+
+			doc = sb.build(r + obPath);
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -305,13 +315,10 @@ public class ReadXML {
 	 * @return Int Highscore
 	 */
 	public static int getMaxGrade() {
-
-		String savePath = System.getProperty("user.dir") + "/src/max.txt";
-
 		int result = 0;
-
-		File f = new File(savePath);
-
+		String path = System.getProperty("user.dir")
+				+ "/bin/game/bomberman/ob/max.txt";
+		File f = new File(path);
 		BufferedReader br = null;
 		try {
 			if (!f.exists()) {
@@ -345,8 +352,9 @@ public class ReadXML {
 	public static void saveMaxGrade(int grade) {
 		if (grade == 0)
 			return;
-		String savePath = System.getProperty("user.dir") + "/src/max.txt";
-		File f = new File(savePath);
+		String path = System.getProperty("user.dir")
+				+ "/bin/game/bomberman/ob/max.txt";
+		File f = new File(path);
 		FileWriter fw = null;
 		try {
 			if (!f.exists())

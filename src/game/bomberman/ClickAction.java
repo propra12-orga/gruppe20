@@ -59,11 +59,16 @@ public class ClickAction implements ActionListener {
 			Config.mapEditor = 0;
 
 		} else if (e.getActionCommand().equals("PlayEditorMap")) {
-			Config.mapEditor = 1;
+
+			Config.select = 2;
 
 			JOptionPane.showMessageDialog(panel, "load editormap successful");
 			// wenn speichert dann set true
-
+			newmf.setVisible(false);
+			NewMyFrame newmf = new NewMyFrame();
+			newmf.setLocationRelativeTo(null);
+			newmf.setVisible(true);
+			newmf.jPanel1.requestFocus();
 		}
 		// else if (e.getActionCommand().equals("new game")) {
 		// Config.select = 0;
@@ -89,7 +94,7 @@ public class ClickAction implements ActionListener {
 	}
 
 	public void save() throws IOException {
-		savePath = System.getProperty("user.dir") + "/src/";
+		savePath = System.getProperty("user.dir") + "/src/game/bomberman/ob/";
 
 		File file = new File(savePath + "last.xml");
 		if (!file.exists()) {
