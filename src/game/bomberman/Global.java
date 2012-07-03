@@ -132,14 +132,14 @@ public class Global extends Thread {
 				case 0:
 
 					// Config.bomb = new BombPoint(x, y);
-					Config.life = new Life(x, y);
-
-					Config.exist++;
+					// Config.life = new Life(x, y);
+					//
+					// Config.exist++;
 					break;
 				case 1:
-
-					Config.life = new Life(x, y);
+					Config.lifes.add(new Life(x, y));
 					Config.exist++;
+
 					break;
 				default:
 					break;

@@ -1,5 +1,8 @@
 package game.bomberman;
 
+import game.bomberman.thing.BombPoint;
+import game.bomberman.thing.Life;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -180,14 +183,24 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 	 * @param g
 	 */
 	public void drawThing(Graphics g) {
-		if (Config.bomb != null) {
+		// if (Config.bomb != null) {
+		// BufferedImage bf = StaticValue.allObstructionImage.get(4);
+		// g.drawImage(bf, Config.bomb.getX(), Config.bomb.getY(), this);
+		// }
+		// if (Config.life != null) {
+		// BufferedImage bf = StaticValue.allItemImage.get(3);
+		// g.drawImage(bf, Config.life.getX(), Config.life.getY(), this);
+		// }
+
+		for (BombPoint bp : Config.bombs) {
 			BufferedImage bf = StaticValue.allObstructionImage.get(4);
-			g.drawImage(bf, Config.bomb.getX(), Config.bomb.getY(), this);
+			g.drawImage(bf, bp.getX(), bp.getY(), this);
 		}
-		if (Config.life != null) {
+		for (Life life : Config.lifes) {
 			BufferedImage bf = StaticValue.allItemImage.get(3);
-			g.drawImage(bf, Config.life.getX(), Config.life.getY(), this);
+			g.drawImage(bf, life.getX(), life.getY(), this);
 		}
+
 	}
 
 	// public void drawRecoder(Graphics g) {
@@ -231,11 +244,13 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// Zeichne Items
 
 		Iterator<Item> iteritem = this.nowBG.getAllItem().iterator();
-		while (iteritem.hasNext()) {
-			Item item = iteritem.next();
-			g2.drawImage(item.getShowImage(), item.getX(), item.getY(), this);
+		if (!Config.netGame) {
+			while (iteritem.hasNext()) {
+				Item item = iteritem.next();
+				g2.drawImage(item.getShowImage(), item.getX(), item.getY(),
+						this);
+			}
 		}
-
 		// Malen Obstruction
 		Iterator<Obstruction> iter = this.nowBG.getAllObstruction().iterator();
 
@@ -713,20 +728,21 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					if (a[2 * j - 2] == obX && a[2 * j - 1] == obY) {
 						ob.setRemove(true);
 
-						int random = new Random().nextInt(100);
+						if (!Config.netGame) {
+							int random = new Random().nextInt(100);
 
-						if (random < 40) {
-							List<Item> items = this.nowBG.getAllItem();
-							if (random < 15) {
-								items.add(new Item(ob.getX(), ob.getY(), 0));
-							} else if (random < 30) {
-								items.add(new Item(ob.getX(), ob.getY(), 1));
-							} else if (random < 40) {
-								items.add(new Item(ob.getX(), ob.getY(), 2));
+							if (random < 40) {
+								List<Item> items = this.nowBG.getAllItem();
+								if (random < 15) {
+									items.add(new Item(ob.getX(), ob.getY(), 0));
+								} else if (random < 30) {
+									items.add(new Item(ob.getX(), ob.getY(), 1));
+								} else if (random < 40) {
+									items.add(new Item(ob.getX(), ob.getY(), 2));
+								}
+								this.nowBG.setAllItem(items);
 							}
-							this.nowBG.setAllItem(items);
 						}
-
 					}
 				}
 			}
@@ -810,19 +826,24 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 			switch (direction) {
 			case 0:
 				bb.upmove();
-				PickUpItem(bb);
+				if (!Config.netGame)
+					PickUpItem(bb);
 				break;
 			case 1:
 				bb.rightmove();
-				PickUpItem(bb);
+				if (!Config.netGame)
+					PickUpItem(bb);
 				break;
 			case 2:
+
 				bb.downmove();
-				PickUpItem(bb);
+				if (!Config.netGame)
+					PickUpItem(bb);
 				break;
 			case 3:
 				bb.leftmove();
-				PickUpItem(bb);
+				if (!Config.netGame)
+					PickUpItem(bb);
 				break;
 			}
 
@@ -1013,7 +1034,6 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 					this.sendPlayerStatus(31);
 				else if (bombcount == 1)
 					this.sendPlayerStatus(32);
-
 				this.PlaySound(MySound.bombSet, -1);
 				this.bombs[bombcount].setCountdown(70);
 				this.bombs[bombcount].setShowImage(StaticValue.allBoomImage
@@ -1148,21 +1168,22 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		// }
 		//
 		// }
-		if (Config.life != null) {
-			int x = Config.life.getX();
-			int y = Config.life.getY();
+		for (int i = 0; i < Config.lifes.size(); i++) {
+			Life life = Config.lifes.get(i);
+			int x = life.getX();
+			int y = life.getY();
 			if (bbX == x && bbY == y) {
 				if (bb != null) {
 					bb.setLife(bb.getLife() + 1);
-					// System.out.println("Life Item: " + Config.exist);
+
 					Config.exist--;
 
 					Temp.currentGrade += 5;
-					Config.life = null;
-					// System.out.println("Do you get another life?");
+					Config.lifes.remove(life);
+					i--;
+
 				}
 			}
-
 		}
 
 	}

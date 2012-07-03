@@ -94,7 +94,7 @@ public class ClickAction implements ActionListener {
 	}
 
 	public void save() throws IOException {
-		savePath = System.getProperty("user.dir") + "/src/game/bomberman/ob/";
+		savePath = System.getProperty("user.dir") + "/bin/game/bomberman/ob/";
 
 		File file = new File(savePath + "last.xml");
 		if (!file.exists()) {

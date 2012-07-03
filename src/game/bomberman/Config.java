@@ -3,6 +3,9 @@ package game.bomberman;
 import game.bomberman.thing.BombPoint;
 import game.bomberman.thing.Life;
 
+import java.util.List;
+import java.util.Vector;
+
 /**
  * Speichert Variabeln
  * 
@@ -101,5 +104,9 @@ public class Config {
 	public static TimeCounter bugifx = null;
 
 	public static int mapEditor = 0;
+
+	public static List<BombPoint> bombs = new Vector<BombPoint>();
+
+	public static List<Life> lifes = new Vector<Life>();
 
 }

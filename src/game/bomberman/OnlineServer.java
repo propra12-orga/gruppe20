@@ -58,7 +58,7 @@ public class OnlineServer implements Runnable {
 
 				e.printStackTrace();
 			}
-		// System.out.println("∂¡µΩ¡À" + msg);
+
 		return msg;
 	}
 

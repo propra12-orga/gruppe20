@@ -169,7 +169,7 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 	 */
 	public void save() throws IOException {
 		String savePath = System.getProperty("user.dir")
-				+ "/src/game/bomberman/ob/";
+				+ "/bin/game/bomberman/ob/";
 		File file = new File(savePath + "Mapeditor.xml");
 		FileWriter fw;
 
