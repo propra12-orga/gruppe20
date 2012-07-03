@@ -516,6 +516,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 				// }
 				obstructions = this.nowBG.getAllObstruction();
 				for (int a = 0; a < obstructions.size(); a++) {
+					List<Obstruction> removeObj = new ArrayList<Obstruction>();
 					Obstruction ob = this.nowBG.getAllObstruction().get(a);
 
 					if (ob != null && ob.isRemove()) {
@@ -531,10 +532,10 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 							 */
 						}
 
-						obstructions.remove(ob);
+						removeObj.add(ob);
 
 					}
-
+					obstructions.removeAll(removeObj);
 				}
 
 				for (int[] a : bombs[i].getArea()) {
