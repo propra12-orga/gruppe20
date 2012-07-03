@@ -47,7 +47,7 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 	 */
 	private int chosenobject;
 
-	private BufferedImage[] showimage = new BufferedImage[6];
+	private BufferedImage[] showimage = new BufferedImage[8];
 
 	/**
 	 * Erzeugt Fenster in dem man eine Map erstellen kann. Man benutzt die
@@ -76,14 +76,42 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 			this.showimage[1] = ImageIO.read(new File(System
 					.getProperty("user.dir") + "/pics/" + "rock" + ".png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			this.showimage[2] = ImageIO.read(new File(System
 					.getProperty("user.dir") + "/pics/" + "ob2" + ".png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			this.showimage[3] = ImageIO.read(new File(System
+					.getProperty("user.dir") + "/pics/" + "p1" + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			this.showimage[4] = ImageIO.read(new File(System
+					.getProperty("user.dir") + "/pics/" + "pathA" + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			this.showimage[5] = ImageIO.read(new File(System
+					.getProperty("user.dir") + "/pics/" + "ob1S" + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			this.showimage[6] = ImageIO.read(new File(System
+					.getProperty("user.dir") + "/pics/" + "ob3D" + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			this.showimage[7] = ImageIO.read(new File(System
+					.getProperty("user.dir") + "/pics/" + "p1F" + ".png"));
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		t.start();
@@ -93,8 +121,8 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 
 	public void paint(Graphics g) {
 		g.drawString(
-				"Press:  'f2' for Save 'a'  for  Path,   's'  for  Stone,   'd'  for  Box",
-				200, 520);
+				"Press:  'f2' to Save 'a'  for  Path,   's'  for  Stone,   'd'  for  Box",
+				100, 520);
 		BufferedImage image = new BufferedImage(528, 500,
 				BufferedImage.TYPE_3BYTE_BGR);
 		// g2 uebernimmt image
@@ -110,8 +138,13 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 		}
 		g2.drawImage(pointer.getShowimage(), pointer.getX(), pointer.getY(),
 				this);
-		g.drawImage(image, 0, 0, this);
 
+		g2.drawImage(showimage[4], 0, 40, this);
+		g2.drawImage(showimage[5], 0, 100, this);
+		g2.drawImage(showimage[6], 0, 160, this);
+		g2.drawImage(showimage[7], 0, 220, this);
+
+		g.drawImage(image, 0, 0, this);
 	}
 
 	@Override
@@ -170,6 +203,9 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 					} else if (map[i][j] == 1) {
 						s = s + "<ob id=\"stone\" x=\"" + i * 48 + "\" y=\""
 								+ (j * 48 + 20) + "\"/>" + "\n";
+					} else if (map[i][j] == 3) {
+						Config.point1[0] = i * 48;
+						Config.point1[1] = j * 48 + 20;
 					}
 
 				}
@@ -183,7 +219,6 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 			fw.close();
 			System.out.println(file.canWrite());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -227,7 +262,6 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 						+ "pointer"
 						+ ".png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -256,47 +290,83 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void keyPressed(KeyEvent ke) {
-		// TODO Auto-generated method stub
-		// wenn man Pfeil nach rechts drueckt rightmove -->
+		/**
+		 * wenn man Pfeil nach rechts drueckt rightmove -->
+		 * 
+		 */
 		if (ke.getKeyCode() == 39) {
 
 			this.pointer.rightmove();
 		}
-		// wenn man Pfeil nach links drueckt leftmove
+		/**
+		 * wenn man Pfeil nach links drueckt leftmove
+		 * 
+		 */
 		if (ke.getKeyCode() == 37) {
 
 			this.pointer.leftmove();
 		}
-		// wenn man Pfeil nach unten drueckt downmove
+		/**
+		 * wenn man Pfeil nach unten drueckt downmove
+		 * 
+		 */
 		if (ke.getKeyCode() == 40) {
 
 			this.pointer.downmove();
 		}
-		// wenn man Pfeil nach oben drueckt upmove
+		/**
+		 * wenn man Pfeil nach oben drueckt upmove
+		 * 
+		 */
 		if (ke.getKeyCode() == 38) {
 
 			this.pointer.upmove();
 		}
-		// wenn man "d" drueckt setze Box
+		/**
+		 * wenn man "d" drueckt setze Box
+		 * 
+		 */
 		if (ke.getKeyCode() == 68) {
 
 			this.map[(this.pointer.getX() - 66) / 48][(this.pointer.getY() - 38) / 48] = 2;
 		}
-		// wenn man "a" drueckt setze Weg
+		/**
+		 * wenn man "a" drueckt setze Weg
+		 * 
+		 */
 		if (ke.getKeyCode() == 65) {
 
 			this.map[(this.pointer.getX() - 66) / 48][(this.pointer.getY() - 38) / 48] = 0;
 		}
-		// wenn man "s" drueckt setze Stein
+		/**
+		 * wenn man "s" drueckt setze Stein
+		 * 
+		 */
 		if (ke.getKeyCode() == 83) {
 
 			this.map[(this.pointer.getX() - 66) / 48][(this.pointer.getY() - 38) / 48] = 1;
+		}
+		/**
+		 * Wenn man "f" dr¨¹ckt setze Spieler
+		 */
+		if (ke.getKeyCode() == 70) {
+			for (int i = 0; i < 10; i++) {
+
+				for (int j = 0; j < 10; j++) {
+
+					if (map[i][j] == 3) {
+						map[i][j] = 0;
+					}
+				}
+			}
+
+			this.map[(this.pointer.getX() - 66) / 48][(this.pointer.getY() - 38) / 48] = 3;
+
 		}
 		if (ke.getKeyCode() == 113) {
 			try {
@@ -310,7 +380,6 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 }

@@ -127,8 +127,8 @@ public class Player extends MoveObject implements Runnable {
 		this.y = y;
 		this.nowBG = nowBG;
 		this.showImage = StaticValue.allPlayerImage.get(0);
-		this.bombradius = 5;
-		this.bombcapacity = 2;
+		this.bombradius = 1;
+		this.bombcapacity = 1;
 		t = new Thread(this);
 		t.start();
 

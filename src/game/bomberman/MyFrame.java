@@ -748,6 +748,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 				player.UseItem(this.nowBG.getAllItem().get(i).getType());
 				this.nowBG.getAllItem().remove(i);
+				Temp.currentGrade += 5;
 			}
 		}
 	}
