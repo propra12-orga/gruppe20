@@ -14,10 +14,10 @@ import javax.swing.JFrame;
 public class Test extends JFrame implements KeyListener {
 	private int i = 10, j = 10;
 
-	public static void main(String[] args) {
-		Test test = new Test();
-		// System.out.println(test.i + "," + test.j);
-	}
+	// public static void main(String[] args) {
+	// Test test = new Test();
+	// // System.out.println(test.i + "," + test.j);
+	// }
 
 	@Override
 	public void keyPressed(KeyEvent e) {

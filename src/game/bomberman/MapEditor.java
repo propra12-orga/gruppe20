@@ -22,11 +22,11 @@ import javax.swing.JFrame;
  */
 public class MapEditor extends JFrame implements KeyListener, Runnable {
 
-	public static void main(String[] args) {
-
-		new MapEditor();
-
-	}
+	// public static void main(String[] args) {
+	//
+	// new MapEditor();
+	//
+	// }
 
 	private Thread t = new Thread(this);
 	/**
@@ -188,10 +188,10 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 
 				for (int j = 0; j < 10; j++) {
 
-					System.out.print(map[j][i]);
+					// System.out.print(map[j][i]);
 
 				}
-				System.out.println();
+				// System.out.println();
 			}
 
 			for (int i = 0; i < 10; i++) {
@@ -212,13 +212,13 @@ public class MapEditor extends JFrame implements KeyListener, Runnable {
 				}
 
 			}
-			System.out.println(s);
+			// System.out.println(s);
 			fw.write(s + "\r\n");
 			// s = s + "</config>";
 			fw.write("</config>\r\n");
 			// fw.write(s);
 			fw.close();
-			System.out.println(file.canWrite());
+			// System.out.println(file.canWrite());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

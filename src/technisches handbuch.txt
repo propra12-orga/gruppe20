@@ -1,0 +1,18 @@
+Technisches Handbuch
+
+Dieses technische Handbuch soll das Verstehen von- und das Arbeiten mit dem Quellcode erleichtern.
+
+
+Es gibt 2 Arten von Fenstern: Das Hauptmenue und das Fenster in dem gespielt wird.
+Das Hauptmenue wird in der Klasse ChooseMenu erzeugt. Hier befindet sich auch die Main Methode, die ein Hauptmenue erstellt.
+Vom Hauptmenue werden die Fenster mit den Spielfeldern NewMyFrame.java aufgerufen wobei bei verschiedenen Spielmodi verschiedene Variablen in der Klasse
+Config beschrieben werden. Diese werden dann von NewMyFrame eingelesen. So wird zum Beispiel bei einem Monster Game die Variable 
+computerFight in Config.java auf true gesetzt wodurch im NewMyFrame die Erzeugung von Monstern ermoeglicht wird.
+
+	Erzeugung eines Spielfelds
+Wenn ein NewMyFrame erstellt wird werden zuerst alle benoetigten Graphiken und Soundeffekte mit Hilfe der Klasse StaticValue.java 
+und MySound.java eingelesen. Die Koordinaten von Steinen, Boxen werden werden von XML Dateien eingelesen. Dafuer ist die Klasse 
+ReadXML.java zustaendig.
+Im Fenster das von NewMyFrame erzeugt wird werden zwei Panels gezeichnet die von MyFrame.java und SidePanel.java definiert werden.
+MyFrame zeichnet das Spielfeld und steuert die meisten Abläufe des Spiels, so wie zum Beispiel die Bewegung der Spielfiguren, der Bombenexplosionen
+und der Generierung von Items und Monstern.

@@ -126,10 +126,10 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 		this.bb = bb;
 	}
 
-	public static void main(String[] args) {
-		// new MyFrame();
-
-	}
+	// public static void main(String[] args) {
+	// // new MyFrame();
+	//
+	// }
 
 	/**
 	 * Erzeugt Fenster mit bestimmter Groesse
@@ -491,7 +491,7 @@ public class MyFrame extends JPanel implements KeyListener, Runnable {
 
 				List<Obstruction> obstructions = this.nowBG.getAllObstruction();
 				// entferne die Obstruction
-				System.out.println(bombs[i].getCountdown());
+				// System.out.println(bombs[i].getCountdown());
 				if (bombs[i].getCountdown() == 20) {
 					this.destoryObCheck(bombs[i], obstructions, player);
 					bombs[i].Decreasecountdown();
