@@ -16,3 +16,10 @@ ReadXML.java zustaendig.
 Im Fenster das von NewMyFrame erzeugt wird werden zwei Panels gezeichnet die von MyFrame.java und SidePanel.java definiert werden.
 MyFrame zeichnet das Spielfeld und steuert die meisten Abläufe des Spiels, so wie zum Beispiel die Bewegung der Spielfiguren, der Bombenexplosionen
 und der Generierung von Items und Monstern.
+Die Klasse Obstruction definiert die Hindernisse: Steine, Boxen und auch Ausgänge, die im Spielfeld verwendet werden. Die fuer ein Spiel
+erzeugten Hindernisse werden, wie schon erwaehnt, aus XML Dateien eingelesen und als Arrays in der Klasse Background.java gespeichert.
+Zu den Spielfiguren eines Spiels gehoeren die Spieler, die Bomben legen koennen, und Monster, die die Spieler fressen. Sie werden in den jeweiligen Klassen
+Player.java und Monster.java definiert. Beider Klassen erben von der MoveObject.java Klasse.
+Bomben werden in Bomb.java definiert. Jeder Spieler (Spierler 1 und Spieler 2) greifen jeweils auf ein Bomb array zu, das in MyFrame verwaltet wird: 
+bombs und bombs2, die jeweils 4 Bomben enthalten. 
+Items werden zum Einen in der Klasse Item.java und zum Anderen in dem Paket game.bomberman.thing definiert.
